@@ -35,56 +35,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchProfile = async (userId: string) => {
     console.log('📥 Fetching profile for user:', userId);
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .maybeSingle();
 
-      if (error) {
-        console.error('❌ Error fetching profile:', error);
-        console.error('Error details:', error);
+    if (error) {
+      console.error('❌ Error fetching profile:', error);
+      console.error('Error details:', error);
+    }
 
-        // Si erreur 403, on déconnecte l'utilisateur et on nettoie la session
-        if (error.code === 'PGRST301' || error.message.includes('403')) {
-          console.warn('⚠️ Session invalide détectée, déconnexion...');
-          await supabase.auth.signOut();
+    if (data) {
+      console.log('✅ Profile loaded:', data);
+      console.log('✅ is_admin value:', data.is_admin);
+      setProfile(data as Profile);
+    } else {
+      console.log('⚠️ No profile found for user:', userId);
+
+      const { data: { user: currentUser } } = await supabase.auth.getUser();
+      if (currentUser && currentUser.id === userId) {
+        console.log('🔧 Creating missing profile for user:', userId);
+        const { error: createError } = await supabase.from('profiles').insert({
+          id: userId,
+          email: currentUser.email!,
+          status: 'new_user',
+        });
+
+        if (createError) {
+          console.error('❌ Error creating profile:', createError);
           setProfile(null);
-          return;
-        }
-      }
-
-      if (data) {
-        console.log('✅ Profile loaded:', data);
-        console.log('✅ is_admin value:', data.is_admin);
-        setProfile(data as Profile);
-      } else {
-        console.log('⚠️ No profile found for user:', userId);
-
-        const { data: { user: currentUser } } = await supabase.auth.getUser();
-        if (currentUser && currentUser.id === userId) {
-          console.log('🔧 Creating missing profile for user:', userId);
-          const { error: createError } = await supabase.from('profiles').insert({
-            id: userId,
-            email: currentUser.email!,
-            status: 'new_user',
-          });
-
-          if (createError) {
-            console.error('❌ Error creating profile:', createError);
-            setProfile(null);
-          } else {
-            console.log('✅ Profile created successfully');
-            await fetchProfile(userId);
-          }
         } else {
-          setProfile(null);
+          console.log('✅ Profile created successfully');
+          await fetchProfile(userId);
         }
+      } else {
+        setProfile(null);
       }
-    } catch (err) {
-      console.error('❌ Unexpected error in fetchProfile:', err);
-      setProfile(null);
     }
   };
 
@@ -95,14 +82,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
       (async () => {
-        if (error) {
-          console.error('❌ Error getting session:', error);
-          setLoading(false);
-          return;
-        }
-
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
@@ -110,27 +91,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         setLoading(false);
       })();
-    }).catch(err => {
-      console.error('❌ Fatal error in getSession:', err);
-      setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       (async () => {
-        try {
-          setLoading(true);
-          setSession(session);
-          setUser(session?.user ?? null);
-          if (session?.user) {
-            await fetchProfile(session.user.id);
-          } else {
-            setProfile(null);
-          }
-        } catch (err) {
-          console.error('❌ Error in auth state change:', err);
-        } finally {
-          setLoading(false);
+        setLoading(true);
+        setSession(session);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          await fetchProfile(session.user.id);
+        } else {
+          setProfile(null);
         }
+        setLoading(false);
       })();
     });
 
