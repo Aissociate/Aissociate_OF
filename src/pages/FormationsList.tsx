@@ -148,6 +148,24 @@ export default function FormationsList() {
         'Accompagner son équipe dans la transformation IA'
       ],
       color: 'from-purple-500 to-pink-600'
+    },
+    {
+      id: 'marches-publics',
+      title: 'Apprenez à maîtriser les marchés publics avec lemarchepublic.fr',
+      subtitle: 'Réussir vos réponses aux appels d\'offres publics',
+      description: 'Formation pratique pour comprendre le fonctionnement des marchés publics et maîtriser lemarchepublic.fr pour optimiser vos chances de remporter des appels d\'offres.',
+      duration: '7h (1 jour)',
+      participants: 'Entreprises et professionnels',
+      price: '1 050 €',
+      level: 'Débutant',
+      certifications: ['Financement OPCO'],
+      objectives: [
+        'Comprendre le cadre réglementaire des marchés publics',
+        'Maîtriser la plateforme lemarchepublic.fr',
+        'Optimiser ses réponses aux appels d\'offres',
+        'Développer une stratégie de veille efficace'
+      ],
+      color: 'from-orange-500 to-amber-600'
     }
   ];
 

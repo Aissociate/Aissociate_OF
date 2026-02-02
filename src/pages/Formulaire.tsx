@@ -223,6 +223,9 @@ const Formulaire = () => {
                     <option value="L'IA pour optimiser les ressources humaines">
                       L'IA pour optimiser les ressources humaines (2 jours)
                     </option>
+                    <option value="Apprenez à maîtriser les marchés publics avec lemarchepublic.fr">
+                      Marchés publics avec lemarchepublic.fr (1 jour)
+                    </option>
                   </optgroup>
                   <optgroup label="Services">
                     <option value="Assistance IA">Assistance IA - Accompagnement personnalisé</option>
