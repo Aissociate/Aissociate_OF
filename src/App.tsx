@@ -45,6 +45,7 @@ import QualiopiSessionDetail from './pages/QualiopiSessionDetail';
 import QualiopiLogs from './pages/QualiopiLogs';
 import QualiopiSecretsCheck from './pages/QualiopiSecretsCheck';
 import QuestionnairePublic from './pages/QuestionnairePublic';
+import DiagnosticAuth from './pages/DiagnosticAuth';
 
 function App() {
   return (
@@ -336,6 +337,7 @@ function App() {
           />
 
           <Route path="/q/:token" element={<QuestionnairePublic />} />
+          <Route path="/diagnostic" element={<DiagnosticAuth />} />
         </Routes>
       </AuthProvider>
     </Router>
