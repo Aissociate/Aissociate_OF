@@ -1,84 +1,23 @@
 import { useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Mail, Phone, MapPin, Send, CheckCircle, Clock, MessageSquare, AlertCircle, Loader2 } from 'lucide-react';
-
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+import { Mail, Phone, MapPin, Send, CheckCircle, Clock, MessageSquare } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     phone: '',
-    company: '',
     subject: '',
     message: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsLoading(true);
-
-    try {
-      let requestType = 'assistance';
-      if (formData.subject.includes('cpf')) {
-        requestType = 'formation_cpf';
-      } else if (formData.subject.includes('formation')) {
-        requestType = 'formation_opco';
-      } else if (formData.subject.includes('developpement')) {
-        requestType = 'development';
-      }
-
-      const response = await fetch(`${SUPABASE_URL}/functions/v1/submit-contact-request`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-          'apikey': SUPABASE_ANON_KEY
-        },
-        body: JSON.stringify({
-          first_name: formData.firstName,
-          last_name: formData.lastName,
-          email: formData.email,
-          phone: formData.phone || 'Non renseigné',
-          company: formData.company,
-          request_type: requestType,
-          message: formData.message,
-          source: 'contact_page'
-        })
-      });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Erreur lors de l\'envoi');
-      }
-
-      setSubmitted(true);
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        company: '',
-        subject: '',
-        message: ''
-      });
-
-      setTimeout(() => setSubmitted(false), 5000);
-    } catch (err) {
-      console.error('Erreur:', err);
-      setError('Une erreur est survenue. Veuillez réessayer ou nous contacter par téléphone au 0692-24-68-60.');
-    } finally {
-      setIsLoading(false);
-    }
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -147,52 +86,25 @@ export default function Contact() {
               {submitted && (
                 <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 mb-6 flex items-center gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-                  <p className="text-emerald-800">Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.</p>
-                </div>
-              )}
-
-              {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6 flex items-center gap-3">
-                  <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
-                  <p className="text-red-800">{error}</p>
+                  <p className="text-emerald-800">Votre message a été envoyé avec succès !</p>
                 </div>
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-semibold text-slate-900 mb-2">
-                      Prénom *
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
-                      placeholder="Jean"
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-semibold text-slate-900 mb-2">
-                      Nom *
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      disabled={isLoading}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
-                      placeholder="Dupont"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="name" className="block text-sm font-semibold text-slate-900 mb-2">
+                    Nom complet *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors"
+                    placeholder="Jean Dupont"
+                  />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-6">
@@ -207,8 +119,7 @@ export default function Contact() {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      disabled={isLoading}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
+                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors"
                       placeholder="jean@exemple.fr"
                     />
                   </div>
@@ -223,27 +134,10 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      disabled={isLoading}
-                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
-                      placeholder="0692 XX XX XX"
+                      className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors"
+                      placeholder="+33 6 12 34 56 78"
                     />
                   </div>
-                </div>
-
-                <div>
-                  <label htmlFor="company" className="block text-sm font-semibold text-slate-900 mb-2">
-                    Entreprise
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={formData.company}
-                    onChange={handleChange}
-                    disabled={isLoading}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
-                    placeholder="Nom de votre entreprise"
-                  />
                 </div>
 
                 <div>
@@ -256,8 +150,7 @@ export default function Contact() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    disabled={isLoading}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors disabled:bg-slate-100 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors"
                   >
                     <option value="">Sélectionnez un sujet</option>
 
@@ -293,29 +186,18 @@ export default function Contact() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    disabled={isLoading}
                     rows={6}
-                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors resize-none disabled:bg-slate-100 disabled:cursor-not-allowed"
+                    className="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-orange-400 focus:outline-none transition-colors resize-none"
                     placeholder="Décrivez votre demande..."
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="w-full bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
                 >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Envoi en cours...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="w-5 h-5" />
-                      Envoyer le message
-                    </>
-                  )}
+                  <Send className="w-5 h-5" />
+                  Envoyer le message
                 </button>
 
                 <p className="text-sm text-slate-600 text-center">
