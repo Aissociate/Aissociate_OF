@@ -86,15 +86,13 @@ export default function Assistance() {
               </p>
 
               <div className="flex flex-wrap gap-4">
-                <a
-                  href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/formulaire"
                   className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center gap-2"
                 >
                   <Calendar className="w-5 h-5" />
                   Prendre rendez-vous
-                </a>
+                </Link>
 
                 <a
                   href="tel:+33123456789"
@@ -261,14 +259,12 @@ export default function Assistance() {
               </div>
 
               <div className="space-y-4">
-                <a
-                  href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/formulaire"
                   className="block w-full text-center bg-white text-orange-600 py-4 rounded-xl font-bold text-lg hover:bg-orange-50 transition-all"
                 >
                   Prendre rendez-vous
-                </a>
+                </Link>
 
                 <a
                   href="tel:+33123456789"

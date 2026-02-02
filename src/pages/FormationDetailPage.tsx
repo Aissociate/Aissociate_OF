@@ -361,14 +361,12 @@ export default function FormationDetailPage() {
                     </div>
                   </div>
 
-                  <a
-                    href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    to="/formulaire"
                     className="block w-full text-center bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl"
                   >
                     Demander un devis
-                  </a>
+                  </Link>
                 </div>
 
                 <div className="bg-white border-2 border-slate-200 rounded-2xl p-6">

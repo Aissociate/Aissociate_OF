@@ -1,4 +1,5 @@
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function FinalCTA() {
   return (
@@ -19,15 +20,13 @@ export default function FinalCTA() {
           Rejoignez la prochaine session et développez des compétences concrètes et utiles dès maintenant.
         </p>
 
-        <a
-          href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to="/formulaire"
           className="bg-white text-orange-600 px-10 py-5 rounded-lg font-bold text-xl hover:bg-orange-50 transition-all transform hover:scale-105 shadow-2xl inline-flex items-center gap-3 group"
         >
           Je m'inscris à la formation
           <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
-        </a>
+        </Link>
 
         <p className="text-orange-100 mt-6">
           Une question ? Contactez-nous pour échanger sur votre projet

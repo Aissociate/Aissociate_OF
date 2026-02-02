@@ -36,15 +36,13 @@ export default function OrganismHome() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
 
-                <a
-                  href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/formulaire"
                   className="bg-white hover:bg-slate-50 text-slate-900 px-8 py-4 rounded-xl font-bold text-lg transition-all border-2 border-slate-200 hover:border-orange-300 flex items-center gap-2"
                 >
                   Nous contacter
                   <Phone className="w-5 h-5" />
-                </a>
+                </Link>
               </div>
 
               <div className="flex flex-wrap gap-8 mt-12 pt-8 border-t border-slate-200">
@@ -377,15 +375,13 @@ export default function OrganismHome() {
               Voir nos formations
               <ArrowRight className="w-5 h-5" />
             </Link>
-            <a
-              href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/formulaire"
               className="bg-white hover:bg-slate-50 text-slate-900 px-8 py-4 rounded-xl font-bold text-lg transition-all border-2 border-slate-200 hover:border-orange-300 flex items-center gap-2"
             >
               Prendre rendez-vous
               <Phone className="w-5 h-5" />
-            </a>
+            </Link>
           </div>
         </div>
       </section>

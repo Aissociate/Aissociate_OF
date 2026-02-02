@@ -16,18 +16,27 @@ Les assets stratégiques sont maintenant disponibles :
 - Header avec logo et badge Qualiopi
 - Titre "Choisissez votre accompagnement IA"
 - Formulaire de sélection avec 4 options :
-  1. 🎓 Formation CPF → Formulaire externe (https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3)
-  2. 📚 Autres Formations → /contact
-  3. 🤝 Assistance IA → /assistance
-  4. ⚙️ Développement → /development
+  1. 🎓 Formation CPF → /formulaire
+  2. 📚 Autres Formations → /formulaire
+  3. 🤝 Assistance IA → /formulaire
+  4. ⚙️ Développement → /formulaire
 - Section "Pourquoi nous choisir ?" (6 points)
 - Footer avec lien retour accueil
 
-### 2. Routage des CTA
-Tous les CTA de capture sont redirigés vers le formulaire externe :
-- Formulaire principal : `https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3`
+### 2. Système de Capture de Leads Centralisé
 
-**CTAs modifiés :**
+**Page /formulaire créée :**
+- Formulaire de contact unifié pour tous les types de demandes
+- Champs : Prénom, Nom, Email, Téléphone, Type de demande, Message
+- Types de demandes :
+  - Formation éligible CPF
+  - Formation OPCO
+  - Assistance IA
+  - Développement sur mesure
+- Stockage dans la table `contact_requests` avec RLS
+- Page de confirmation après envoi
+
+**Tous les CTA redirigent maintenant vers /formulaire :**
 - Header : "Nous contacter"
 - Hero : "Découvrir la formation" + "Télécharger le programme"
 - Pricing : "S'inscrire à la formation"
@@ -36,8 +45,18 @@ Tous les CTA de capture sont redirigés vers le formulaire externe :
 - Formations : Tous les boutons "Demander un devis"
 - Organisme : "Nous contacter" + "Prendre rendez-vous"
 - CTA Final : "Je m'inscris à la formation"
+- Guide IA 2026 : Toutes les 4 options du formulaire de choix
 
-### 3. Design Check
+### 3. Base de Données
+
+**Table `contact_requests` créée :**
+- Capture les demandes de tous les CTAs
+- Permet l'assignation à des commerciaux
+- Tracking de la source et du statut
+- Accessible aux admins pour le suivi
+- RLS configuré pour permettre l'insertion anonyme
+
+### 4. Design Check
 Le design respecte les standards "LinkedIn Pro" :
 - Palette de couleurs : Blanc/Gris Slate (pas de violet/indigo)
 - Typographie : System fonts professionnels
@@ -45,7 +64,7 @@ Le design respecte les standards "LinkedIn Pro" :
 - Transitions : Fluides et élégantes
 - Contraste : Optimisé pour la lisibilité
 
-### 4. Système d'Authentification
+### 5. Système d'Authentification
 
 #### Fonctionnalités Actuelles
 - Connexion email/mot de passe

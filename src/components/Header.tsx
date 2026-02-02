@@ -78,14 +78,12 @@ export default function Header() {
               Blog
             </Link>
 
-            <a
-              href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/formulaire"
               className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-6 py-2.5 rounded-lg font-semibold transition-all"
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
 
           <button
@@ -134,15 +132,13 @@ export default function Header() {
               Blog
             </Link>
 
-            <a
-              href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/formulaire"
               className="block mx-4 mt-4 text-center bg-gradient-to-r from-orange-500 to-amber-600 text-white px-6 py-2.5 rounded-lg font-semibold"
               onClick={() => setIsMenuOpen(false)}
             >
               Nous contacter
-            </a>
+            </Link>
           </div>
         )}
       </nav>

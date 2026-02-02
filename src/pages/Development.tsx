@@ -105,15 +105,13 @@ export default function Development() {
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              <a
-                href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/formulaire"
                 className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg flex items-center gap-2"
               >
                 Discuter de votre projet
                 <ArrowRight className="w-5 h-5" />
-              </a>
+              </Link>
             </div>
 
             <div className="flex flex-wrap gap-8 justify-center mt-12 pt-8 border-t border-slate-700">
@@ -280,14 +278,12 @@ export default function Development() {
               <h3 className="text-2xl font-bold mb-6 text-center">Démarrons votre projet</h3>
 
               <div className="space-y-4">
-                <a
-                  href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  to="/formulaire"
                   className="block w-full text-center bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white py-4 rounded-xl font-bold text-lg transition-all"
                 >
                   Demander un devis
-                </a>
+                </Link>
 
                 <p className="text-center text-sm text-slate-300">
                   Réponse sous 24h • Devis gratuit • Sans engagement

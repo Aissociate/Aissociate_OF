@@ -11,6 +11,7 @@ import Development from './pages/Development';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import Contact from './pages/Contact';
+import Formulaire from './pages/Formulaire';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ApplicationForm from './pages/ApplicationForm';
@@ -60,6 +61,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogArticle />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/formulaire" element={<Formulaire />} />
           <Route path="/login" element={<Login />} />
           <Route path="/create-admin" element={<CreateAdmin />} />
 

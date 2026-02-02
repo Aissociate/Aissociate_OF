@@ -1,4 +1,5 @@
 import { Euro, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Pricing() {
   return (
@@ -52,14 +53,12 @@ export default function Pricing() {
                 </ul>
               </div>
 
-              <a
-                href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/formulaire"
                 className="block w-full bg-white text-orange-600 py-5 rounded-xl font-bold text-xl hover:bg-orange-50 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl text-center"
               >
                 S'inscrire à la formation
-              </a>
+              </Link>
 
               <p className="text-center text-base text-orange-100 mt-6">
                 Paiement possible selon les modalités définies avec l'organisme

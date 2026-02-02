@@ -1,4 +1,5 @@
 import { Clock, Monitor, Brain, Users, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -40,23 +41,19 @@ export default function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-20">
-            <a
-              href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to="/formulaire"
               className="group bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl w-full sm:w-auto flex items-center justify-center gap-2"
             >
               Découvrir la formation
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-              target="_blank"
-              rel="noopener noreferrer"
+            </Link>
+            <Link
+              to="/formulaire"
               className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all border border-white/20 hover:border-white/30 w-full sm:w-auto"
             >
               Télécharger le programme
-            </a>
+            </Link>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-5xl mx-auto">

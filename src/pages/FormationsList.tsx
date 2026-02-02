@@ -308,14 +308,12 @@ export default function FormationsList() {
                           </div>
                         </div>
 
-                        <a
-                          href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <Link
+                          to="/formulaire"
                           className="block w-full text-center bg-white hover:bg-slate-50 text-slate-900 px-6 py-3 rounded-lg font-bold transition-all border-2 border-slate-200 hover:border-orange-300"
                         >
                           Demander un devis
-                        </a>
+                        </Link>
                       </div>
 
                       <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
@@ -342,14 +340,12 @@ export default function FormationsList() {
               <p className="text-slate-600 mb-6">
                 Nous pouvons créer des formations sur mesure adaptées à vos besoins spécifiques
               </p>
-              <a
-                href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                to="/formulaire"
                 className="inline-block bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
               >
                 Contactez-nous
-              </a>
+              </Link>
             </div>
           </div>
         </div>
