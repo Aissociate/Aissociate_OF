@@ -5,20 +5,22 @@
 ### 1. Dossier Public
 Les assets stratégiques sont maintenant disponibles :
 
-- `/public/guideIA2026/` - Landing page complète avec contenu riche et CTAs vers le formulaire
+- `/public/guideIA2026/` - Landing page avec formulaire de choix (4 services)
 - `/public/qualiopi/` - Page d'information sur la certification Qualiopi
 
 **URLs accessibles :**
-- `https://[votre-domaine]/guideIA2026` - Landing page autonome avec 2 CTAs vers le formulaire externe
+- `https://[votre-domaine]/guideIA2026` - Landing page avec formulaire de choix (4 options)
 - `https://[votre-domaine]/qualiopi` - Page certifications
 
 **Contenu de la page Guide IA 2026 :**
 - Header avec logo et badge Qualiopi
-- Titre accrocheur "Téléchargez le Guide IA 2026"
-- Section bénéfices (5 points clés)
-- CTA principal : "Télécharger le Guide Gratuit" → formulaire externe
-- Section "Pourquoi suivre une formation IA en 2026 ?" (4 cartes)
-- CTA secondaire : "Accéder au formulaire" → formulaire externe
+- Titre "Choisissez votre accompagnement IA"
+- Formulaire de sélection avec 4 options :
+  1. 🎓 Formation CPF → Formulaire externe (https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3)
+  2. 📚 Autres Formations → /contact
+  3. 🤝 Assistance IA → /assistance
+  4. ⚙️ Développement → /development
+- Section "Pourquoi nous choisir ?" (6 points)
 - Footer avec lien retour accueil
 
 ### 2. Routage des CTA

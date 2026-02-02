@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guide IA 2026 - Téléchargement Gratuit | Formation Intelligence Artificielle</title>
-    <meta name="description" content="Téléchargez gratuitement notre Guide IA 2026 et découvrez comment maîtriser l'intelligence artificielle générative pour booster votre efficacité professionnelle.">
+    <title>Guide IA 2026 - Choisissez votre accompagnement | Formation Intelligence Artificielle</title>
+    <meta name="description" content="Choisissez votre accompagnement personnalisé en intelligence artificielle : Formation CPF, Assistance, Développement sur mesure.">
     <style>
         * {
             margin: 0;
@@ -84,138 +84,147 @@
             margin-left: auto;
             margin-right: auto;
         }
-        .hero-section {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
-            align-items: center;
-            margin: 4rem 0;
-        }
-        @media (min-width: 768px) {
-            .hero-section {
-                grid-template-columns: 1fr 1fr;
-            }
-            h1 {
-                font-size: 3.5rem;
-            }
-        }
-        .content-box {
+        .form-section {
+            max-width: 900px;
+            margin: 4rem auto;
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1.5rem;
-            padding: 2.5rem;
-        }
-        .cta-box {
-            background: linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(251, 146, 60, 0.3);
-            border-radius: 1.5rem;
             padding: 3rem;
+        }
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(251, 146, 60, 0.15);
+            margin-bottom: 1rem;
+            color: #fbbf24;
+        }
+        .form-description {
+            text-align: center;
+            font-size: 1.125rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            .options-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .option-card {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.05) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border: 2px solid rgba(251, 146, 60, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .option-card:hover {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
+            border-color: rgba(251, 146, 60, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(251, 146, 60, 0.2);
+        }
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .option-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 0.75rem;
+        }
+        .option-description {
+            font-size: 1rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+        .option-badge {
+            display: inline-block;
+            background: rgba(251, 146, 60, 0.2);
+            color: #fbbf24;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .benefits-section {
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .benefits-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         .benefits-list {
             list-style: none;
-            margin: 2rem 0;
-        }
-        .benefits-list li {
-            display: flex;
-            align-items: flex-start;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 1rem;
-            margin-bottom: 1.5rem;
-            font-size: 1.125rem;
+        }
+        @media (min-width: 768px) {
+            .benefits-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
             color: #e2e8f0;
         }
         .check-icon {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: linear-gradient(135deg, #fbbf24, #f97316);
             border-radius: 50%;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 2px;
         }
         .check-icon::after {
             content: "✓";
             color: white;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
         }
-        .cta-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #fbbf24;
-        }
-        .cta-description {
-            font-size: 1.125rem;
-            color: #cbd5e1;
-            margin-bottom: 2rem;
-        }
-        .cta-button {
-            display: inline-block;
-            background: linear-gradient(135deg, #f97316, #fbbf24);
-            color: white;
-            padding: 1.25rem 3rem;
-            border-radius: 0.75rem;
-            font-weight: 700;
-            font-size: 1.25rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(251, 146, 60, 0.4);
-            border: none;
-            cursor: pointer;
-        }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(251, 146, 60, 0.5);
-        }
-        .trust-badge {
-            margin-top: 2rem;
-            padding-top: 2rem;
+        footer {
+            text-align: center;
+            margin-top: 5rem;
+            padding: 2rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.875rem;
-            color: #94a3b8;
+            color: #64748b;
         }
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin: 3rem 0;
+        footer a {
+            color: #fb923c;
+            text-decoration: none;
         }
-        @media (min-width: 768px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        .feature-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(251, 146, 60, 0.3);
-            transform: translateY(-2px);
-        }
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #fbbf24;
-            margin-bottom: 0.5rem;
-        }
-        .feature-description {
-            color: #cbd5e1;
-            font-size: 1rem;
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -232,121 +241,94 @@
             </div>
 
             <h1>
-                Téléchargez le
-                <span class="gradient-text">Guide IA 2026</span>
+                Choisissez votre
+                <span class="gradient-text">accompagnement IA</span>
             </h1>
 
             <p class="subtitle">
-                Découvrez comment l'intelligence artificielle générative peut transformer votre manière de travailler et booster votre efficacité professionnelle.
+                Nous proposons plusieurs solutions adaptées à vos besoins : formations certifiées, assistance personnalisée et développement sur mesure.
             </p>
         </header>
 
-        <section class="hero-section">
-            <div class="content-box">
-                <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: #fbbf24;">Ce que vous allez découvrir</h2>
+        <section class="form-section">
+            <h2 class="form-title">Quel est votre besoin ?</h2>
+            <p class="form-description">
+                Sélectionnez l'option qui correspond le mieux à votre situation
+            </p>
 
+            <div class="options-grid">
+                <a href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3" target="_blank" rel="noopener noreferrer" class="option-card">
+                    <span class="option-icon">🎓</span>
+                    <h3 class="option-title">Formation CPF</h3>
+                    <p class="option-description">
+                        Formation complète de 3 jours certifiée Qualiopi, éligible au financement CPF
+                    </p>
+                    <span class="option-badge">Éligible CPF</span>
+                </a>
+
+                <a href="/contact" class="option-card">
+                    <span class="option-icon">📚</span>
+                    <h3 class="option-title">Autres Formations</h3>
+                    <p class="option-description">
+                        Formations sur mesure adaptées à vos besoins spécifiques en entreprise
+                    </p>
+                    <span class="option-badge">Sur mesure</span>
+                </a>
+
+                <a href="/assistance" class="option-card">
+                    <span class="option-icon">🤝</span>
+                    <h3 class="option-title">Assistance IA</h3>
+                    <p class="option-description">
+                        Accompagnement personnalisé pour l'intégration de l'IA dans vos processus
+                    </p>
+                    <span class="option-badge">Support expert</span>
+                </a>
+
+                <a href="/development" class="option-card">
+                    <span class="option-icon">⚙️</span>
+                    <h3 class="option-title">Développement</h3>
+                    <p class="option-description">
+                        Solutions IA sur mesure et développement d'applications intelligentes
+                    </p>
+                    <span class="option-badge">Tech avancé</span>
+                </a>
+            </div>
+
+            <div class="benefits-section">
+                <h3 class="benefits-title">Pourquoi nous choisir ?</h3>
                 <ul class="benefits-list">
-                    <li>
+                    <li class="benefit-item">
                         <span class="check-icon"></span>
-                        <span><strong>Les outils IA incontournables</strong> pour créer du contenu rédactionnel et visuel de qualité professionnelle</span>
+                        <span>Certification Qualiopi reconnue</span>
                     </li>
-                    <li>
+                    <li class="benefit-item">
                         <span class="check-icon"></span>
-                        <span><strong>Des techniques éprouvées</strong> pour optimiser votre productivité grâce à l'IA générative</span>
+                        <span>Financement CPF et OPCO</span>
                     </li>
-                    <li>
+                    <li class="benefit-item">
                         <span class="check-icon"></span>
-                        <span><strong>Des cas d'usage concrets</strong> applicables immédiatement dans votre activité professionnelle</span>
+                        <span>Accompagnement personnalisé</span>
                     </li>
-                    <li>
+                    <li class="benefit-item">
                         <span class="check-icon"></span>
-                        <span><strong>Les bonnes pratiques</strong> pour maîtriser ChatGPT, Midjourney, et autres outils IA</span>
+                        <span>Expertise reconnue en IA</span>
                     </li>
-                    <li>
+                    <li class="benefit-item">
                         <span class="check-icon"></span>
-                        <span><strong>Une méthodologie claire</strong> pour intégrer l'IA dans vos processus quotidiens</span>
+                        <span>Cas pratiques concrets</span>
+                    </li>
+                    <li class="benefit-item">
+                        <span class="check-icon"></span>
+                        <span>Support post-formation</span>
                     </li>
                 </ul>
             </div>
-
-            <div class="cta-box">
-                <h2 class="cta-title">Téléchargement Gratuit</h2>
-                <p class="cta-description">
-                    Remplissez le formulaire pour recevoir instantanément votre Guide IA 2026 et découvrir notre formation complète de 3 jours.
-                </p>
-
-                <a href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="cta-button">
-                    Télécharger le Guide Gratuit
-                </a>
-
-                <div class="trust-badge">
-                    <p><strong>100% Gratuit</strong> • Aucune carte bancaire requise</p>
-                    <p style="margin-top: 0.5rem;">Formation éligible CPF et financement OPCO</p>
-                </div>
-            </div>
         </section>
 
-        <section>
-            <h2 style="font-size: 2rem; text-align: center; margin-bottom: 2rem; color: #fbbf24;">Pourquoi suivre une formation IA en 2026 ?</h2>
-
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3 class="feature-title">Compétitivité accrue</h3>
-                    <p class="feature-description">
-                        L'IA est devenue incontournable. Maîtrisez-la pour rester compétitif sur le marché du travail.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">⏱️</div>
-                    <h3 class="feature-title">Gain de temps massif</h3>
-                    <p class="feature-description">
-                        Automatisez jusqu'à 50% de vos tâches répétitives et concentrez-vous sur l'essentiel.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h3 class="feature-title">Créativité amplifiée</h3>
-                    <p class="feature-description">
-                        Générez des idées innovantes et du contenu de qualité en quelques secondes.
-                    </p>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3 class="feature-title">Formation certifiée</h3>
-                    <p class="feature-description">
-                        Certification Qualiopi garantissant la qualité et l'éligibilité aux financements.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <section style="margin-top: 5rem; text-align: center;">
-            <div class="cta-box" style="max-width: 700px; margin: 0 auto;">
-                <h2 class="cta-title">Prêt à transformer votre façon de travailler ?</h2>
-                <p class="cta-description">
-                    Téléchargez le guide et découvrez comment notre formation de 3 jours peut vous faire gagner des heures chaque semaine.
-                </p>
-
-                <a href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="cta-button">
-                    Accéder au formulaire
-                </a>
-            </div>
-        </section>
-
-        <footer style="text-align: center; margin-top: 5rem; padding: 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #64748b;">
+        <footer>
             <p>&copy; 2026 Aissociate - Organisme de formation certifié Qualiopi</p>
             <p style="margin-top: 0.5rem;">
-                <a href="/" style="color: #fb923c; text-decoration: none;">Retour à l'accueil</a>
+                <a href="/">Retour à l'accueil</a>
             </p>
         </footer>
     </div>
