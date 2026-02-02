@@ -3,59 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0;url=https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3">
-    <title>Guide IA 2026 - Redirection</title>
+    <title>Guide IA 2026 - Téléchargement Gratuit | Formation Intelligence Artificielle</title>
+    <meta name="description" content="Téléchargez gratuitement notre Guide IA 2026 et découvrez comment maîtriser l'intelligence artificielle générative pour booster votre efficacité professionnelle.">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Plus Jakarta Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: #f1f5f9;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+        .logo-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+        }
+        .logo {
+            height: 80px;
+            width: auto;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(251, 146, 60, 0.1);
+            border: 1px solid rgba(251, 146, 60, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #fdba74;
+            margin-bottom: 1.5rem;
+        }
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: #fb923c;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #fbbf24, #f97316, #fb923c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            font-size: 1.25rem;
+            color: #cbd5e1;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin: 4rem 0;
+        }
+        @media (min-width: 768px) {
+            .hero-section {
+                grid-template-columns: 1fr 1fr;
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+        .content-box {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+        }
+        .cta-box {
+            background: linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(251, 146, 60, 0.3);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(251, 146, 60, 0.15);
+        }
+        .benefits-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+        .benefits-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+            color: #e2e8f0;
+        }
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #fbbf24, #f97316);
+            border-radius: 50%;
+            flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            margin-top: 2px;
+        }
+        .check-icon::after {
+            content: "✓";
             color: white;
+            font-size: 14px;
+            font-weight: bold;
         }
-        .container {
-            text-align: center;
-            padding: 2rem;
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #fbbf24;
         }
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid rgba(251, 146, 60, 0.3);
-            border-bottom-color: #f97316;
-            border-radius: 50%;
+        .cta-description {
+            font-size: 1.125rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+        .cta-button {
             display: inline-block;
-            animation: rotation 1s linear infinite;
+            background: linear-gradient(135deg, #f97316, #fbbf24);
+            color: white;
+            padding: 1.25rem 3rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(251, 146, 60, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(251, 146, 60, 0.5);
+        }
+        .trust-badge {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin: 3rem 0;
+        }
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(251, 146, 60, 0.3);
+            transform: translateY(-2px);
+        }
+        .feature-icon {
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #fbbf24;
+            margin-bottom: 0.5rem;
         }
-        h1 {
-            font-size: 1.5rem;
-            margin: 0 0 0.5rem 0;
-            font-weight: 700;
-        }
-        p {
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0;
+        .feature-description {
+            color: #cbd5e1;
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="loader"></div>
-        <h1>Guide IA 2026</h1>
-        <p>Redirection en cours...</p>
+        <header>
+            <div class="logo-container">
+                <img src="https://storage.googleapis.com/msgsndr/QgFd2CSdLClLqXBncDm0/media/65f8015e1a9195ba3d84f818.jpeg" alt="Aissociate - Formation IA" class="logo">
+            </div>
+
+            <div class="badge">
+                <span class="pulse"></span>
+                Formation certifiée Qualiopi
+            </div>
+
+            <h1>
+                Téléchargez le
+                <span class="gradient-text">Guide IA 2026</span>
+            </h1>
+
+            <p class="subtitle">
+                Découvrez comment l'intelligence artificielle générative peut transformer votre manière de travailler et booster votre efficacité professionnelle.
+            </p>
+        </header>
+
+        <section class="hero-section">
+            <div class="content-box">
+                <h2 style="font-size: 1.75rem; margin-bottom: 1.5rem; color: #fbbf24;">Ce que vous allez découvrir</h2>
+
+                <ul class="benefits-list">
+                    <li>
+                        <span class="check-icon"></span>
+                        <span><strong>Les outils IA incontournables</strong> pour créer du contenu rédactionnel et visuel de qualité professionnelle</span>
+                    </li>
+                    <li>
+                        <span class="check-icon"></span>
+                        <span><strong>Des techniques éprouvées</strong> pour optimiser votre productivité grâce à l'IA générative</span>
+                    </li>
+                    <li>
+                        <span class="check-icon"></span>
+                        <span><strong>Des cas d'usage concrets</strong> applicables immédiatement dans votre activité professionnelle</span>
+                    </li>
+                    <li>
+                        <span class="check-icon"></span>
+                        <span><strong>Les bonnes pratiques</strong> pour maîtriser ChatGPT, Midjourney, et autres outils IA</span>
+                    </li>
+                    <li>
+                        <span class="check-icon"></span>
+                        <span><strong>Une méthodologie claire</strong> pour intégrer l'IA dans vos processus quotidiens</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="cta-box">
+                <h2 class="cta-title">Téléchargement Gratuit</h2>
+                <p class="cta-description">
+                    Remplissez le formulaire pour recevoir instantanément votre Guide IA 2026 et découvrir notre formation complète de 3 jours.
+                </p>
+
+                <a href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="cta-button">
+                    Télécharger le Guide Gratuit
+                </a>
+
+                <div class="trust-badge">
+                    <p><strong>100% Gratuit</strong> • Aucune carte bancaire requise</p>
+                    <p style="margin-top: 0.5rem;">Formation éligible CPF et financement OPCO</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 style="font-size: 2rem; text-align: center; margin-bottom: 2rem; color: #fbbf24;">Pourquoi suivre une formation IA en 2026 ?</h2>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Compétitivité accrue</h3>
+                    <p class="feature-description">
+                        L'IA est devenue incontournable. Maîtrisez-la pour rester compétitif sur le marché du travail.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3 class="feature-title">Gain de temps massif</h3>
+                    <p class="feature-description">
+                        Automatisez jusqu'à 50% de vos tâches répétitives et concentrez-vous sur l'essentiel.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3 class="feature-title">Créativité amplifiée</h3>
+                    <p class="feature-description">
+                        Générez des idées innovantes et du contenu de qualité en quelques secondes.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Formation certifiée</h3>
+                    <p class="feature-description">
+                        Certification Qualiopi garantissant la qualité et l'éligibilité aux financements.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 5rem; text-align: center;">
+            <div class="cta-box" style="max-width: 700px; margin: 0 auto;">
+                <h2 class="cta-title">Prêt à transformer votre façon de travailler ?</h2>
+                <p class="cta-description">
+                    Téléchargez le guide et découvrez comment notre formation de 3 jours peut vous faire gagner des heures chaque semaine.
+                </p>
+
+                <a href="https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="cta-button">
+                    Accéder au formulaire
+                </a>
+            </div>
+        </section>
+
+        <footer style="text-align: center; margin-top: 5rem; padding: 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); color: #64748b;">
+            <p>&copy; 2026 Aissociate - Organisme de formation certifié Qualiopi</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="/" style="color: #fb923c; text-decoration: none;">Retour à l'accueil</a>
+            </p>
+        </footer>
     </div>
-    <script>
-        // Fallback si la meta refresh ne fonctionne pas
-        setTimeout(() => {
-            window.location.href = 'https://api.leadconnectorhq.com/widget/form/absqOOkIwZlGPSuiZBm3';
-        }, 500);
-    </script>
 </body>
 </html>
