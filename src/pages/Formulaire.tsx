@@ -9,6 +9,7 @@ const Formulaire = () => {
     lastName: '',
     email: '',
     phone: '',
+    company: '',
     requestType: '',
     message: ''
   });
@@ -30,6 +31,7 @@ const Formulaire = () => {
             last_name: formData.lastName,
             email: formData.email,
             phone: formData.phone,
+            company: formData.company || null,
             request_type: formData.requestType,
             message: formData.message,
             source: window.location.pathname,
@@ -170,6 +172,21 @@ const Formulaire = () => {
               </div>
 
               <div>
+                <label htmlFor="company" className="block text-sm font-semibold text-slate-700 mb-2">
+                  Entreprise
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all"
+                  placeholder="Nom de votre entreprise (optionnel)"
+                />
+              </div>
+
+              <div>
                 <label htmlFor="requestType" className="block text-sm font-semibold text-slate-700 mb-2">
                   Type de demande *
                 </label>
@@ -181,11 +198,36 @@ const Formulaire = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all bg-white"
                 >
-                  <option value="">Sélectionnez une option</option>
-                  <option value="formation_cpf">Formation éligible CPF</option>
-                  <option value="formation_opco">Formation OPCO</option>
-                  <option value="assistance">Assistance IA</option>
-                  <option value="development">Développement sur mesure</option>
+                  <option value="">Sélectionnez une formation ou un service</option>
+                  <optgroup label="Formations CPF">
+                    <option value="Création de contenus rédactionnels et visuels par l'IA générative">
+                      Création de contenus par l'IA générative (CPF - 3 jours)
+                    </option>
+                  </optgroup>
+                  <optgroup label="Formations OPCO">
+                    <option value="Introduction aux IA pour les PME">
+                      Introduction aux IA pour les PME (1 jour)
+                    </option>
+                    <option value="Automatisation des process des PME">
+                      Automatisation des process des PME (2 jours)
+                    </option>
+                    <option value="L'IA pour optimiser la relation client">
+                      L'IA pour optimiser la relation client (1 jour)
+                    </option>
+                    <option value="L'IA pour optimiser le marketing et la communication">
+                      L'IA pour optimiser le marketing et la communication (2 jours)
+                    </option>
+                    <option value="L'IA pour optimiser la prospection commerciale">
+                      L'IA pour optimiser la prospection commerciale (1 jour)
+                    </option>
+                    <option value="L'IA pour optimiser les ressources humaines">
+                      L'IA pour optimiser les ressources humaines (2 jours)
+                    </option>
+                  </optgroup>
+                  <optgroup label="Services">
+                    <option value="Assistance IA">Assistance IA - Accompagnement personnalisé</option>
+                    <option value="Développement sur mesure">Développement sur mesure - Solutions IA</option>
+                  </optgroup>
                 </select>
               </div>
 
