@@ -37,7 +37,6 @@ import CadreCPF from './pages/formation/CadreCPF';
 import ScriptExplications from './pages/formation/ScriptExplications';
 import ModesFinancement from './pages/formation/ModesFinancement';
 import ScriptCloserCPF from './pages/formation/ScriptCloserCPF';
-import FicheMarchesPublics from './pages/formation/FicheMarchesPublics';
 import QualiopiDashboard from './pages/QualiopiDashboard';
 import QualiopiTrainees from './pages/QualiopiTrainees';
 import QualiopiTrainings from './pages/QualiopiTrainings';
@@ -179,15 +178,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProgrammeFormation />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/formation/fiche-marches-publics"
-            element={
-              <ProtectedRoute>
-                <FicheMarchesPublics />
               </ProtectedRoute>
             }
           />
