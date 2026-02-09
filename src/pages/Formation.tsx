@@ -93,7 +93,7 @@ export default function Formation() {
     },
   ];
 
-  const fixerModules = [
+  const fixerModules: Array<{ title: string; description: string; duration: string; type: string; completed: any; link?: string }> = [
     {
       title: 'Script officiel Fixer',
       description: 'Le script à suivre pour vos appels',

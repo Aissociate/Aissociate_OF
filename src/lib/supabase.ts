@@ -12,8 +12,9 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export type Profile = {
   id: string;
   email: string;
-  role: 'fixer' | 'closer' | null;
-  status: 'new_user' | 'pending_quiz' | 'pending_audio' | 'active' | 'rejected';
+  full_name?: string | null;
+  role: 'fixer' | 'closer' | 'admin' | 'manager' | null;
+  status: 'new_user' | 'pending_quiz' | 'pending_audio' | 'validated' | 'active' | 'rejected';
   experience: string | null;
   availability: string | null;
   motivation: string | null;

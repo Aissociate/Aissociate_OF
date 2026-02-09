@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import { X, Save, MessageSquare, Send, Trash2, Edit2 } from 'lucide-react';
+import { X, Save, MessageSquare, Send, Trash2 } from 'lucide-react';
 import { Dossier, DOSSIER_STATUSES, SOURCES, DECISIONS, COMPLEMENTARY_FUNDING_TYPES, FINANCING_MODES } from '../types/dossiers';
 import RelatedContactsManager from './dossiers/RelatedContactsManager';
 

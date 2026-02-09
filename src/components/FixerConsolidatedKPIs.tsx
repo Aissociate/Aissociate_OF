@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Dossier, FixerKPITargets } from '../types/dossiers';
+import { FixerKPITargets } from '../types/dossiers';
 import { TrendingUp, TrendingDown, Minus, Settings, ChevronDown, ChevronUp } from 'lucide-react';
 import FixerKPITargetsEditor from './FixerKPITargetsEditor';
 
@@ -124,7 +124,6 @@ export default function FixerConsolidatedKPIs({ profileId, isAdmin }: FixerConso
       const showRate = rdvScheduled > 0 ? (rdvHeld / rdvScheduled) * 100 : 0;
 
       const workingDaysInMonth = 20;
-      const workingDaysInWeek = 5;
       const workingHoursPerDay = 8;
 
       const callsPerDay = totalCalls > 0 ? totalCalls / workingDaysInMonth : 0;

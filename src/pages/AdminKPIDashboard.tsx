@@ -107,7 +107,7 @@ export default function AdminKPIDashboard() {
 
       const totalCalls = (fixerKPIs || []).reduce((sum, kpi) => sum + (kpi.contacts_per_day || 0), 0);
       const totalAppointmentsBooked = (fixerKPIs || []).reduce((sum, kpi) => sum + (kpi.appointments_booked || 0), 0);
-      const totalQualifiedAppointments = (fixerKPIs || []).reduce((sum, kpi) => sum + (kpi.qualified_appointments || 0), 0);
+      (fixerKPIs || []).reduce((sum: number, kpi: any) => sum + (kpi.qualified_appointments || 0), 0);
 
       const avgNoShowRate = fixerKPIs && fixerKPIs.length > 0
         ? fixerKPIs.reduce((sum, kpi) => sum + (parseFloat(kpi.no_show_rate) || 0), 0) / fixerKPIs.length

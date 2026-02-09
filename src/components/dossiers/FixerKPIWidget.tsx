@@ -18,15 +18,6 @@ interface FixerKPIWidgetProps {
 export default function FixerKPIWidget({ kpis, bonusEstimate, period, onPeriodChange }: FixerKPIWidgetProps) {
   const [isExpanded, setIsExpanded] = useState(true);
 
-  const getPeriodLabel = () => {
-    switch (period) {
-      case 'day': return 'Aujourd\'hui';
-      case 'week': return 'Cette semaine';
-      case 'month': return 'Ce mois';
-      default: return 'Toutes périodes';
-    }
-  };
-
   return (
     <div className="bg-white border border-slate-200 rounded-lg shadow-sm">
       <div className="border-b border-slate-200 px-4 py-3 flex items-center justify-between flex-wrap gap-3">

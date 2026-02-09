@@ -11,7 +11,6 @@ import {
   Eye,
   FileText,
   Mic,
-  TrendingUp,
   AlertCircle,
   LogOut,
   BookOpen,

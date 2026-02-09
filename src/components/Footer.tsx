@@ -1,4 +1,4 @@
-import { Building2, MapPin, Phone, Mail, FileText, Shield, Accessibility, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, Mail, FileText, Shield, Accessibility, MessageSquare } from 'lucide-react';
 import AdminLogo from './AdminLogo';
 
 export default function Footer() {

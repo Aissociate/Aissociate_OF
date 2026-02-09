@@ -4,7 +4,7 @@ import Footer from '../components/Footer';
 import { Calendar, Clock, ArrowLeft, User } from 'lucide-react';
 
 export default function BlogArticle() {
-  const { id } = useParams();
+  useParams();
 
   const article = {
     id: 1,

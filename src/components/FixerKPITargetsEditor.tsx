@@ -16,7 +16,7 @@ interface FixerKPITargets {
   avg_lead_quality: number;
 }
 
-export default function FixerKPITargetsEditor() {
+export default function FixerKPITargetsEditor(_props?: { profileId?: string; onClose?: () => void }) {
   const [targets, setTargets] = useState<FixerKPITargets | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

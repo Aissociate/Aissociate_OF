@@ -13,7 +13,6 @@ import {
   AlertCircle,
   Target,
   Award,
-  Plus,
   FolderPlus
 } from 'lucide-react';
 import AdminLogo from '../components/AdminLogo';

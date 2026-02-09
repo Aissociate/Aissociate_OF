@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { GraduationCap, TrendingUp, Users, Award, ArrowRight, Phone, Code, Sparkles, Target, Clock, CheckCircle, FileText, Mail, Truck, Building2 } from 'lucide-react';
+import { GraduationCap, TrendingUp, Users, ArrowRight, Phone, Sparkles, Target, Clock, CheckCircle, FileText, Mail, Truck, Building2 } from 'lucide-react';
 
 export default function OrganismHome() {
   return (

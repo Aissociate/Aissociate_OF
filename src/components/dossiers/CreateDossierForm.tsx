@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Save, Building2, User, Phone, Mail, Briefcase, Bell, ArrowRight, Package } from 'lucide-react';
+import { X, Save, Building2, User, Briefcase, Bell, ArrowRight, Package } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { SOURCES, COMPLEMENTARY_FUNDING_TYPES, DOSSIER_STATUSES, DossierStatus } from '../../types/dossiers';
 

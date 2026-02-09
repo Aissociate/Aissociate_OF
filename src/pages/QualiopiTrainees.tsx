@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users, Plus, Search, Mail, Phone, Edit2, Trash2, ArrowLeft, Home } from 'lucide-react';
+import { Users, Plus, Search, Mail, Phone, Edit2, ArrowLeft, Home } from 'lucide-react';
 import { qualiopiClient } from '../lib/qualiopiClient';
 import type { Trainee } from '../types/qualiopi';
 

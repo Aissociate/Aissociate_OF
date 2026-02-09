@@ -8,7 +8,7 @@ import DossierForm from '../components/dossiers/DossierForm';
 import DossierList from '../components/dossiers/DossierList';
 import FixerKPIWidget from '../components/dossiers/FixerKPIWidget';
 import FixerConsolidatedKPIs from '../components/FixerConsolidatedKPIs';
-import { Dossier, DossierStatus, Bonus } from '../types/dossiers';
+import { Dossier, Bonus } from '../types/dossiers';
 import { calculateFixerKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
 export default function NewFixerDashboard() {

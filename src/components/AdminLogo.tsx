@@ -2,12 +2,12 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 interface AdminLogoProps {
-  src: string;
-  alt: string;
+  src?: string;
+  alt?: string;
   className?: string;
 }
 
-export default function AdminLogo({ src, alt, className = 'h-16 w-auto object-contain' }: AdminLogoProps) {
+export default function AdminLogo({ src = '/logo.png', alt = 'Logo', className = 'h-16 w-auto object-contain' }: AdminLogoProps) {
   const [clickCount, setClickCount] = useState(0);
   const { adminMode, toggleAdminMode } = useAuth();
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);

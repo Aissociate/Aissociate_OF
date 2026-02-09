@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { Home, BarChart3, MessageSquare, LogOut, User } from 'lucide-react';
+import { BarChart3, MessageSquare, LogOut, User } from 'lucide-react';
 import AdminLogo from '../AdminLogo';
 
 export default function Navigation() {

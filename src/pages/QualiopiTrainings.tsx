@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, Plus, Search, CreditCard as Edit2, ArrowLeft, Home, Upload, FileText, Download, Eye, X, Trash2 } from 'lucide-react';
+import { GraduationCap, Plus, Search, ArrowLeft, Home, Upload, FileText, Eye, X, Trash2 } from 'lucide-react';
 import { qualiopiClient } from '../lib/qualiopiClient';
 import { supabase } from '../lib/supabase';
 import type { Training } from '../types/qualiopi';
@@ -172,9 +172,9 @@ export default function QualiopiTrainings() {
       }
 
       resetForm();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating training:', error);
-      addLog(`Erreur lors de la création: ${error.message}`, 'error');
+      addLog(`Erreur lors de la création: ${error?.message}`, 'error');
       alert('Erreur lors de la création');
     }
   };
@@ -298,9 +298,9 @@ export default function QualiopiTrainings() {
       } else {
         alert('Document uploadé avec succès ! (Métadonnées non extraites - voir les logs pour plus de détails)');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error uploading document:', error);
-      addLog(`Erreur: ${error.message}`, 'error');
+      addLog(`Erreur: ${error?.message}`, 'error');
       alert('Erreur lors de l\'upload du document');
     } finally {
       setUploadingTrainingId(null);
@@ -323,9 +323,9 @@ export default function QualiopiTrainings() {
       await qualiopiClient.deleteTraining(training.id);
       addLog('Formation supprimée avec succès', 'success');
       await loadTrainings();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting training:', error);
-      addLog(`Erreur lors de la suppression: ${error.message}`, 'error');
+      addLog(`Erreur lors de la suppression: ${error?.message}`, 'error');
       alert('Erreur lors de la suppression');
     }
   };

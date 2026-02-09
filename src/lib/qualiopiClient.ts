@@ -7,7 +7,6 @@ import type {
   Session,
   SessionTrainee,
   Template,
-  GeneratedDocument,
   QuestionnaireTemplate,
   QuestionnaireLink,
   QuestionnaireResponse,
@@ -15,8 +14,7 @@ import type {
   EmailSendLog,
   Task,
   AuditLog,
-  DocumentOriginal,
-  AIAnalysisResult
+  DocumentOriginal
 } from '../types/qualiopi';
 
 export class QualiopiClient {
@@ -295,7 +293,7 @@ export class QualiopiClient {
 
     const fileName = `${tenant.id}/${Date.now()}_${file.name}`;
 
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('qualiopi-documents')
       .upload(fileName, file);
 

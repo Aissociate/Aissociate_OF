@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, BookOpen, Clock, GraduationCap, Target, Award, FileCheck, Users, Zap, Star, MapPin, Euro, Mail, CheckCircle } from 'lucide-react';
+import { ArrowLeft, BookOpen, Clock, GraduationCap, Target, Award, Users, Zap, Star, MapPin, Euro, Mail, CheckCircle } from 'lucide-react';
 import AdminLogo from '../../components/AdminLogo';
 
 export default function ProgrammeFormation() {

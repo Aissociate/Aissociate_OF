@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { Shield, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Target from '../components/Target';
@@ -16,7 +16,7 @@ import Footer from '../components/Footer';
 
 export default function FormationDetail() {
   const navigate = useNavigate();
-  const { profile } = useAuth();
+  useAuth();
 
   return (
     <div className="min-h-screen bg-white">

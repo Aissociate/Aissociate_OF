@@ -150,12 +150,12 @@ Bonne journée.`;
 export default function Validation() {
   const navigate = useNavigate();
   const { profile, refreshProfile } = useAuth();
-  const [progress, setProgress] = useState<any>(null);
+  const [_progress, setProgress] = useState<any>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<number[]>([]);
   const [quizCompleted, setQuizCompleted] = useState(false);
   const [score, setScore] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [_loading, _setLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);

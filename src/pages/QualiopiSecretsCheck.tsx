@@ -80,10 +80,10 @@ export default function QualiopiSecretsCheck() {
           details: data,
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       setResult({
         status: 'error',
-        message: `Erreur lors de la vérification: ${error.message}`,
+        message: `Erreur lors de la vérification: ${error?.message}`,
       });
     } finally {
       setChecking(false);
