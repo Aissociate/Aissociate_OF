@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { Plus, Filter, LogOut, Calendar, BookOpen } from 'lucide-react';
+import { Plus, Filter, LogOut, Calendar, BookOpen, LayoutGrid, List, Search } from 'lucide-react';
 import AdminLogo from '../components/AdminLogo';
 import DossierForm from '../components/dossiers/DossierForm';
 import DossierList from '../components/dossiers/DossierList';
@@ -11,6 +11,8 @@ import FixerConsolidatedKPIs from '../components/FixerConsolidatedKPIs';
 import ProspectCardNavigator from '../components/dossiers/ProspectCardNavigator';
 import { Dossier, Bonus } from '../types/dossiers';
 import { calculateFixerKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
+
+type TabKey = 'prospects' | 'dossiers' | 'kpis';
 
 export default function NewFixerDashboard() {
   const navigate = useNavigate();
@@ -25,6 +27,8 @@ export default function NewFixerDashboard() {
   const [kpiPeriod, setKpiPeriod] = useState<'all' | 'day' | 'week' | 'month'>('all');
   const [filterNextAction, setFilterNextAction] = useState<'all' | 'today' | 'upcoming' | 'overdue'>('all');
   const [bonus, setBonus] = useState<Bonus | null>(null);
+  const [activeTab, setActiveTab] = useState<TabKey>('prospects');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const isAdminViewing = profile?.is_admin;
 
@@ -54,16 +58,14 @@ export default function NewFixerDashboard() {
     const targetPeriod = period || filterPeriod;
     const now = new Date();
     if (targetPeriod === 'day') {
-      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      return startOfDay;
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate());
     } else if (targetPeriod === 'week') {
       const startOfWeek = new Date(now);
       startOfWeek.setDate(now.getDate() - now.getDay() + 1);
       startOfWeek.setHours(0, 0, 0, 0);
       return startOfWeek;
     } else if (targetPeriod === 'month') {
-      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-      return startOfMonth;
+      return new Date(now.getFullYear(), now.getMonth(), 1);
     }
     return null;
   };
@@ -73,42 +75,42 @@ export default function NewFixerDashboard() {
 
     const dateFilter = getDateFilter();
     if (dateFilter) {
-      filtered = filtered.filter(d => {
-        const lastActivity = new Date(d.last_activity);
-        return lastActivity >= dateFilter;
-      });
+      filtered = filtered.filter(d => new Date(d.last_activity) >= dateFilter);
     }
 
     if (filterNextAction !== 'all') {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
-
       filtered = filtered.filter(d => {
         if (!d.next_step_date) return false;
         const nextActionDate = new Date(d.next_step_date);
         nextActionDate.setHours(0, 0, 0, 0);
-
-        if (filterNextAction === 'today') {
-          return nextActionDate.getTime() === today.getTime();
-        } else if (filterNextAction === 'upcoming') {
-          return nextActionDate > today;
-        } else if (filterNextAction === 'overdue') {
-          return nextActionDate < today;
-        }
+        if (filterNextAction === 'today') return nextActionDate.getTime() === today.getTime();
+        if (filterNextAction === 'upcoming') return nextActionDate > today;
+        if (filterNextAction === 'overdue') return nextActionDate < today;
         return true;
       });
     }
 
-    if (filterStatus === 'all') {
-      setFilteredDossiers(filtered);
-    } else {
-      setFilteredDossiers(filtered.filter(d => d.status === filterStatus));
+    if (filterStatus !== 'all') {
+      filtered = filtered.filter(d => d.status === filterStatus);
     }
-  }, [dossiers, filterStatus, filterPeriod, filterNextAction]);
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      filtered = filtered.filter(d =>
+        d.contact_last_name.toLowerCase().includes(q) ||
+        d.contact_first_name.toLowerCase().includes(q) ||
+        d.company.toLowerCase().includes(q) ||
+        (d.phone && d.phone.includes(q))
+      );
+    }
+
+    setFilteredDossiers(filtered);
+  }, [dossiers, filterStatus, filterPeriod, filterNextAction, searchQuery]);
 
   const loadData = async () => {
-    if (!profile || !profile) return;
-
+    if (!profile) return;
     setLoading(true);
     try {
       const [dossiersRes, bonusRes] = await Promise.all([
@@ -130,19 +132,12 @@ export default function NewFixerDashboard() {
 
       setDossiers(dossiersRes.data || []);
       setBonus(bonusRes.data || {
-        id: '',
-        profile_id: profile.id,
-        tier_1_clients: 5,
-        tier_1_amount: 200,
-        tier_2_clients: 10,
-        tier_2_amount: 500,
-        tier_3_clients: 15,
-        tier_3_amount: 1000,
-        min_show_up_rate: 70,
-        min_quality_score: 7,
-        active: true,
-        created_at: '',
-        updated_at: ''
+        id: '', profile_id: profile.id,
+        tier_1_clients: 5, tier_1_amount: 200,
+        tier_2_clients: 10, tier_2_amount: 500,
+        tier_3_clients: 15, tier_3_amount: 1000,
+        min_show_up_rate: 70, min_quality_score: 7,
+        active: true, created_at: '', updated_at: ''
       });
     } catch (error) {
       console.error('Error loading data:', error);
@@ -156,36 +151,17 @@ export default function NewFixerDashboard() {
     navigate('/login');
   };
 
-  const handleNewDossier = () => {
-    setEditingDossier(null);
-    setShowForm(true);
-  };
-
-  const handleEditDossier = (dossier: Dossier) => {
-    setEditingDossier(dossier);
-    setShowForm(true);
-  };
-
-  const handleCloseForm = () => {
-    setShowForm(false);
-    setEditingDossier(null);
-  };
-
-  const handleSaveForm = () => {
-    setShowForm(false);
-    setEditingDossier(null);
-    loadData();
-  };
-
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="animate-pulse text-xl text-slate-600">Chargement...</div>
+      <div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-slate-500">Chargement...</p>
+        </div>
       </div>
     );
   }
 
-  const dateFilter = getDateFilter();
   const kpiDateFilter = getDateFilter(kpiPeriod);
   const dossiersForKPI = kpiDateFilter
     ? dossiers.filter(d => new Date(d.last_activity) >= kpiDateFilter)
@@ -193,12 +169,10 @@ export default function NewFixerDashboard() {
 
   const kpis = calculateFixerKPIs(dossiersForKPI);
   const bonusEstimate = bonus ? calculateBonusEstimate(
-    kpis.clientsPaid,
-    kpis.showUpRate,
-    kpis.avgQuality,
-    bonus
+    kpis.clientsPaid, kpis.showUpRate, kpis.avgQuality, bonus
   ) : { amount: 0, tier: 0, nextTier: null, clientsToNext: 0 };
 
+  const dateFilter = getDateFilter();
   const dossiersForStatusCount = dateFilter
     ? dossiers.filter(d => new Date(d.last_activity) >= dateFilter)
     : dossiers;
@@ -208,38 +182,76 @@ export default function NewFixerDashboard() {
     return acc;
   }, {} as Record<string, number>);
 
+  const tabs: { key: TabKey; label: string; count?: number }[] = [
+    { key: 'prospects', label: 'Prospects CRM' },
+    { key: 'dossiers', label: 'Dossiers', count: dossiers.length },
+    { key: 'kpis', label: 'KPIs detailles' },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="bg-white shadow-md sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <AdminLogo />
-            <div>
-              <h1 className="text-2xl font-bold text-slate-900">Dashboard Fixer</h1>
-              <p className="text-sm text-slate-600">Bienvenue, {profile?.full_name}</p>
+    <div className="min-h-screen bg-[#f4f6f9]">
+      <header className="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <div className="max-w-[1400px] mx-auto px-6">
+          <div className="flex items-center justify-between h-14">
+            <div className="flex items-center gap-4">
+              <AdminLogo />
+              <div className="hidden sm:block">
+                <h1 className="text-sm font-semibold text-slate-900 leading-tight">Fixer CRM</h1>
+                <p className="text-[11px] text-slate-500">{profile?.full_name}</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => { setEditingDossier(null); setShowForm(true); }}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium rounded-md transition-colors"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                Nouveau dossier
+              </button>
+              <button
+                onClick={() => navigate('/formation')}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 text-xs font-medium rounded-md transition-colors"
+              >
+                <BookOpen className="w-3.5 h-3.5" />
+                <span className="hidden md:inline">Formation</span>
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-slate-600 hover:text-red-600 hover:bg-red-50 text-xs font-medium rounded-md transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => navigate('/formation')}
-              className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-semibold"
-            >
-              <BookOpen className="w-4 h-4" />
-              Formation
-            </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors font-semibold"
-            >
-              <LogOut className="w-4 h-4" />
-              Déconnexion
-            </button>
-          </div>
+
+          <nav className="flex gap-0 -mb-px">
+            {tabs.map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveTab(tab.key)}
+                className={`px-4 py-2.5 text-xs font-medium border-b-2 transition-colors ${
+                  activeTab === tab.key
+                    ? 'border-blue-600 text-blue-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300'
+                }`}
+              >
+                {tab.label}
+                {tab.count !== undefined && (
+                  <span className={`ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-semibold ${
+                    activeTab === tab.key ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6">
+      <main className="max-w-[1400px] mx-auto px-6 py-6">
+        <div className="mb-5">
           <FixerKPIWidget
             kpis={kpis}
             bonusEstimate={bonusEstimate}
@@ -248,197 +260,121 @@ export default function NewFixerDashboard() {
           />
         </div>
 
-        <div className="mb-6">
-          <FixerConsolidatedKPIs profileId={profile?.id || ''} />
-        </div>
-
-        <div className="mb-6">
+        {activeTab === 'prospects' && (
           <ProspectCardNavigator fixerId={profile?.id || ''} />
-        </div>
+        )}
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-slate-900">Dossiers en cours</h2>
-              <p className="text-slate-600 text-sm mt-2">
-                {dossiers.length} dossier{dossiers.length > 1 ? 's' : ''} au total · {filteredDossiers.length} affichés
-              </p>
+        {activeTab === 'kpis' && (
+          <FixerConsolidatedKPIs profileId={profile?.id || ''} />
+        )}
+
+        {activeTab === 'dossiers' && (
+          <div className="bg-white rounded-xl border border-slate-200/80 overflow-hidden">
+            <div className="px-6 py-4 border-b border-slate-100">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-base font-semibold text-slate-900">Dossiers en cours</h2>
+                  <p className="text-[11px] text-slate-500 mt-0.5">
+                    {dossiers.length} au total -- {filteredDossiers.length} affiches
+                  </p>
+                </div>
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Rechercher..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    className="pl-8 pr-3 py-1.5 border border-slate-200 rounded-md text-xs text-slate-700 w-56 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-x-6 gap-y-3">
+                <FilterGroup label="Periode" icon={<Calendar className="w-3.5 h-3.5 text-slate-400" />}>
+                  {(['all', 'day', 'week', 'month'] as const).map(p => (
+                    <FilterPill
+                      key={p}
+                      active={filterPeriod === p}
+                      onClick={() => setFilterPeriod(p)}
+                      label={{ all: 'Toutes', day: "Aujourd'hui", week: 'Semaine', month: 'Mois' }[p]}
+                    />
+                  ))}
+                </FilterGroup>
+
+                <FilterGroup label="Action" icon={<Calendar className="w-3.5 h-3.5 text-slate-400" />}>
+                  <FilterPill active={filterNextAction === 'all'} onClick={() => setFilterNextAction('all')} label="Toutes" />
+                  <FilterPill active={filterNextAction === 'today'} onClick={() => setFilterNextAction('today')} label="Aujourd'hui" variant="blue" />
+                  <FilterPill active={filterNextAction === 'overdue'} onClick={() => setFilterNextAction('overdue')} label="En retard" variant="red" />
+                  <FilterPill active={filterNextAction === 'upcoming'} onClick={() => setFilterNextAction('upcoming')} label="A venir" variant="green" />
+                </FilterGroup>
+
+                <FilterGroup label="Statut" icon={<Filter className="w-3.5 h-3.5 text-slate-400" />}>
+                  <FilterPill active={filterStatus === 'all'} onClick={() => setFilterStatus('all')} label={`Tous (${dossiersForStatusCount.length})`} />
+                  <FilterPill active={filterStatus === 'à_contacter'} onClick={() => setFilterStatus('à_contacter')} label={`A contacter (${statusCounts['à_contacter'] || 0})`} />
+                  <FilterPill active={filterStatus === 'rdv_closer_planifié'} onClick={() => setFilterStatus('rdv_closer_planifié')} label={`RDV planifies (${statusCounts['rdv_closer_planifié'] || 0})`} variant="blue" />
+                  <FilterPill active={filterStatus === 'encaissé'} onClick={() => setFilterStatus('encaissé')} label={`Encaisses (${statusCounts['encaissé'] || 0})`} variant="green" />
+                </FilterGroup>
+              </div>
             </div>
-            <button
-              onClick={handleNewDossier}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg transition-all font-semibold shadow-lg hover:shadow-xl"
-            >
-              <Plus className="w-5 h-5" />
-              Nouveau dossier
-            </button>
+
+            <DossierList
+              dossiers={filteredDossiers}
+              onEdit={(dossier) => { setEditingDossier(dossier); setShowForm(true); }}
+              role="fixer"
+            />
           </div>
-
-          <div className="mb-6 p-4 bg-slate-50 rounded-lg border border-slate-200">
-            <div className="flex gap-6 items-center flex-wrap">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-slate-500" />
-                <span className="text-sm font-semibold text-slate-700">Période:</span>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                <button
-                  onClick={() => setFilterPeriod('all')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterPeriod === 'all'
-                      ? 'bg-slate-700 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Toutes
-                </button>
-                <button
-                  onClick={() => setFilterPeriod('day')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterPeriod === 'day'
-                      ? 'bg-slate-700 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Aujourd'hui
-                </button>
-                <button
-                  onClick={() => setFilterPeriod('week')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterPeriod === 'week'
-                      ? 'bg-slate-700 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Cette semaine
-                </button>
-                <button
-                  onClick={() => setFilterPeriod('month')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterPeriod === 'month'
-                      ? 'bg-slate-700 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Ce mois
-                </button>
-              </div>
-            </div>
-
-            <div className="flex gap-6 items-center flex-wrap mt-4">
-              <div className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-slate-500" />
-                <span className="text-sm font-semibold text-slate-700">Prochaine Action:</span>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                <button
-                  onClick={() => setFilterNextAction('all')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterNextAction === 'all'
-                      ? 'bg-slate-700 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Toutes
-                </button>
-                <button
-                  onClick={() => setFilterNextAction('today')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterNextAction === 'today'
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
-                  }`}
-                >
-                  Aujourd'hui
-                </button>
-                <button
-                  onClick={() => setFilterNextAction('overdue')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterNextAction === 'overdue'
-                      ? 'bg-red-600 text-white shadow-md'
-                      : 'bg-red-50 text-red-700 hover:bg-red-100'
-                  }`}
-                >
-                  En retard
-                </button>
-                <button
-                  onClick={() => setFilterNextAction('upcoming')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors text-sm ${
-                    filterNextAction === 'upcoming'
-                      ? 'bg-emerald-600 text-white shadow-md'
-                      : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                  }`}
-                >
-                  À venir
-                </button>
-              </div>
-            </div>
-
-            <div className="flex gap-6 items-center flex-wrap mt-4">
-              <div className="flex items-center gap-2">
-                <Filter className="w-5 h-5 text-slate-500" />
-                <span className="text-sm font-semibold text-slate-700">Statut:</span>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                <button
-                  onClick={() => setFilterStatus('all')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                    filterStatus === 'all'
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  Tous ({dossiersForStatusCount.length})
-                </button>
-                <button
-                  onClick={() => setFilterStatus('à_contacter')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                    filterStatus === 'à_contacter'
-                      ? 'bg-slate-600 text-white shadow-md'
-                      : 'bg-white text-slate-700 hover:bg-slate-100'
-                  }`}
-                >
-                  À contacter ({statusCounts['à_contacter'] || 0})
-                </button>
-                <button
-                  onClick={() => setFilterStatus('rdv_closer_planifié')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                    filterStatus === 'rdv_closer_planifié'
-                      ? 'bg-cyan-600 text-white shadow-md'
-                      : 'bg-cyan-50 text-cyan-700 hover:bg-cyan-100'
-                  }`}
-                >
-                  RDV planifiés ({statusCounts['rdv_closer_planifié'] || 0})
-                </button>
-                <button
-                  onClick={() => setFilterStatus('encaissé')}
-                  className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                    filterStatus === 'encaissé'
-                      ? 'bg-emerald-600 text-white shadow-md'
-                      : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
-                  }`}
-                >
-                  Encaissés ({statusCounts['encaissé'] || 0})
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <DossierList
-            dossiers={filteredDossiers}
-            onEdit={handleEditDossier}
-            role="fixer"
-          />
-        </div>
+        )}
       </main>
 
       {showForm && (
         <DossierForm
           dossier={editingDossier}
           fixerId={profile?.id || ''}
-          onClose={handleCloseForm}
-          onSave={handleSaveForm}
+          onClose={() => { setShowForm(false); setEditingDossier(null); }}
+          onSave={() => { setShowForm(false); setEditingDossier(null); loadData(); }}
           role="fixer"
         />
       )}
     </div>
+  );
+}
+
+function FilterGroup({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <div className="flex items-center gap-2">
+      {icon}
+      <span className="text-[11px] font-medium text-slate-500">{label}:</span>
+      <div className="flex gap-1">{children}</div>
+    </div>
+  );
+}
+
+function FilterPill({ active, onClick, label, variant }: {
+  active: boolean;
+  onClick: () => void;
+  label: string;
+  variant?: 'blue' | 'red' | 'green';
+}) {
+  const getClasses = () => {
+    if (active) {
+      if (variant === 'blue') return 'bg-blue-600 text-white';
+      if (variant === 'red') return 'bg-red-500 text-white';
+      if (variant === 'green') return 'bg-emerald-600 text-white';
+      return 'bg-slate-700 text-white';
+    }
+    if (variant === 'blue') return 'bg-blue-50 text-blue-700 hover:bg-blue-100';
+    if (variant === 'red') return 'bg-red-50 text-red-600 hover:bg-red-100';
+    if (variant === 'green') return 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100';
+    return 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+  };
+
+  return (
+    <button
+      onClick={onClick}
+      className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors ${getClasses()}`}
+    >
+      {label}
+    </button>
   );
 }

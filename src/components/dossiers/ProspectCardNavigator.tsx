@@ -12,7 +12,8 @@ import {
   Loader2,
   Inbox,
   CheckCircle2,
-  Clock
+  Clock,
+  Mail
 } from 'lucide-react';
 
 interface CompanyProspect {
@@ -113,6 +114,14 @@ export default function ProspectCardNavigator({ fixerId }: ProspectCardNavigator
     loadProspects();
   }, [fixerId]);
 
+  const goToPrev = useCallback(() => {
+    setCurrentIndex(prev => (prev > 0 ? prev - 1 : prospects.length - 1));
+  }, [prospects.length]);
+
+  const goToNext = useCallback(() => {
+    setCurrentIndex(prev => (prev < prospects.length - 1 ? prev + 1 : 0));
+  }, [prospects.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') goToPrev();
@@ -120,15 +129,7 @@ export default function ProspectCardNavigator({ fixerId }: ProspectCardNavigator
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [prospects.length, currentIndex]);
-
-  const goToPrev = () => {
-    setCurrentIndex(prev => (prev > 0 ? prev - 1 : prospects.length - 1));
-  };
-
-  const goToNext = () => {
-    setCurrentIndex(prev => (prev < prospects.length - 1 ? prev + 1 : 0));
-  };
+  }, [goToPrev, goToNext]);
 
   const markStatus = async (status: 'in_progress' | 'completed') => {
     const prospect = prospects[currentIndex];
@@ -152,19 +153,21 @@ export default function ProspectCardNavigator({ fixerId }: ProspectCardNavigator
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-8 text-center">
-        <Loader2 className="w-8 h-8 animate-spin text-orange-600 mx-auto mb-3" />
-        <p className="text-slate-600">Chargement des prospects...</p>
+      <div className="bg-white rounded-xl border border-slate-200/80 p-10 text-center">
+        <Loader2 className="w-6 h-6 animate-spin text-blue-600 mx-auto mb-2" />
+        <p className="text-xs text-slate-500">Chargement des prospects...</p>
       </div>
     );
   }
 
   if (prospects.length === 0) {
     return (
-      <div className="bg-white rounded-2xl shadow-xl p-12 text-center">
-        <Inbox className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-        <h3 className="text-xl font-bold text-slate-700 mb-2">Aucun prospect assigne</h3>
-        <p className="text-slate-500">Vos prospects apparaitront ici une fois assignes par l'admin.</p>
+      <div className="bg-white rounded-xl border border-slate-200/80 p-12 text-center">
+        <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-3">
+          <Inbox className="w-6 h-6 text-slate-400" />
+        </div>
+        <p className="text-sm font-semibold text-slate-700 mb-1">Aucun prospect assigne</p>
+        <p className="text-xs text-slate-500">Vos prospects apparaitront ici une fois assignes par l'admin.</p>
       </div>
     );
   }
@@ -172,172 +175,176 @@ export default function ProspectCardNavigator({ fixerId }: ProspectCardNavigator
   const prospect = prospects[currentIndex];
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-      <div className="bg-gradient-to-r from-orange-500 to-amber-600 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3 text-white">
-          <Building2 className="w-5 h-5" />
-          <h3 className="font-bold text-lg">Prospects CRM</h3>
-        </div>
-        <div className="flex items-center gap-4">
-          <span className="text-white/80 text-sm font-medium">
+    <div className="bg-white rounded-xl border border-slate-200/80 overflow-hidden">
+      <div className="h-12 px-5 flex items-center justify-between border-b border-slate-100">
+        <div className="flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center">
+            <Building2 className="w-3.5 h-3.5 text-blue-600" />
+          </div>
+          <span className="text-[11px] font-semibold text-slate-800 uppercase tracking-wide">Prospects</span>
+          <span className="text-[11px] text-slate-400 font-medium ml-1">
             {currentIndex + 1} / {prospects.length}
           </span>
-          <div className="flex gap-1">
-            {prospects.map((_, i) => (
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={goToPrev}
+            className="w-7 h-7 rounded-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:border-slate-300 transition-colors"
+          >
+            <ChevronLeft className="w-3.5 h-3.5 text-slate-600" />
+          </button>
+
+          <div className="flex gap-1 px-1">
+            {prospects.length <= 12 && prospects.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-all ${
-                  i === currentIndex ? 'bg-white w-6' : 'bg-white/40 hover:bg-white/60'
+                className={`w-1.5 h-1.5 rounded-full transition-all ${
+                  i === currentIndex ? 'bg-blue-600 w-4' : 'bg-slate-300 hover:bg-slate-400'
                 }`}
               />
             ))}
+            {prospects.length > 12 && (
+              <span className="text-[10px] text-slate-400 font-medium px-1">{currentIndex + 1}/{prospects.length}</span>
+            )}
           </div>
+
+          <button
+            onClick={goToNext}
+            className="w-7 h-7 rounded-md border border-slate-200 flex items-center justify-center hover:bg-slate-50 hover:border-slate-300 transition-colors"
+          >
+            <ChevronRight className="w-3.5 h-3.5 text-slate-600" />
+          </button>
         </div>
       </div>
 
-      <div className="relative">
-        <button
-          onClick={goToPrev}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-24 bg-gradient-to-r from-white to-transparent flex items-center justify-start pl-2 hover:from-slate-100 transition-colors group"
-          title="Precedent (fleche gauche)"
-        >
-          <div className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center group-hover:bg-orange-50 transition-colors">
-            <ChevronLeft className="w-6 h-6 text-slate-700 group-hover:text-orange-600" />
-          </div>
-        </button>
-
-        <button
-          onClick={goToNext}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-24 bg-gradient-to-l from-white to-transparent flex items-center justify-end pr-2 hover:from-slate-100 transition-colors group"
-          title="Suivant (fleche droite)"
-        >
-          <div className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center group-hover:bg-orange-50 transition-colors">
-            <ChevronRight className="w-6 h-6 text-slate-700 group-hover:text-orange-600" />
-          </div>
-        </button>
-
-        <div className="px-14 py-6">
-          <div className="mb-6">
-            <div className="flex items-start justify-between mb-2">
-              <h2 className="text-2xl font-bold text-slate-900">{prospect.raison_social}</h2>
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                prospect.dispatch_status === 'in_progress'
-                  ? 'bg-blue-100 text-blue-700'
-                  : 'bg-amber-100 text-amber-700'
-              }`}>
-                {prospect.dispatch_status === 'in_progress' ? 'En cours' : 'Nouveau'}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-4 text-sm text-slate-600">
+      <div className="p-5">
+        <div className="flex items-start justify-between mb-4">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900 leading-tight">{prospect.raison_social}</h2>
+            <div className="flex flex-wrap items-center gap-3 mt-1.5">
               {prospect.activite && (
-                <div className="flex items-center gap-1.5">
-                  <Briefcase className="w-4 h-4 text-slate-400" />
+                <span className="flex items-center gap-1 text-xs text-slate-500">
+                  <Briefcase className="w-3 h-3 text-slate-400" />
                   {prospect.activite}
-                </div>
+                </span>
               )}
               {(prospect.city || prospect.postal_code) && (
-                <div className="flex items-center gap-1.5">
-                  <MapPin className="w-4 h-4 text-slate-400" />
+                <span className="flex items-center gap-1 text-xs text-slate-500">
+                  <MapPin className="w-3 h-3 text-slate-400" />
                   {prospect.adresse && `${prospect.adresse}, `}{prospect.city} {prospect.postal_code}
-                </div>
+                </span>
               )}
             </div>
-
-            {prospect.description && (
-              <p className="mt-3 text-sm text-slate-600 bg-slate-50 rounded-lg p-3">
-                {prospect.description}
-              </p>
-            )}
-
-            {prospect.commentaires && (
-              <div className="mt-3 flex items-start gap-2 text-sm bg-amber-50 rounded-lg p-3">
-                <MessageSquare className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
-                <p className="text-amber-800">{prospect.commentaires}</p>
-              </div>
-            )}
           </div>
+          <span className={`px-2.5 py-1 rounded-md text-[11px] font-medium ${
+            prospect.dispatch_status === 'in_progress'
+              ? 'bg-blue-50 text-blue-700'
+              : 'bg-amber-50 text-amber-700'
+          }`}>
+            {prospect.dispatch_status === 'in_progress' ? 'En cours' : 'Nouveau'}
+          </span>
+        </div>
 
-          <div className="space-y-3">
-            <h4 className="text-sm font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-2">
-              <User className="w-4 h-4" />
-              Contacts ({prospect.contacts.length})
-            </h4>
+        {prospect.description && (
+          <p className="text-xs text-slate-600 leading-relaxed bg-slate-50/70 rounded-lg p-3 border border-slate-100 mb-3">
+            {prospect.description}
+          </p>
+        )}
 
-            {prospect.contacts.length === 0 ? (
-              <p className="text-sm text-slate-400 italic">Aucun contact</p>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {prospect.contacts.map(contact => (
-                  <div
-                    key={contact.id}
-                    className="border border-slate-200 rounded-xl p-4 hover:border-orange-300 transition-colors"
-                  >
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center">
-                        <User className="w-5 h-5 text-slate-500" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-slate-900">
-                          {contact.prenom} {contact.nom}
-                        </p>
-                        {contact.email && (
-                          <p className="text-xs text-slate-500">{contact.email}</p>
-                        )}
-                      </div>
-                    </div>
-
-                    {contact.phones.length > 0 && (
-                      <div className="space-y-1.5">
-                        {contact.phones.map(phone => (
-                          <a
-                            key={phone.id}
-                            href={`tel:${phone.phone_number}`}
-                            className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 font-medium group"
-                            onClick={e => e.stopPropagation()}
-                          >
-                            <Phone className="w-3.5 h-3.5 group-hover:animate-pulse" />
-                            {phone.phone_number}
-                            <span className="text-xs text-slate-400 font-normal">({phone.label})</span>
-                          </a>
-                        ))}
-                      </div>
-                    )}
-
-                    {contact.commentaires && (
-                      <p className="mt-2 text-xs text-slate-500 italic">{contact.commentaires}</p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
+        {prospect.commentaires && (
+          <div className="flex items-start gap-2 text-xs bg-amber-50/60 rounded-lg p-3 border border-amber-100 mb-4">
+            <MessageSquare className="w-3.5 h-3.5 text-amber-500 flex-shrink-0 mt-0.5" />
+            <p className="text-amber-800 leading-relaxed">{prospect.commentaires}</p>
           </div>
+        )}
 
-          <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-            <div className="flex gap-2">
-              {prospect.dispatch_status !== 'in_progress' && (
-                <button
-                  onClick={() => markStatus('in_progress')}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-sm font-medium transition-colors"
+        <div>
+          <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+            <User className="w-3.5 h-3.5" />
+            Contacts ({prospect.contacts.length})
+          </p>
+
+          {prospect.contacts.length === 0 ? (
+            <p className="text-xs text-slate-400 py-2">Aucun contact</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+              {prospect.contacts.map(contact => (
+                <div
+                  key={contact.id}
+                  className="border border-slate-200/80 rounded-lg p-3.5 hover:border-blue-200 transition-colors bg-slate-50/30"
                 >
-                  <Clock className="w-4 h-4" />
-                  Marquer en cours
-                </button>
-              )}
-              <button
-                onClick={() => markStatus('completed')}
-                className="flex items-center gap-2 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 rounded-lg text-sm font-medium transition-colors"
-              >
-                <CheckCircle2 className="w-4 h-4" />
-                Marquer termine
-              </button>
-            </div>
+                  <div className="flex items-center gap-2.5 mb-2">
+                    <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                      <User className="w-4 h-4 text-slate-500" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-slate-900 truncate">
+                        {contact.prenom} {contact.nom}
+                      </p>
+                      {contact.email && (
+                        <a
+                          href={`mailto:${contact.email}`}
+                          className="text-[11px] text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <Mail className="w-2.5 h-2.5" />
+                          {contact.email}
+                        </a>
+                      )}
+                    </div>
+                  </div>
 
-            <div className="text-xs text-slate-400">
-              Utilisez les fleches du clavier pour naviguer
+                  {contact.phones.length > 0 && (
+                    <div className="space-y-1 ml-[42px]">
+                      {contact.phones.map(phone => (
+                        <a
+                          key={phone.id}
+                          href={`tel:${phone.phone_number}`}
+                          className="flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium"
+                          onClick={e => e.stopPropagation()}
+                        >
+                          <Phone className="w-3 h-3" />
+                          {phone.phone_number}
+                          <span className="text-[10px] text-slate-400 font-normal">({phone.label})</span>
+                        </a>
+                      ))}
+                    </div>
+                  )}
+
+                  {contact.commentaires && (
+                    <p className="mt-2 ml-[42px] text-[11px] text-slate-500 leading-relaxed">{contact.commentaires}</p>
+                  )}
+                </div>
+              ))}
             </div>
+          )}
+        </div>
+
+        <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
+          <div className="flex gap-2">
+            {prospect.dispatch_status !== 'in_progress' && (
+              <button
+                onClick={() => markStatus('in_progress')}
+                className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-medium transition-colors border border-blue-100"
+              >
+                <Clock className="w-3.5 h-3.5" />
+                Marquer en cours
+              </button>
+            )}
+            <button
+              onClick={() => markStatus('completed')}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-medium transition-colors border border-emerald-100"
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              Marquer termine
+            </button>
           </div>
+
+          <span className="text-[10px] text-slate-400">
+            Fleches du clavier pour naviguer
+          </span>
         </div>
       </div>
     </div>

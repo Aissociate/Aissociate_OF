@@ -9,15 +9,14 @@ import {
   Send,
   CheckSquare,
   Square,
-  Filter,
   Loader2,
   CheckCircle2,
   AlertCircle,
   X,
   UserCheck,
-  Package
+  Package,
+  Search
 } from 'lucide-react';
-import AdminLogo from '../components/AdminLogo';
 
 interface CompanyRow {
   id: string;
@@ -209,244 +208,260 @@ export default function AdminDispatch() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#f4f6f9] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto mb-4" />
-          <p className="text-slate-600">Chargement...</p>
+          <Loader2 className="w-6 h-6 animate-spin text-blue-600 mx-auto mb-2" />
+          <p className="text-xs text-slate-500">Chargement...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <AdminLogo
-              src="https://storage.googleapis.com/msgsndr/QgFd2CSdLClLqXBncDm0/media/65f8015e1a9195ba3d84f818.jpeg"
-              alt="Aissociate Logo"
-              className="h-12 w-auto object-contain"
-            />
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900">Dispatch Prospects</h1>
-              <p className="text-slate-600">Assignez les entreprises importees aux fixers</p>
-            </div>
+    <div className="min-h-screen bg-[#f4f6f9]">
+      <div className="h-14 bg-white border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-30">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
+            <Send className="w-4 h-4 text-white" />
           </div>
-          <button
-            onClick={() => navigate('/admin')}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded-lg transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Retour Admin
-          </button>
+          <div>
+            <h1 className="text-sm font-bold text-slate-900 leading-tight">Dispatch Prospects</h1>
+            <p className="text-[11px] text-slate-500">Assignation des entreprises aux fixers</p>
+          </div>
         </div>
+        <button
+          onClick={() => navigate('/admin')}
+          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Retour
+        </button>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow-md p-5 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-slate-900">{stats.total}</p>
-              <p className="text-sm text-slate-500">Total entreprises</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-md p-5 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center">
-              <Package className="w-6 h-6 text-amber-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-amber-700">{stats.unassigned}</p>
-              <p className="text-sm text-slate-500">Non assignees</p>
-            </div>
-          </div>
-          <div className="bg-white rounded-xl shadow-md p-5 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
-              <UserCheck className="w-6 h-6 text-green-600" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold text-green-700">{stats.assigned}</p>
-              <p className="text-sm text-slate-500">Assignees</p>
-            </div>
-          </div>
+      <div className="max-w-[1400px] mx-auto px-6 py-5">
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          <StatCard
+            icon={<Building2 className="w-4 h-4 text-blue-600" />}
+            iconBg="bg-blue-50"
+            value={stats.total}
+            label="Total entreprises"
+          />
+          <StatCard
+            icon={<Package className="w-4 h-4 text-amber-600" />}
+            iconBg="bg-amber-50"
+            value={stats.unassigned}
+            label="Non assignees"
+            valueColor="text-amber-700"
+          />
+          <StatCard
+            icon={<UserCheck className="w-4 h-4 text-emerald-600" />}
+            iconBg="bg-emerald-50"
+            value={stats.assigned}
+            label="Assignees"
+            valueColor="text-emerald-700"
+          />
         </div>
 
         {success && (
-          <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
-            <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-            <p className="text-green-800 text-sm font-medium flex-1">{success}</p>
-            <button onClick={() => setSuccess(null)} className="text-green-400 hover:text-green-600">
-              <X className="w-4 h-4" />
+          <div className="mb-4 p-3 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center gap-2.5">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+            <p className="text-emerald-800 text-xs font-medium flex-1">{success}</p>
+            <button onClick={() => setSuccess(null)} className="text-emerald-400 hover:text-emerald-600">
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         )}
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <p className="text-red-800 text-sm font-medium flex-1">{error}</p>
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2.5">
+            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+            <p className="text-red-800 text-xs font-medium flex-1">{error}</p>
             <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600">
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         )}
 
-        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
-          <div className="flex flex-wrap items-center gap-4 mb-4">
-            <div className="flex items-center gap-2">
-              <Filter className="w-5 h-5 text-slate-500" />
-              <span className="text-sm font-semibold text-slate-700">Statut :</span>
-            </div>
-            <div className="flex gap-2">
+        <div className="bg-white rounded-xl border border-slate-200/80 overflow-hidden">
+          <div className="px-5 py-3.5 border-b border-slate-100 flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-1.5">
               {([
-                { key: 'all', label: `Tous (${stats.total})` },
-                { key: 'unassigned', label: `Non assignees (${stats.unassigned})` },
-                { key: 'assigned', label: `Assignees (${stats.assigned})` },
-              ] as const).map(f => (
+                { key: 'all' as const, label: `Tous (${stats.total})` },
+                { key: 'unassigned' as const, label: `Non assignees (${stats.unassigned})` },
+                { key: 'assigned' as const, label: `Assignees (${stats.assigned})` },
+              ]).map(f => (
                 <button
                   key={f.key}
                   onClick={() => { setFilterStatus(f.key); setSelectedIds(new Set()); }}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                  className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors ${
                     filterStatus === f.key
-                      ? 'bg-orange-500 text-white shadow-md'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
                   {f.label}
                 </button>
               ))}
             </div>
-            <div className="flex-1 min-w-[200px]">
+
+            <div className="flex-1 min-w-[180px] relative">
+              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
               <input
                 type="text"
                 placeholder="Rechercher par nom, ville, activite..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                className="w-full pl-8 pr-3 py-1.5 border border-slate-200 rounded-lg text-xs text-slate-700 placeholder-slate-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none"
               />
             </div>
           </div>
 
-          <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2 text-sm text-orange-800 font-medium">
-                <Send className="w-4 h-4" />
-                Assigner {selectedIds.size > 0 ? `${selectedIds.size} entreprise(s)` : 'la selection'} a :
-              </div>
-              <select
-                value={selectedFixer}
-                onChange={e => setSelectedFixer(e.target.value)}
-                className="flex-1 min-w-[250px] px-4 py-2.5 border-2 border-orange-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white"
-              >
-                <option value="">-- Choisir un fixer --</option>
-                {fixers.map(f => (
-                  <option key={f.id} value={f.id}>
-                    {f.full_name || f.email} ({f.email})
-                  </option>
-                ))}
-              </select>
-              <button
-                onClick={handleDispatch}
-                disabled={!selectedFixer || selectedIds.size === 0 || dispatching}
-                className="flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {dispatching ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Send className="w-4 h-4" />
-                )}
-                Assigner
-              </button>
-            </div>
+          <div className="px-5 py-3 border-b border-slate-100 bg-slate-50/50 flex flex-wrap items-center gap-3">
+            <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+              <Send className="w-3 h-3" />
+              Assigner {selectedIds.size > 0 ? `(${selectedIds.size})` : ''} a :
+            </span>
+            <select
+              value={selectedFixer}
+              onChange={e => setSelectedFixer(e.target.value)}
+              className="flex-1 min-w-[200px] px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+            >
+              <option value="">-- Choisir un fixer --</option>
+              {fixers.map(f => (
+                <option key={f.id} value={f.id}>
+                  {f.full_name || f.email} ({f.email})
+                </option>
+              ))}
+            </select>
+            <button
+              onClick={handleDispatch}
+              disabled={!selectedFixer || selectedIds.size === 0 || dispatching}
+              className="flex items-center gap-1.5 px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              {dispatching ? (
+                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+              ) : (
+                <Send className="w-3.5 h-3.5" />
+              )}
+              Assigner
+            </button>
           </div>
 
-          <div className="border border-slate-200 rounded-xl overflow-hidden">
-            <div className="max-h-[600px] overflow-y-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-50 border-b border-slate-200 sticky top-0 z-10">
-                  <tr>
-                    <th className="px-4 py-3 text-left w-10">
-                      <button onClick={toggleSelectAll} className="text-slate-500 hover:text-orange-600">
-                        {selectedIds.size === filtered.length && filtered.length > 0 ? (
-                          <CheckSquare className="w-5 h-5 text-orange-600" />
-                        ) : (
-                          <Square className="w-5 h-5" />
-                        )}
-                      </button>
-                    </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700">Raison sociale</th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700">Activite</th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700">Ville</th>
-                    <th className="px-4 py-3 text-center font-semibold text-slate-700">Contacts</th>
-                    <th className="px-4 py-3 text-center font-semibold text-slate-700">Tels</th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700">Statut</th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700">Assigne a</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {filtered.map(c => (
-                    <tr
-                      key={c.id}
-                      className={`hover:bg-slate-50 transition-colors cursor-pointer ${
-                        selectedIds.has(c.id) ? 'bg-orange-50' : ''
-                      }`}
-                      onClick={() => toggleSelect(c.id)}
-                    >
-                      <td className="px-4 py-3">
-                        {selectedIds.has(c.id) ? (
-                          <CheckSquare className="w-5 h-5 text-orange-600" />
-                        ) : (
-                          <Square className="w-5 h-5 text-slate-300" />
-                        )}
-                      </td>
-                      <td className="px-4 py-3 font-medium text-slate-900">{c.raison_social}</td>
-                      <td className="px-4 py-3 text-slate-600">{c.activite || '-'}</td>
-                      <td className="px-4 py-3 text-slate-600">
+          <div className="max-h-[600px] overflow-y-auto">
+            <table className="w-full">
+              <thead className="sticky top-0 z-10 bg-white">
+                <tr className="border-b border-slate-200">
+                  <th className="px-4 py-2.5 text-left w-10">
+                    <button onClick={toggleSelectAll} className="text-slate-400 hover:text-blue-600 transition-colors">
+                      {selectedIds.size === filtered.length && filtered.length > 0 ? (
+                        <CheckSquare className="w-4 h-4 text-blue-600" />
+                      ) : (
+                        <Square className="w-4 h-4" />
+                      )}
+                    </button>
+                  </th>
+                  <th className="px-4 py-2.5 text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Raison sociale</th>
+                  <th className="px-4 py-2.5 text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Activite</th>
+                  <th className="px-4 py-2.5 text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Ville</th>
+                  <th className="px-4 py-2.5 text-center text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Contacts</th>
+                  <th className="px-4 py-2.5 text-center text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Tels</th>
+                  <th className="px-4 py-2.5 text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Statut</th>
+                  <th className="px-4 py-2.5 text-left text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Assigne a</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map(c => (
+                  <tr
+                    key={c.id}
+                    className={`border-b border-slate-100 hover:bg-blue-50/40 transition-colors cursor-pointer ${
+                      selectedIds.has(c.id) ? 'bg-blue-50/60' : ''
+                    }`}
+                    onClick={() => toggleSelect(c.id)}
+                  >
+                    <td className="px-4 py-3">
+                      {selectedIds.has(c.id) ? (
+                        <CheckSquare className="w-4 h-4 text-blue-600" />
+                      ) : (
+                        <Square className="w-4 h-4 text-slate-300" />
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-sm font-semibold text-slate-900">{c.raison_social}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs text-slate-600">{c.activite || '--'}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs text-slate-600">
                         {c.city}{c.postal_code ? ` (${c.postal_code})` : ''}
-                        {!c.city && '-'}
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-full text-xs font-medium">
-                          <Users className="w-3 h-3" />
-                          {c.contact_count}
+                        {!c.city && '--'}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-slate-100 text-slate-700 rounded-md text-[11px] font-medium">
+                        <Users className="w-3 h-3" />
+                        {c.contact_count}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-center">
+                      <span className="text-[11px] text-slate-500">{c.phone_count}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      {c.dispatch_status === 'unassigned' ? (
+                        <span className="px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md text-[11px] font-medium">
+                          Non assigne
                         </span>
-                      </td>
-                      <td className="px-4 py-3 text-center">
-                        <span className="text-xs text-slate-500">{c.phone_count}</span>
-                      </td>
-                      <td className="px-4 py-3">
-                        {c.dispatch_status === 'unassigned' ? (
-                          <span className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-medium">
-                            Non assigne
-                          </span>
-                        ) : (
-                          <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-                            Assigne
-                          </span>
-                        )}
-                      </td>
-                      <td className="px-4 py-3 text-slate-600 text-xs">
-                        {c.assigned_fixer_email || '-'}
-                      </td>
-                    </tr>
-                  ))}
-                  {filtered.length === 0 && (
-                    <tr>
-                      <td colSpan={8} className="px-6 py-12 text-center text-slate-500">
-                        Aucune entreprise trouvee
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                      ) : (
+                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md text-[11px] font-medium">
+                          Assigne
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-[11px] text-slate-500">{c.assigned_fixer_email || '--'}</span>
+                    </td>
+                  </tr>
+                ))}
+                {filtered.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="px-6 py-12 text-center">
+                      <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center mx-auto mb-2">
+                        <Building2 className="w-5 h-5 text-slate-400" />
+                      </div>
+                      <p className="text-xs text-slate-500">Aucune entreprise trouvee</p>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
 
-          <div className="mt-3 text-sm text-slate-500">
-            {filtered.length} entreprise(s) affichee(s) - {selectedIds.size} selectionnee(s)
+          <div className="px-5 py-2.5 border-t border-slate-100 bg-slate-50/50">
+            <span className="text-[11px] text-slate-500">
+              {filtered.length} entreprise(s) affichee(s) &middot; {selectedIds.size} selectionnee(s)
+            </span>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ icon, iconBg, value, label, valueColor }: {
+  icon: React.ReactNode;
+  iconBg: string;
+  value: number;
+  label: string;
+  valueColor?: string;
+}) {
+  return (
+    <div className="bg-white rounded-xl border border-slate-200/80 p-4 flex items-center gap-3">
+      <div className={`w-9 h-9 rounded-lg ${iconBg} flex items-center justify-center`}>
+        {icon}
+      </div>
+      <div>
+        <p className={`text-xl font-bold tracking-tight ${valueColor || 'text-slate-900'}`}>{value}</p>
+        <p className="text-[11px] text-slate-500 font-medium">{label}</p>
       </div>
     </div>
   );
