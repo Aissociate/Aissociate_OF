@@ -260,3 +260,53 @@ export const CONTACT_STATUSES = [
   { value: 'prospect', label: 'Prospect' },
   { value: 'client', label: 'Client' },
 ];
+
+export interface CrmCompany {
+  id: string;
+  raison_social: string;
+  activite: string;
+  adresse: string;
+  city: string;
+  postal_code: string;
+  description: string;
+  commentaires: string;
+  imported_by: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CrmContact {
+  id: string;
+  company_id: string;
+  nom: string;
+  prenom: string;
+  email: string;
+  commentaires: string;
+  created_at: string;
+}
+
+export interface CrmPhone {
+  id: string;
+  contact_id: string;
+  phone_number: string;
+  label: string;
+  created_at: string;
+}
+
+export const CRM_FIELD_DEFINITIONS = [
+  { key: 'raison_social', label: 'Raison sociale', group: 'company', required: true },
+  { key: 'activite', label: 'Activite', group: 'company', required: false },
+  { key: 'adresse', label: 'Adresse', group: 'company', required: false },
+  { key: 'city', label: 'Ville', group: 'company', required: false },
+  { key: 'postal_code', label: 'Code postal', group: 'company', required: false },
+  { key: 'description', label: 'Description', group: 'company', required: false },
+  { key: 'commentaires', label: 'Commentaires', group: 'company', required: false },
+  { key: 'nom', label: 'Nom', group: 'contact', required: true },
+  { key: 'prenom', label: 'Prenom', group: 'contact', required: false },
+  { key: 'tel_0', label: 'Telephone 1', group: 'phone', required: false },
+  { key: 'tel_1', label: 'Telephone 2', group: 'phone', required: false },
+  { key: 'tel_2', label: 'Telephone 3', group: 'phone', required: false },
+  { key: 'tel_3', label: 'Telephone 4', group: 'phone', required: false },
+] as const;
+
+export type CrmFieldKey = typeof CRM_FIELD_DEFINITIONS[number]['key'];

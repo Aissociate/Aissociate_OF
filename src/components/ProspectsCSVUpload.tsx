@@ -1,60 +1,54 @@
 import { useState } from 'react';
 import { supabase } from '../lib/supabase';
-import { Upload, CheckCircle2, AlertCircle, X, Download } from 'lucide-react';
+import { Upload, CheckCircle2, AlertCircle, X, Download, FileSpreadsheet, Loader2 } from 'lucide-react';
+import CSVColumnMapper, { autoMatchColumns } from './csv/CSVColumnMapper';
+import CSVPreviewTable, { buildCompanyRows, ParsedCompanyRow } from './csv/CSVPreviewTable';
+import { CrmFieldKey } from '../types/dossiers';
 
-interface CSVRow {
-  prenom: string;
-  nom: string;
-  email: string;
-  telephone: string;
-  commentaire?: string;
-}
+type WizardStep = 'upload' | 'mapping' | 'preview' | 'importing' | 'done';
 
 interface ProspectsCSVUploadProps {
   onSuccess?: () => void;
 }
 
+function parseCSVRaw(text: string): { headers: string[]; rows: string[][] } {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) {
+    throw new Error('Le fichier CSV doit contenir au moins une ligne d\'en-tete et une ligne de donnees');
+  }
+
+  const separator = lines[0].includes('\t') ? '\t' : lines[0].includes(';') ? ';' : ',';
+  const headers = lines[0].split(separator).map(h => h.trim().replace(/^["']|["']$/g, ''));
+
+  const rows: string[][] = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    const values = lines[i].split(separator).map(v => v.trim().replace(/^["']|["']$/g, ''));
+    rows.push(values);
+  }
+
+  return { headers, rows };
+}
+
 export default function ProspectsCSVUpload({ onSuccess }: ProspectsCSVUploadProps) {
-  const [uploading, setUploading] = useState(false);
+  const [step, setStep] = useState<WizardStep>('upload');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [previewData, setPreviewData] = useState<CSVRow[]>([]);
-  const [showPreview, setShowPreview] = useState(false);
+  const [csvHeaders, setCsvHeaders] = useState<string[]>([]);
+  const [csvRows, setCsvRows] = useState<string[][]>([]);
+  const [mapping, setMapping] = useState<Record<string, CrmFieldKey | ''>>({});
+  const [companies, setCompanies] = useState<ParsedCompanyRow[]>([]);
+  const [importProgress, setImportProgress] = useState({ current: 0, total: 0 });
 
-  const parseCSV = (text: string): CSVRow[] => {
-    const lines = text.trim().split('\n');
-    if (lines.length < 2) {
-      throw new Error('Le fichier CSV doit contenir au moins une ligne d\'en-tête et une ligne de données');
-    }
-
-    const headers = lines[0].split(/[,;]/).map(h => h.trim().toLowerCase());
-
-    const prenomIndex = headers.findIndex(h => h.includes('prenom') || h.includes('prénom') || h === 'firstname' || h === 'first_name');
-    const nomIndex = headers.findIndex(h => h.includes('nom') && !h.includes('prenom') || h === 'lastname' || h === 'last_name');
-    const emailIndex = headers.findIndex(h => h.includes('email') || h.includes('mail'));
-    const phoneIndex = headers.findIndex(h => h.includes('tel') || h.includes('phone') || h.includes('mobile'));
-    const commentIndex = headers.findIndex(h => h.includes('comment') || h.includes('note') || h.includes('remarque'));
-
-    if (prenomIndex === -1 || nomIndex === -1 || emailIndex === -1 || phoneIndex === -1) {
-      throw new Error('Le CSV doit contenir les colonnes: prénom, nom, email, téléphone');
-    }
-
-    const rows: CSVRow[] = [];
-    for (let i = 1; i < lines.length; i++) {
-      if (!lines[i].trim()) continue;
-
-      const values = lines[i].split(/[,;]/).map(v => v.trim());
-
-      rows.push({
-        prenom: values[prenomIndex] || '',
-        nom: values[nomIndex] || '',
-        email: values[emailIndex] || '',
-        telephone: values[phoneIndex] || '',
-        commentaire: commentIndex !== -1 ? values[commentIndex] : '',
-      });
-    }
-
-    return rows;
+  const reset = () => {
+    setStep('upload');
+    setError(null);
+    setSuccess(null);
+    setCsvHeaders([]);
+    setCsvRows([]);
+    setMapping({});
+    setCompanies([]);
+    setImportProgress({ current: 0, total: 0 });
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,76 +57,180 @@ export default function ProspectsCSVUpload({ onSuccess }: ProspectsCSVUploadProp
 
     setError(null);
     setSuccess(null);
-    setShowPreview(false);
 
     try {
       const text = await file.text();
-      const data = parseCSV(text);
-      setPreviewData(data);
-      setShowPreview(true);
+      const { headers, rows } = parseCSVRaw(text);
+
+      if (rows.length === 0) {
+        throw new Error('Le fichier ne contient aucune donnee');
+      }
+
+      setCsvHeaders(headers);
+      setCsvRows(rows);
+
+      const autoMapping = autoMatchColumns(headers);
+      setMapping(autoMapping);
+      setStep('mapping');
     } catch (err: any) {
       setError(err.message || 'Erreur lors de la lecture du fichier');
     }
   };
 
-  const handleUpload = async () => {
-    if (previewData.length === 0) return;
+  const handleMappingConfirm = () => {
+    try {
+      const result = buildCompanyRows(csvRows, csvHeaders, mapping);
+      if (result.length === 0) {
+        setError('Aucune entreprise detectee. Verifiez le mapping de la colonne "Raison sociale".');
+        return;
+      }
+      setCompanies(result);
+      setError(null);
+      setStep('preview');
+    } catch (err: any) {
+      setError(err.message || 'Erreur lors de la preparation des donnees');
+    }
+  };
 
-    setUploading(true);
+  const handleImport = async () => {
+    setStep('importing');
     setError(null);
-    setSuccess(null);
+    setImportProgress({ current: 0, total: companies.length });
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Non authentifié');
+      if (!user) throw new Error('Non authentifie');
 
-      const prospectsToInsert = previewData.map(row => ({
-        first_name: row.prenom,
-        last_name: row.nom,
-        email: row.email,
-        phone: row.telephone,
-        comment: row.commentaire || null,
-        imported_by: user.id,
-      }));
+      let importedCompanies = 0;
+      let importedContacts = 0;
+      let importedPhones = 0;
 
-      const { error: insertError } = await supabase
-        .from('prospects')
-        .insert(prospectsToInsert);
+      for (let i = 0; i < companies.length; i++) {
+        const company = companies[i];
+        setImportProgress({ current: i + 1, total: companies.length });
 
-      if (insertError) throw insertError;
+        const { data: companyData, error: companyError } = await supabase
+          .from('crm_companies')
+          .insert({
+            raison_social: company.raison_social,
+            activite: company.activite,
+            adresse: company.adresse,
+            city: company.city,
+            postal_code: company.postal_code,
+            description: company.description,
+            commentaires: company.commentaires,
+            imported_by: user.id,
+          })
+          .select('id')
+          .maybeSingle();
 
-      setSuccess(`${previewData.length} prospect(s) importé(s) avec succès`);
-      setPreviewData([]);
-      setShowPreview(false);
+        if (companyError) throw companyError;
+        if (!companyData) continue;
 
+        importedCompanies++;
+
+        for (const contact of company.contacts) {
+          const { data: contactData, error: contactError } = await supabase
+            .from('crm_contacts')
+            .insert({
+              company_id: companyData.id,
+              nom: contact.nom,
+              prenom: contact.prenom,
+            })
+            .select('id')
+            .maybeSingle();
+
+          if (contactError) throw contactError;
+          if (!contactData) continue;
+
+          importedContacts++;
+
+          if (contact.phones.length > 0) {
+            const phonesToInsert = contact.phones.map((phone, idx) => ({
+              contact_id: contactData.id,
+              phone_number: phone,
+              label: idx === 0 ? 'principal' : `tel_${idx + 1}`,
+            }));
+
+            const { error: phoneError } = await supabase
+              .from('crm_phones')
+              .insert(phonesToInsert);
+
+            if (phoneError) throw phoneError;
+            importedPhones += phonesToInsert.length;
+          }
+        }
+      }
+
+      setSuccess(
+        `Import termine : ${importedCompanies} entreprise(s), ${importedContacts} contact(s), ${importedPhones} telephone(s)`
+      );
+      setStep('done');
       if (onSuccess) onSuccess();
     } catch (err: any) {
       setError(err.message || 'Erreur lors de l\'import');
-    } finally {
-      setUploading(false);
+      setStep('preview');
     }
   };
 
   const downloadTemplate = () => {
-    const csvContent = 'prenom,nom,email,telephone,commentaire\nJean,Dupont,jean.dupont@example.com,0692123456,Prospect intéressé par la formation IA\nMarie,Martin,marie.martin@example.com,0693234567,A contacter en priorité';
+    const csvContent =
+      'activite;adresse;city;description;postal_code;raison_social;tel/0;tel/1;tel/2;tel/3;commentaires;nom;prenom\n' +
+      'Formation;12 rue de Paris;Paris;Organisme de formation;75001;FormaPro SAS;0612345678;0698765432;;;Prospect chaud;Dupont;Jean\n' +
+      'Formation;12 rue de Paris;Paris;Organisme de formation;75001;FormaPro SAS;0611223344;;;;Martin;Marie\n' +
+      'Consulting;5 av des Champs;Lyon;Cabinet conseil;69001;Conseil Plus;0678901234;;;0478123456;A recontacter;Bernard;Pierre';
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'template_prospects.csv';
+    link.download = 'template_import_crm.csv';
     link.click();
   };
 
   return (
     <div className="bg-white rounded-xl shadow-md p-6">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-bold text-slate-900">Import CSV de prospects</h2>
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">Import CSV - CRM Entreprises</h2>
+          <p className="text-sm text-slate-500 mt-1">
+            Importez des entreprises avec leurs contacts et telephones
+          </p>
+        </div>
         <button
           onClick={downloadTemplate}
           className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-sm"
         >
           <Download className="w-4 h-4" />
-          Télécharger le modèle
+          Modele CSV
         </button>
+      </div>
+
+      <div className="flex items-center gap-2 mb-6">
+        {(['upload', 'mapping', 'preview'] as const).map((s, idx) => {
+          const labels = ['Fichier', 'Colonnes', 'Apercu'];
+          const isActive = step === s || (step === 'importing' && s === 'preview') || (step === 'done' && s === 'preview');
+          const isPast =
+            (s === 'upload' && step !== 'upload') ||
+            (s === 'mapping' && ['preview', 'importing', 'done'].includes(step)) ||
+            (s === 'preview' && step === 'done');
+
+          return (
+            <div key={s} className="flex items-center gap-2">
+              {idx > 0 && <div className={`w-8 h-0.5 ${isPast ? 'bg-orange-400' : 'bg-slate-200'}`} />}
+              <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                isActive ? 'bg-orange-100 text-orange-700' :
+                isPast ? 'bg-green-100 text-green-700' :
+                'bg-slate-100 text-slate-500'
+              }`}>
+                {isPast ? (
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                ) : (
+                  <span className="w-4 h-4 rounded-full bg-current/10 flex items-center justify-center text-[10px]">{idx + 1}</span>
+                )}
+                {labels[idx]}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       {error && (
@@ -152,103 +250,109 @@ export default function ProspectsCSVUpload({ onSuccess }: ProspectsCSVUploadProp
         <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg flex items-start gap-3">
           <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="text-green-800 font-medium">Succès</p>
+            <p className="text-green-800 font-medium">Succes</p>
             <p className="text-green-700 text-sm">{success}</p>
           </div>
-          <button onClick={() => setSuccess(null)} className="text-green-400 hover:text-green-600">
-            <X className="w-4 h-4" />
-          </button>
         </div>
       )}
 
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-slate-700 mb-2">
-          Sélectionner un fichier CSV
-        </label>
-        <div className="relative">
-          <input
-            type="file"
-            accept=".csv"
-            onChange={handleFileChange}
-            disabled={uploading}
-            className="block w-full text-sm text-slate-500
-              file:mr-4 file:py-2 file:px-4
-              file:rounded-lg file:border-0
-              file:text-sm file:font-semibold
-              file:bg-orange-50 file:text-orange-700
-              hover:file:bg-orange-100
-              disabled:opacity-50 disabled:cursor-not-allowed"
-          />
+      {step === 'upload' && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-700 font-bold text-sm">1</div>
+            <h3 className="text-lg font-bold text-slate-900">Selectionner un fichier</h3>
+          </div>
+
+          <label className="block border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-orange-400 hover:bg-orange-50/30 transition-all group">
+            <input
+              type="file"
+              accept=".csv,.tsv,.txt"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <FileSpreadsheet className="w-12 h-12 text-slate-300 mx-auto mb-3 group-hover:text-orange-400 transition-colors" />
+            <p className="text-slate-700 font-medium">Cliquez ou glissez un fichier CSV</p>
+            <p className="text-xs text-slate-400 mt-1">Separateurs acceptes : virgule, point-virgule, tabulation</p>
+          </label>
+
+          <div className="bg-slate-50 rounded-lg p-4">
+            <p className="text-sm font-medium text-slate-700 mb-2">Colonnes attendues :</p>
+            <div className="flex flex-wrap gap-1.5">
+              {['activite', 'adresse', 'city', 'description', 'postal_code', 'raison_social', 'tel/0', 'tel/1', 'tel/2', 'tel/3', 'commentaires', 'nom', 'prenom'].map(col => (
+                <code key={col} className="text-xs bg-white border border-slate-200 px-2 py-1 rounded text-slate-600">
+                  {col}
+                </code>
+              ))}
+            </div>
+            <p className="text-xs text-slate-400 mt-2">
+              Plusieurs lignes avec la meme raison sociale seront regroupees en une seule entreprise avec plusieurs contacts.
+            </p>
+          </div>
         </div>
-        <p className="mt-2 text-xs text-slate-500">
-          Le CSV doit contenir les colonnes : prénom, nom, email, téléphone, commentaire (optionnel)
-        </p>
-      </div>
+      )}
 
-      {showPreview && previewData.length > 0 && (
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold text-slate-900 mb-3">
-            Aperçu ({previewData.length} ligne{previewData.length > 1 ? 's' : ''})
-          </h3>
-          <div className="overflow-x-auto border border-slate-200 rounded-lg max-h-96">
-            <table className="w-full text-sm">
-              <thead className="bg-slate-50 border-b border-slate-200">
-                <tr>
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Prénom</th>
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Nom</th>
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Email</th>
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Téléphone</th>
-                  <th className="px-4 py-2 text-left font-semibold text-slate-700">Commentaire</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-200">
-                {previewData.slice(0, 10).map((row, index) => (
-                  <tr key={index} className="hover:bg-slate-50">
-                    <td className="px-4 py-2 text-slate-900">{row.prenom}</td>
-                    <td className="px-4 py-2 text-slate-900">{row.nom}</td>
-                    <td className="px-4 py-2 text-slate-600">{row.email}</td>
-                    <td className="px-4 py-2 text-slate-600">{row.telephone}</td>
-                    <td className="px-4 py-2 text-slate-500">{row.commentaire || '-'}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {previewData.length > 10 && (
-              <div className="p-2 bg-slate-50 text-center text-xs text-slate-500">
-                ... et {previewData.length - 10} ligne(s) de plus
-              </div>
-            )}
-          </div>
+      {step === 'mapping' && (
+        <CSVColumnMapper
+          csvHeaders={csvHeaders}
+          mapping={mapping}
+          onMappingChange={setMapping}
+          onConfirm={handleMappingConfirm}
+          onBack={reset}
+        />
+      )}
 
-          <div className="flex gap-3 mt-4">
+      {step === 'preview' && (
+        <div className="space-y-4">
+          <CSVPreviewTable companies={companies} totalRawRows={csvRows.length} />
+
+          <div className="flex gap-3 pt-2">
             <button
-              onClick={() => {
-                setShowPreview(false);
-                setPreviewData([]);
-              }}
-              disabled={uploading}
-              className="px-6 py-2 border-2 border-slate-300 hover:border-slate-400 text-slate-700 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setStep('mapping')}
+              className="px-6 py-2.5 border-2 border-slate-300 hover:border-slate-400 text-slate-700 rounded-lg font-medium transition-colors"
             >
-              Annuler
+              Modifier le mapping
             </button>
             <button
-              onClick={handleUpload}
-              disabled={uploading}
-              className="flex-1 flex items-center justify-center gap-2 px-6 py-2 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-lg font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={handleImport}
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-lg font-semibold transition-colors"
             >
-              {uploading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Import en cours...
-                </>
-              ) : (
-                <>
-                  <Upload className="w-5 h-5" />
-                  Importer {previewData.length} prospect{previewData.length > 1 ? 's' : ''}
-                </>
-              )}
+              <Upload className="w-5 h-5" />
+              Importer {companies.length} entreprise{companies.length > 1 ? 's' : ''}
             </button>
           </div>
+        </div>
+      )}
+
+      {step === 'importing' && (
+        <div className="py-12 text-center space-y-4">
+          <Loader2 className="w-10 h-10 animate-spin text-orange-600 mx-auto" />
+          <p className="text-slate-700 font-medium">Import en cours...</p>
+          <div className="max-w-xs mx-auto">
+            <div className="w-full bg-slate-200 rounded-full h-2">
+              <div
+                className="bg-gradient-to-r from-orange-500 to-amber-500 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${importProgress.total > 0 ? (importProgress.current / importProgress.total) * 100 : 0}%` }}
+              />
+            </div>
+            <p className="text-xs text-slate-500 mt-2">
+              {importProgress.current} / {importProgress.total} entreprises traitees
+            </p>
+          </div>
+        </div>
+      )}
+
+      {step === 'done' && (
+        <div className="py-8 text-center space-y-4">
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+            <CheckCircle2 className="w-8 h-8 text-green-600" />
+          </div>
+          <p className="text-slate-900 font-semibold text-lg">Import termine avec succes</p>
+          <button
+            onClick={reset}
+            className="px-6 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-medium transition-colors"
+          >
+            Nouvel import
+          </button>
         </div>
       )}
     </div>
