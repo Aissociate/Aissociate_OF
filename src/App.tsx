@@ -45,12 +45,15 @@ import QualiopiSessionDetail from './pages/QualiopiSessionDetail';
 import QualiopiLogs from './pages/QualiopiLogs';
 import QualiopiSecretsCheck from './pages/QualiopiSecretsCheck';
 import QuestionnairePublic from './pages/QuestionnairePublic';
+import AdminRoleSelector from './pages/AdminRoleSelector';
+import AdminRoleSwitcher from './components/AdminRoleSwitcher';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <AdminFloatingButton />
+        <AdminRoleSwitcher />
         <Routes>
           <Route path="/" element={<OrganismHome />} />
           <Route path="/formations" element={<FormationsList />} />
@@ -223,6 +226,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ScriptCloserCPF />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/select-role"
+            element={
+              <ProtectedRoute>
+                <AdminRoleSelector />
               </ProtectedRoute>
             }
           />

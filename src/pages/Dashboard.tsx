@@ -28,8 +28,8 @@ export default function Dashboard() {
     }
 
     if (profile?.is_admin) {
-      console.log('➡️ Admin user, redirecting to admin dashboard');
-      navigate('/admin', { replace: true });
+      console.log('➡️ Admin user, redirecting to role selector');
+      navigate('/admin/select-role', { replace: true });
       return;
     }
 

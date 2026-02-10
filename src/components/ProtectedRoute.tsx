@@ -28,7 +28,7 @@ export default function ProtectedRoute({ children, requireStatus }: ProtectedRou
     return <Navigate to="/login" replace />;
   }
 
-  if (requireStatus && profile && !requireStatus.includes(profile.status)) {
+  if (requireStatus && profile && !requireStatus.includes(profile.status) && !profile.is_admin) {
     console.log('🛡️ Status mismatch, redirecting to dashboard. Required:', requireStatus, 'Current:', profile.status);
     return <Navigate to="/dashboard" replace />;
   }

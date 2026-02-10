@@ -2,12 +2,16 @@ import { createContext, useContext, useEffect, useState, ReactNode } from 'react
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '../lib/supabase';
 
+type AdminViewRole = 'admin' | 'fixer' | 'closer' | null;
+
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   profile: Profile | null;
   loading: boolean;
   adminMode: boolean;
+  adminViewRole: AdminViewRole;
+  setAdminViewRole: (role: AdminViewRole) => void;
   toggleAdminMode: () => void;
   signUp: (email: string, password: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
@@ -23,6 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [adminMode, setAdminMode] = useState(false);
+  const [adminViewRole, setAdminViewRole] = useState<AdminViewRole>(null);
 
   const toggleAdminMode = () => {
     setAdminMode(!adminMode);
@@ -170,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     await supabase.auth.signOut();
     setProfile(null);
+    setAdminViewRole(null);
   };
 
   return (
@@ -179,6 +185,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       profile,
       loading,
       adminMode,
+      adminViewRole,
+      setAdminViewRole,
       toggleAdminMode,
       signUp,
       signIn,
