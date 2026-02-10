@@ -13,6 +13,7 @@ import BlogArticle from './pages/BlogArticle';
 import Contact from './pages/Contact';
 import Formulaire from './pages/Formulaire';
 import Login from './pages/Login';
+import ResetPassword from './pages/ResetPassword';
 import Dashboard from './pages/Dashboard';
 import ApplicationForm from './pages/ApplicationForm';
 import Quiz from './pages/Quiz';
@@ -66,6 +67,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/formulaire" element={<Formulaire />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/create-admin" element={<CreateAdmin />} />
 
           <Route
