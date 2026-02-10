@@ -15,7 +15,8 @@ import {
   LogOut,
   BookOpen,
   Search,
-  Wallet
+  Wallet,
+  Send
 } from 'lucide-react';
 import AdminLogo from '../components/AdminLogo';
 import CommercialPerformanceReport from '../components/CommercialPerformanceReport';
@@ -302,6 +303,13 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex gap-3">
+            <button
+              onClick={() => navigate('/admin/dispatch')}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors font-semibold"
+            >
+              <Send className="w-4 h-4" />
+              Dispatch Prospects
+            </button>
             <button
               onClick={() => navigate('/admin/prospects')}
               className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-semibold"

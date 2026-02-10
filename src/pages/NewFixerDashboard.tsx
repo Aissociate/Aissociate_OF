@@ -8,6 +8,7 @@ import DossierForm from '../components/dossiers/DossierForm';
 import DossierList from '../components/dossiers/DossierList';
 import FixerKPIWidget from '../components/dossiers/FixerKPIWidget';
 import FixerConsolidatedKPIs from '../components/FixerConsolidatedKPIs';
+import ProspectCardNavigator from '../components/dossiers/ProspectCardNavigator';
 import { Dossier, Bonus } from '../types/dossiers';
 import { calculateFixerKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
@@ -249,6 +250,10 @@ export default function NewFixerDashboard() {
 
         <div className="mb-6">
           <FixerConsolidatedKPIs profileId={profile?.id || ''} />
+        </div>
+
+        <div className="mb-6">
+          <ProspectCardNavigator fixerId={profile?.id || ''} />
         </div>
 
         <div className="bg-white rounded-2xl shadow-xl p-8">

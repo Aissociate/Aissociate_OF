@@ -48,6 +48,7 @@ import QualiopiSecretsCheck from './pages/QualiopiSecretsCheck';
 import QuestionnairePublic from './pages/QuestionnairePublic';
 import AdminRoleSelector from './pages/AdminRoleSelector';
 import AdminRoleSwitcher from './components/AdminRoleSwitcher';
+import AdminDispatch from './pages/AdminDispatch';
 
 function App() {
   return (
@@ -273,6 +274,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdminFinancingTracker />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/dispatch"
+            element={
+              <ProtectedRoute>
+                <AdminDispatch />
               </ProtectedRoute>
             }
           />
