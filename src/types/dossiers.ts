@@ -301,7 +301,7 @@ export const CRM_FIELD_DEFINITIONS = [
   { key: 'postal_code', label: 'Code postal', group: 'company', required: false },
   { key: 'description', label: 'Description', group: 'company', required: false },
   { key: 'commentaires', label: 'Commentaires', group: 'company', required: false },
-  { key: 'nom', label: 'Nom', group: 'contact', required: true },
+  { key: 'nom', label: 'Nom', group: 'contact', required: false },
   { key: 'prenom', label: 'Prenom', group: 'contact', required: false },
   { key: 'tel_0', label: 'Telephone 1', group: 'phone', required: false },
   { key: 'tel_1', label: 'Telephone 2', group: 'phone', required: false },
