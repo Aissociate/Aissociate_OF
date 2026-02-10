@@ -24,21 +24,25 @@ export default function NewCloserDashboard() {
   const [kpiPeriod, setKpiPeriod] = useState<'all' | 'day' | 'week' | 'month'>('all');
   const [bonus, setBonus] = useState<Bonus | null>(null);
 
+  const isAdminViewing = profile?.is_admin;
+
   useEffect(() => {
     if (!profile) return;
 
-    if (profile.status !== 'active') {
-      navigate('/dashboard');
-      return;
-    }
-
-    if (profile.role !== 'closer') {
-      if (profile.role === 'fixer') {
-        navigate('/onboarding/dashboard/fixer', { replace: true });
-      } else {
-        navigate('/dashboard', { replace: true });
+    if (!isAdminViewing) {
+      if (profile.status !== 'active') {
+        navigate('/dashboard');
+        return;
       }
-      return;
+
+      if (profile.role !== 'closer') {
+        if (profile.role === 'fixer') {
+          navigate('/onboarding/dashboard/fixer', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
+        return;
+      }
     }
 
     loadData();

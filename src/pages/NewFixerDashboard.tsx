@@ -25,21 +25,25 @@ export default function NewFixerDashboard() {
   const [filterNextAction, setFilterNextAction] = useState<'all' | 'today' | 'upcoming' | 'overdue'>('all');
   const [bonus, setBonus] = useState<Bonus | null>(null);
 
+  const isAdminViewing = profile?.is_admin;
+
   useEffect(() => {
     if (!profile) return;
 
-    if (profile.status !== 'active') {
-      navigate('/dashboard');
-      return;
-    }
-
-    if (profile.role !== 'fixer') {
-      if (profile.role === 'closer') {
-        navigate('/onboarding/dashboard/closer', { replace: true });
-      } else {
-        navigate('/dashboard', { replace: true });
+    if (!isAdminViewing) {
+      if (profile.status !== 'active') {
+        navigate('/dashboard');
+        return;
       }
-      return;
+
+      if (profile.role !== 'fixer') {
+        if (profile.role === 'closer') {
+          navigate('/onboarding/dashboard/closer', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
+        return;
+      }
     }
 
     loadData();
