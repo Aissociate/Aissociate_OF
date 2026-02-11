@@ -11,10 +11,11 @@ import AdminLogo from '../components/AdminLogo';
 import CloserDossierForm from '../components/dossiers/CloserDossierForm';
 import CreateDossierForm from '../components/dossiers/CreateDossierForm';
 import CloserKPIWidget from '../components/dossiers/CloserKPIWidget';
+import EmailSection from '../components/emails/EmailSection';
 import { Dossier, Bonus, getStatusLabel, getStatusColor, getFullName } from '../types/dossiers';
 import { calculateCloserKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
-type TabKey = 'rdv' | 'dossiers';
+type TabKey = 'rdv' | 'dossiers' | 'emails';
 
 export default function NewCloserDashboard() {
   const navigate = useNavigate();
@@ -133,6 +134,7 @@ export default function NewCloserDashboard() {
 
   const tabs: { key: TabKey; label: string; count?: number }[] = [
     { key: 'rdv', label: 'RDV a venir', count: upcomingRDVs.length },
+    { key: 'emails', label: 'Emails' },
     { key: 'dossiers', label: 'Dossiers traites', count: completedDossiers.length },
   ];
 
@@ -295,6 +297,10 @@ export default function NewCloserDashboard() {
               </div>
             )}
           </div>
+        )}
+
+        {activeTab === 'emails' && (
+          <EmailSection userId={profile?.id || ''} userRole={profile?.role || 'closer'} />
         )}
 
         {activeTab === 'dossiers' && (

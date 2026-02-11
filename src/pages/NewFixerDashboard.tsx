@@ -2,17 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { Plus, Filter, LogOut, Calendar, BookOpen, LayoutGrid, List, Search } from 'lucide-react';
+import { Plus, Filter, LogOut, Calendar, BookOpen, LayoutGrid, List, Search, Mail } from 'lucide-react';
 import AdminLogo from '../components/AdminLogo';
 import DossierForm from '../components/dossiers/DossierForm';
 import DossierList from '../components/dossiers/DossierList';
 import FixerKPIWidget from '../components/dossiers/FixerKPIWidget';
 import FixerConsolidatedKPIs from '../components/FixerConsolidatedKPIs';
 import ProspectCardNavigator from '../components/dossiers/ProspectCardNavigator';
+import EmailSection from '../components/emails/EmailSection';
 import { Dossier, Bonus } from '../types/dossiers';
 import { calculateFixerKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
-type TabKey = 'prospects' | 'dossiers' | 'kpis';
+type TabKey = 'prospects' | 'dossiers' | 'emails' | 'kpis';
 
 export default function NewFixerDashboard() {
   const navigate = useNavigate();
@@ -185,6 +186,7 @@ export default function NewFixerDashboard() {
   const tabs: { key: TabKey; label: string; count?: number }[] = [
     { key: 'prospects', label: 'Prospects CRM' },
     { key: 'dossiers', label: 'Dossiers', count: dossiers.length },
+    { key: 'emails', label: 'Emails' },
     { key: 'kpis', label: 'KPIs detailles' },
   ];
 
@@ -262,6 +264,10 @@ export default function NewFixerDashboard() {
 
         {activeTab === 'prospects' && (
           <ProspectCardNavigator fixerId={profile?.id || ''} />
+        )}
+
+        {activeTab === 'emails' && (
+          <EmailSection userId={profile?.id || ''} userRole={profile?.role || 'fixer'} />
         )}
 
         {activeTab === 'kpis' && (
