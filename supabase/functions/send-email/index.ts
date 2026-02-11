@@ -68,9 +68,10 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    const DEFAULT_EMAIL = "sales@lemarchepublic.fr";
     const senderName = payload.from_name || "Le Marche Public";
-    const fromEmail = `${(profile?.role || "contact")}@lemarchepublic.fr`;
-    const replyToEmail = profile?.email || user.email || fromEmail;
+    const fromEmail = DEFAULT_EMAIL;
+    const replyToEmail = DEFAULT_EMAIL;
 
     const { data: emailRecord, error: insertError } = await adminClient
       .from("crm_sent_emails")
