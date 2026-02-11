@@ -70,6 +70,7 @@ Deno.serve(async (req: Request) => {
 
     const senderName = payload.from_name || profile?.full_name || "Le Marche Public";
     const fromEmail = `${(profile?.role || "contact")}@lemarchepublic.fr`;
+    const replyToEmail = profile?.email || user.email || fromEmail;
 
     const { data: emailRecord, error: insertError } = await adminClient
       .from("crm_sent_emails")
@@ -83,6 +84,7 @@ Deno.serve(async (req: Request) => {
         subject: payload.subject,
         body_html: payload.body_html,
         body_text: payload.body_text || "",
+        reply_to: replyToEmail,
         status: "queued",
         company_id: payload.company_id || null,
         contact_id: payload.contact_id || null,
@@ -124,6 +126,7 @@ Deno.serve(async (req: Request) => {
       body: JSON.stringify({
         from: `${senderName} <${fromEmail}>`,
         to: [payload.to_email],
+        reply_to: [replyToEmail],
         subject: payload.subject,
         html: htmlWithTracking,
         text: payload.body_text || "",

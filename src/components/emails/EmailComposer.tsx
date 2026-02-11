@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Send, X, FileText, ChevronDown, Loader2, AlertCircle } from 'lucide-react';
+import { Send, X, FileText, ChevronDown, Loader2, AlertCircle, Reply } from 'lucide-react';
 
 interface EmailTemplate {
   id: string;
@@ -36,6 +36,7 @@ export default function EmailComposer({
   const [subject, setSubject] = useState('');
   const [bodyHtml, setBodyHtml] = useState('');
   const [fromName, setFromName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
@@ -44,6 +45,7 @@ export default function EmailComposer({
 
   useEffect(() => {
     loadTemplates();
+    loadUserEmail();
   }, []);
 
   const loadTemplates = async () => {
@@ -52,6 +54,11 @@ export default function EmailComposer({
       .select('id, name, subject, body_html, body_text')
       .order('name');
     if (data) setTemplates(data);
+  };
+
+  const loadUserEmail = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user?.email) setUserEmail(user.email);
   };
 
   const applyTemplate = (tpl: EmailTemplate) => {
@@ -248,6 +255,15 @@ export default function EmailComposer({
             className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-mono focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-shadow resize-y"
           />
         </div>
+
+        {userEmail && (
+          <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 rounded-lg border border-slate-100">
+            <Reply className="w-3.5 h-3.5 text-slate-400 flex-shrink-0" />
+            <p className="text-[11px] text-slate-500">
+              Les reponses seront envoyees a <span className="font-medium text-slate-700">{userEmail}</span>
+            </p>
+          </div>
+        )}
 
         <div className="flex items-center justify-between pt-2">
           <p className="text-[11px] text-slate-400">
