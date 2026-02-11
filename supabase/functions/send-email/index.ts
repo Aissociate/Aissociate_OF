@@ -55,7 +55,7 @@ Deno.serve(async (req: Request) => {
 
     const { data: profile } = await adminClient
       .from("profiles")
-      .select("full_name, role, email")
+      .select("role, email")
       .eq("id", user.id)
       .maybeSingle();
 
@@ -68,7 +68,7 @@ Deno.serve(async (req: Request) => {
       );
     }
 
-    const senderName = payload.from_name || profile?.full_name || "Le Marche Public";
+    const senderName = payload.from_name || "Le Marche Public";
     const fromEmail = `${(profile?.role || "contact")}@lemarchepublic.fr`;
     const replyToEmail = profile?.email || user.email || fromEmail;
 
