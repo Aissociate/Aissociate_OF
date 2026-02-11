@@ -12,6 +12,7 @@ import CloserDossierForm from '../components/dossiers/CloserDossierForm';
 import CreateDossierForm from '../components/dossiers/CreateDossierForm';
 import CloserKPIWidget from '../components/dossiers/CloserKPIWidget';
 import EmailSection from '../components/emails/EmailSection';
+import EmailComposer from '../components/emails/EmailComposer';
 import { Dossier, Bonus, getStatusLabel, getStatusColor, getFullName } from '../types/dossiers';
 import { calculateCloserKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
@@ -31,6 +32,7 @@ export default function NewCloserDashboard() {
   const [kpiPeriod, setKpiPeriod] = useState<'all' | 'day' | 'week' | 'month'>('all');
   const [bonus, setBonus] = useState<Bonus | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('rdv');
+  const [emailTarget, setEmailTarget] = useState<Dossier | null>(null);
 
   const isAdminViewing = profile?.is_admin;
 
@@ -392,12 +394,23 @@ export default function NewCloserDashboard() {
                           <span className="text-xs text-slate-500">{formatDateShort(dossier.last_activity)}</span>
                         </td>
                         <td className="px-4 py-3.5 text-center">
-                          <button
-                            onClick={(e) => { e.stopPropagation(); setEditingDossier(dossier); setShowForm(true); }}
-                            className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors opacity-0 group-hover:opacity-100"
-                          >
-                            <Edit className="w-3.5 h-3.5" />
-                          </button>
+                          <div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {dossier.email && (
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setEmailTarget(dossier); }}
+                                className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                                title={`Envoyer un email a ${dossier.email}`}
+                              >
+                                <Mail className="w-3.5 h-3.5" />
+                              </button>
+                            )}
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setEditingDossier(dossier); setShowForm(true); }}
+                              className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                            >
+                              <Edit className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -423,6 +436,21 @@ export default function NewCloserDashboard() {
           onClose={() => setShowCreateForm(false)}
           onSuccess={() => { setShowCreateForm(false); loadData(); }}
         />
+      )}
+
+      {emailTarget && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <EmailComposer
+              userId={profile?.id || ''}
+              userRole={profile?.role || 'closer'}
+              prefillTo={emailTarget.email}
+              prefillName={`${emailTarget.contact_first_name} ${emailTarget.contact_last_name}`.trim()}
+              onSent={() => setEmailTarget(null)}
+              onClose={() => setEmailTarget(null)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

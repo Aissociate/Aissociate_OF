@@ -5,10 +5,11 @@ import { formatDate, formatDateTime } from '../../utils/kpiCalculations';
 interface DossierListProps {
   dossiers: Dossier[];
   onEdit: (dossier: Dossier) => void;
+  onEmail?: (dossier: Dossier) => void;
   role: 'fixer' | 'closer' | 'admin';
 }
 
-export default function DossierList({ dossiers, onEdit, role }: DossierListProps) {
+export default function DossierList({ dossiers, onEdit, onEmail, role }: DossierListProps) {
   if (dossiers.length === 0) {
     return (
       <div className="text-center py-16">
@@ -104,12 +105,23 @@ export default function DossierList({ dossiers, onEdit, role }: DossierListProps
                   )}
                 </td>
                 <td className="px-4 py-3.5 text-center">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); onEdit(dossier); }}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors opacity-0 group-hover:opacity-100"
-                  >
-                    <Edit2 className="w-3.5 h-3.5" />
-                  </button>
+                  <div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {onEmail && dossier.email && (
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onEmail(dossier); }}
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                        title={`Envoyer un email a ${dossier.email}`}
+                      >
+                        <Mail className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onEdit(dossier); }}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                    >
+                      <Edit2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}
@@ -237,12 +249,23 @@ export default function DossierList({ dossiers, onEdit, role }: DossierListProps
                 <span className="text-xs text-slate-500">{formatDate(dossier.last_activity)}</span>
               </td>
               <td className="px-4 py-3.5 text-center">
-                <button
-                  onClick={(e) => { e.stopPropagation(); onEdit(dossier); }}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors opacity-0 group-hover:opacity-100"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
-                </button>
+                <div className="flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  {onEmail && dossier.email && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); onEmail(dossier); }}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors"
+                      title={`Envoyer un email a ${dossier.email}`}
+                    >
+                      <Mail className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => { e.stopPropagation(); onEdit(dossier); }}
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

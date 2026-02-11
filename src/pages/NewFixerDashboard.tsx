@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import { Plus, Filter, LogOut, Calendar, BookOpen, LayoutGrid, List, Search, Mail } from 'lucide-react';
+import { Plus, Filter, LogOut, Calendar, BookOpen, LayoutGrid, List, Search, Mail, X } from 'lucide-react';
 import AdminLogo from '../components/AdminLogo';
 import DossierForm from '../components/dossiers/DossierForm';
 import DossierList from '../components/dossiers/DossierList';
@@ -10,6 +10,7 @@ import FixerKPIWidget from '../components/dossiers/FixerKPIWidget';
 import FixerConsolidatedKPIs from '../components/FixerConsolidatedKPIs';
 import ProspectCardNavigator from '../components/dossiers/ProspectCardNavigator';
 import EmailSection from '../components/emails/EmailSection';
+import EmailComposer from '../components/emails/EmailComposer';
 import { Dossier, Bonus } from '../types/dossiers';
 import { calculateFixerKPIs, calculateBonusEstimate } from '../utils/kpiCalculations';
 
@@ -30,6 +31,7 @@ export default function NewFixerDashboard() {
   const [bonus, setBonus] = useState<Bonus | null>(null);
   const [activeTab, setActiveTab] = useState<TabKey>('prospects');
   const [searchQuery, setSearchQuery] = useState('');
+  const [emailTarget, setEmailTarget] = useState<Dossier | null>(null);
 
   const isAdminViewing = profile?.is_admin;
 
@@ -327,6 +329,7 @@ export default function NewFixerDashboard() {
             <DossierList
               dossiers={filteredDossiers}
               onEdit={(dossier) => { setEditingDossier(dossier); setShowForm(true); }}
+              onEmail={(dossier) => setEmailTarget(dossier)}
               role="fixer"
             />
           </div>
@@ -341,6 +344,21 @@ export default function NewFixerDashboard() {
           onSave={() => { setShowForm(false); setEditingDossier(null); loadData(); }}
           role="fixer"
         />
+      )}
+
+      {emailTarget && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <EmailComposer
+              userId={profile?.id || ''}
+              userRole={profile?.role || 'fixer'}
+              prefillTo={emailTarget.email}
+              prefillName={`${emailTarget.contact_first_name} ${emailTarget.contact_last_name}`.trim()}
+              onSent={() => setEmailTarget(null)}
+              onClose={() => setEmailTarget(null)}
+            />
+          </div>
+        </div>
       )}
     </div>
   );
