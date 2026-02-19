@@ -102,7 +102,7 @@ export default function FormationsList() {
       description: 'Apprenez à qualifier vos leads, personnaliser vos messages et automatiser vos communications pour gagner en efficacité commerciale.',
       duration: '7h (1 jour)',
       participants: 'Commerciaux et managers',
-      price: '1 190 €',
+      price: '595 €',
       level: 'Intermédiaire',
       certifications: ['Financement OPCO'],
       objectives: [
@@ -156,7 +156,7 @@ export default function FormationsList() {
       description: 'Formation pratique pour comprendre le fonctionnement des marchés publics et maîtriser lemarchepublic.fr pour optimiser vos chances de remporter des appels d\'offres.',
       duration: '7h (1 jour)',
       participants: 'Entreprises et professionnels',
-      price: '1 050 €',
+      price: '595 €',
       level: 'Débutant',
       certifications: ['Financement OPCO'],
       objectives: [
