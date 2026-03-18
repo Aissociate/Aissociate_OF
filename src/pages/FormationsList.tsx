@@ -12,7 +12,7 @@ export default function FormationsList() {
       description: 'Formation certifiante pour maîtriser la création de contenus avec l\'IA générative tout en respectant les principes de confidentialité et protection des données.',
       duration: '21h (3 jours)',
       participants: 'Grand public',
-      price: '1 800 €',
+      price: '1 600 €',
       level: 'Débutant',
       certifications: ['CPF', 'RS 7667', 'Certifiant'],
       objectives: [
