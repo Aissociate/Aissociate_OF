@@ -28,7 +28,7 @@ export default function Pricing() {
               </div>
 
               <div className="text-center mb-10">
-                <div className="text-7xl font-bold mb-3">1 800 €</div>
+                <div className="text-7xl font-bold mb-3">1 600 €</div>
                 <p className="text-orange-100 text-xl">Formation complète de 3 jours</p>
               </div>
 

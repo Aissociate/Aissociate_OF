@@ -26,7 +26,7 @@ export default function Home() {
           description: 'Formation professionnelle certifiée Qualiopi pour maîtriser les outils d\'IA générative comme ChatGPT, DALL-E, Midjourney et créer des contenus de qualité en 3 jours.',
           provider: 'Formation IA Générative',
           duration: 'P3D',
-          price: '1800',
+          price: '1600',
           priceCurrency: 'EUR',
           educationalLevel: 'Tous niveaux',
           courseMode: ['présentiel', 'distanciel', 'hybride'],
