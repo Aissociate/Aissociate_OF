@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Save, Building2, User, Briefcase, Bell, ArrowRight, Package } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { SOURCES, COMPLEMENTARY_FUNDING_TYPES, DOSSIER_STATUSES, DossierStatus } from '../../types/dossiers';
+import { syncLeadToGHL } from '../../lib/ghlSync';
 
 interface CreateDossierFormProps {
   closerId: string;
@@ -42,7 +43,7 @@ export default function CreateDossierForm({ closerId, onClose, onSuccess }: Crea
     setLoading(true);
 
     try {
-      const { error: insertError } = await supabase
+      const { data: inserted, error: insertError } = await supabase
         .from('dossiers')
         .insert([
           {
@@ -79,9 +80,28 @@ export default function CreateDossierForm({ closerId, onClose, onSuccess }: Crea
             amount: 0,
             dispute: false,
           },
-        ]);
+        ])
+        .select('id')
+        .single();
 
       if (insertError) throw insertError;
+
+      if (inserted?.id) {
+        syncLeadToGHL({
+          source_table: 'dossiers',
+          source_id: inserted.id,
+          first_name: formData.contact_first_name,
+          last_name: formData.contact_last_name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          source: formData.source,
+          status: formData.status,
+          product_type: productType,
+          sector: formData.sector,
+          notes: formData.closer_notes,
+        });
+      }
 
       onSuccess();
     } catch (err) {

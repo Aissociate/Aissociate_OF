@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X, Save } from 'lucide-react';
 import { Dossier, SOURCES, getEditableStatusesByRole, DOSSIER_STATUSES, COMPLEMENTARY_FUNDING_TYPES } from '../../types/dossiers';
 import { supabase } from '../../lib/supabase';
+import { syncLeadToGHL } from '../../lib/ghlSync';
 
 interface DossierFormProps {
   dossier: Partial<Dossier> | null;
@@ -84,11 +85,29 @@ export default function DossierForm({ dossier, fixerId, onClose, onSave, role }:
 
         if (error) throw error;
       } else {
-        const { error } = await supabase
+        const { data: inserted, error } = await supabase
           .from('dossiers')
-          .insert([dataToSave]);
+          .insert([dataToSave])
+          .select('id')
+          .single();
 
         if (error) throw error;
+
+        if (inserted?.id) {
+          syncLeadToGHL({
+            source_table: 'dossiers',
+            source_id: inserted.id,
+            first_name: formData.contact_first_name,
+            last_name: formData.contact_last_name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            source: formData.source,
+            status: formData.status,
+            sector: formData.sector,
+            notes: formData.fixer_notes,
+          });
+        }
       }
 
       onSave();
