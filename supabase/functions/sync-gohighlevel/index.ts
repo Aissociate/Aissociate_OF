@@ -25,6 +25,79 @@ interface SyncPayload {
 }
 
 const GHL_API_BASE = "https://services.leadconnectorhq.com";
+const GHL_API_KEY =
+  Deno.env.get("GHL_API_KEY") || "pit-4c70f781-72d4-40e5-82e6-b1c09700b1b9";
+const GHL_LOCATION_ID =
+  Deno.env.get("GHL_LOCATION_ID") || "QgFd2CSdLClLqXBncDm0";
+
+const ghlHeaders = {
+  Authorization: `Bearer ${GHL_API_KEY}`,
+  "Content-Type": "application/json",
+  Version: "2021-07-28",
+};
+
+async function findFormationPipeline(): Promise<{
+  pipelineId: string;
+  stageId: string;
+} | null> {
+  try {
+    const res = await fetch(
+      `${GHL_API_BASE}/opportunities/pipelines?locationId=${GHL_LOCATION_ID}`,
+      { headers: ghlHeaders }
+    );
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    const pipelines = data?.pipelines || [];
+
+    const formation = pipelines.find(
+      (p: { name: string }) =>
+        p.name.toLowerCase().includes("formation")
+    );
+
+    if (!formation) return null;
+
+    const stages = formation.stages || [];
+    const firstStage =
+      stages.find(
+        (s: { name: string }) =>
+          s.name.toLowerCase().includes("nouveau") ||
+          s.name.toLowerCase().includes("new")
+      ) || stages[0];
+
+    if (!firstStage) return null;
+
+    return { pipelineId: formation.id, stageId: firstStage.id };
+  } catch {
+    return null;
+  }
+}
+
+async function createOpportunity(
+  contactId: string,
+  contactName: string,
+  pipelineId: string,
+  stageId: string
+): Promise<Record<string, unknown> | null> {
+  try {
+    const res = await fetch(`${GHL_API_BASE}/opportunities/`, {
+      method: "POST",
+      headers: ghlHeaders,
+      body: JSON.stringify({
+        pipelineId,
+        pipelineStageId: stageId,
+        locationId: GHL_LOCATION_ID,
+        contactId,
+        name: contactName,
+        status: "open",
+      }),
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
 
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
@@ -32,23 +105,6 @@ Deno.serve(async (req: Request) => {
   }
 
   try {
-    const GHL_API_KEY = Deno.env.get("GHL_API_KEY");
-    const GHL_LOCATION_ID = Deno.env.get("GHL_LOCATION_ID");
-
-    if (!GHL_API_KEY || !GHL_LOCATION_ID) {
-      return new Response(
-        JSON.stringify({
-          error: "GoHighLevel non configure",
-          details:
-            "GHL_API_KEY et GHL_LOCATION_ID doivent etre configures dans les secrets",
-        }),
-        {
-          status: 503,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        }
-      );
-    }
-
     const adminClient = createClient(
       Deno.env.get("SUPABASE_URL")!,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
@@ -70,7 +126,8 @@ Deno.serve(async (req: Request) => {
 
     const tags: string[] = [...(payload.tags || [])];
     if (payload.source_table === "dossiers") tags.push("dossier-crm");
-    if (payload.source_table === "contact_requests") tags.push("formulaire-web");
+    if (payload.source_table === "contact_requests")
+      tags.push("formulaire-web");
     if (payload.product_type) tags.push(payload.product_type);
     if (payload.source) tags.push(`source:${payload.source}`);
 
@@ -79,7 +136,10 @@ Deno.serve(async (req: Request) => {
       firstName: payload.first_name,
       lastName: payload.last_name,
       phone: payload.phone,
-      source: payload.source_table === "contact_requests" ? "Website Form" : "CRM Internal",
+      source:
+        payload.source_table === "contact_requests"
+          ? "Website Form"
+          : "CRM Internal",
     };
 
     if (payload.email) ghlContact.email = payload.email;
@@ -88,26 +148,16 @@ Deno.serve(async (req: Request) => {
 
     const customFields: { key: string; field_value: string }[] = [];
     if (payload.status)
-      customFields.push({
-        key: "crm_status",
-        field_value: payload.status,
-      });
+      customFields.push({ key: "crm_status", field_value: payload.status });
     if (payload.sector)
-      customFields.push({
-        key: "secteur",
-        field_value: payload.sector,
-      });
+      customFields.push({ key: "secteur", field_value: payload.sector });
     if (payload.product_type)
       customFields.push({
         key: "type_produit",
         field_value: payload.product_type,
       });
     if (payload.notes)
-      customFields.push({
-        key: "notes_crm",
-        field_value: payload.notes,
-      });
-
+      customFields.push({ key: "notes_crm", field_value: payload.notes });
     if (customFields.length > 0) ghlContact.customFields = customFields;
 
     const { data: existingSync } = await adminClient
@@ -120,7 +170,6 @@ Deno.serve(async (req: Request) => {
       .limit(1)
       .maybeSingle();
 
-    let ghlResponse: Response;
     let ghlUrl: string;
     let ghlMethod: string;
 
@@ -132,13 +181,9 @@ Deno.serve(async (req: Request) => {
       ghlMethod = "POST";
     }
 
-    ghlResponse = await fetch(ghlUrl, {
+    const ghlResponse = await fetch(ghlUrl, {
       method: ghlMethod,
-      headers: {
-        Authorization: `Bearer ${GHL_API_KEY}`,
-        "Content-Type": "application/json",
-        Version: "2021-07-28",
-      },
+      headers: ghlHeaders,
       body: JSON.stringify(ghlContact),
     });
 
@@ -159,7 +204,10 @@ Deno.serve(async (req: Request) => {
     if (ghlResponse.ok) {
       syncLog.sync_status = "success";
       syncLog.ghl_contact_id =
-        ghlData?.contact?.id || ghlData?.id || existingSync?.ghl_contact_id || "";
+        ghlData?.contact?.id ||
+        ghlData?.id ||
+        existingSync?.ghl_contact_id ||
+        "";
     } else {
       syncLog.sync_status = "error";
       syncLog.error_message =
@@ -182,11 +230,26 @@ Deno.serve(async (req: Request) => {
       );
     }
 
+    let opportunityResult = null;
+    if (!existingSync?.ghl_contact_id && syncLog.ghl_contact_id) {
+      const pipeline = await findFormationPipeline();
+      if (pipeline) {
+        const contactName = `${payload.first_name} ${payload.last_name}`;
+        opportunityResult = await createOpportunity(
+          syncLog.ghl_contact_id,
+          contactName,
+          pipeline.pipelineId,
+          pipeline.stageId
+        );
+      }
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
         ghl_contact_id: syncLog.ghl_contact_id,
         action: existingSync ? "updated" : "created",
+        opportunity: opportunityResult ? "created" : "skipped",
       }),
       {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
