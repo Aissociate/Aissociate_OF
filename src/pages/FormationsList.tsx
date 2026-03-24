@@ -150,22 +150,22 @@ export default function FormationsList() {
       color: 'from-purple-500 to-pink-600'
     },
     {
-      id: 'marches-publics',
-      title: 'Apprenez à maîtriser les marchés publics avec lemarchepublic.fr',
-      subtitle: 'Réussir vos réponses aux appels d\'offres publics',
-      description: 'Formation pratique pour comprendre le fonctionnement des marchés publics et maîtriser lemarchepublic.fr pour optimiser vos chances de remporter des appels d\'offres.',
+      id: 'marches-publics-btp-ia',
+      title: 'Réponse aux Marchés Publics BTP : Dominez avec l\'IA',
+      subtitle: 'Réduisez par 3 le temps de préparation de vos réponses',
+      description: 'Formation intensive d\'une journée pour maîtriser la commande publique BTP et exploiter l\'IA pour rédiger des mémoires techniques percutants, auditer vos BPU et automatiser vos réponses.',
       duration: '7h (1 jour)',
-      participants: 'Entreprises et professionnels',
-      price: '595 €',
-      level: 'Débutant',
-      certifications: ['Financement OPCO'],
+      participants: 'TPE/PME du BTP',
+      price: '590 € / jour',
+      level: 'Intermédiaire',
+      certifications: ['Financement OPCO', 'Intra-entreprise'],
       objectives: [
-        'Comprendre le cadre réglementaire des marchés publics',
-        'Maîtriser la plateforme lemarchepublic.fr',
-        'Optimiser ses réponses aux appels d\'offres',
-        'Développer une stratégie de veille efficace'
+        'Décrypter un DCE et identifier les critères gagnants',
+        'Rédiger un mémoire technique assisté par IA 5x plus vite',
+        'Créer un chatbot expert DCE pour interroger les specs instantanément',
+        'Auditer la cohérence des BPU avec l\'IA'
       ],
-      color: 'from-orange-500 to-amber-600'
+      color: 'from-amber-600 to-orange-700'
     }
   ];
 

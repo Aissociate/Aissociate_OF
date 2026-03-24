@@ -173,6 +173,180 @@ const formationsData: Record<string, any> = {
       'Cas d\'usages concrets d\'automatisation complexe',
       'Actualisation régulière des cas d\'usage et solutions'
     ]
+  },
+  'marches-publics-btp': {
+    id: 'marches-publics-btp',
+    ref: 'MPBTP1',
+    title: 'Réponse aux Marchés Publics BTP : Dominez avec l\'IA',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=600&fit=crop&q=80',
+    duration: '7h (1 journée)',
+    price: '590€ HT / jour',
+    priceInter: '590€ HT',
+    priceIntra: '590€ HT / jour',
+    participants: 'Responsables d\'études, Chargés d\'affaires BTP, Assistants administratifs de TPE/PME du BTP',
+    level: 'Intermédiaire',
+    format: 'Intra-entreprise (présentiel ou classe à distance)',
+    isCertifying: false,
+    isEligibleCPF: false,
+    isEligibleOPCO: true,
+    prerequisites: 'Connaissance de base des dossiers de chantier',
+    objectives: [
+      'Comprendre le découpage des lots et les critères de notation des collectivités',
+      'Décrypter un DCE et identifier les critères éliminatoires et opportunités cachées',
+      'Rédiger un mémoire technique assisté par l\'IA en divisant le temps de préparation par 3',
+      'Utiliser un chatbot expert pour interroger les specs techniques instantanément',
+      'Auditer la cohérence d\'un BPU avec l\'IA et éviter les anomalies de calcul',
+      'Débugger une réponse pour identifier les erreurs de conformité avant le dépôt'
+    ],
+    program: [
+      {
+        title: 'Module 1 : Le cadre législatif et économique (1h)',
+        content: [
+          'Comprendre le découpage des lots et la notation des collectivités',
+          'Le "pourquoi" avant le "comment" : analyse de la commande publique BTP',
+          'Critères de notation : valeur technique vs prix'
+        ]
+      },
+      {
+        title: 'Module 2 : Décryptage du DCE (1h30)',
+        content: [
+          'Dossier de Consultation des Entreprises : identification des critères éliminatoires',
+          'Repérer les opportunités cachées dans les documents obligatoires',
+          'Les "pièges" techniques du Mémoire technique'
+        ]
+      },
+      {
+        title: 'Module 3 : La méthodologie gagnante + Etude de cas (1h30)',
+        content: [
+          'Pourquoi les entreprises perdent leurs marchés pour des erreurs de détail',
+          'Analyse comparative d\'un AAPC réel (Critères techniques vs Prix)',
+          'Atelier en groupe : décortiquer un avis d\'appel public à la concurrence'
+        ]
+      },
+      {
+        title: 'Module 4 : Rédaction Assistée du Mémoire Technique par l\'IA (1h)',
+        content: [
+          'Utiliser l\'IA pour structurer une réponse sur-mesure (Planning, moyens humains, sécurité)',
+          'Transformer vos retours d\'expérience passés en "prompts de référence"',
+          'Générer des mémoires techniques 5x plus vite grâce à l\'IA'
+        ]
+      },
+      {
+        title: 'Module 5 : La suite logicielle "Expert BTP" (1h30)',
+        content: [
+          'Chatbot Expert : Création d\'un assistant "Spécialiste DCE" pour interroger les specs techniques instantanément',
+          'BPU (Bordereau des Prix Unitaires) : Utilisation de l\'IA pour auditer la cohérence des prix et éviter les anomalies de calcul',
+          'Gestion des bugs : Débugger une réponse et identifier les erreurs de conformité réglementaire avant le dépôt'
+        ]
+      },
+      {
+        title: 'Module 6 : Validation Qualiopi - Atelier + QCM (30 min)',
+        content: [
+          'Atelier "Crash Test" : exercice final sur un document réel',
+          'QCM d\'évaluation des acquis : vérification de la mémorisation des réflexes de conformité',
+          'Vérification de l\'usage des outils IA dans un contexte marchés publics'
+        ]
+      }
+    ],
+    strengths: [
+      'Programme dense et immédiatement productif pour le BTP',
+      'Réduction par 3 du temps de préparation de réponse',
+      'Outils IA concrets : chatbot expert, BPU automatisé, mémoire technique assisté',
+      'Méthode : 30% théorie, 70% mise en pratique réelle',
+      'Suivi Qualiopi : questionnaire de satisfaction J+0 et transfert de compétences J+30'
+    ]
+  },
+  'marches-publics-btp-ia': {
+    id: 'marches-publics-btp-ia',
+    ref: 'MPBTP1',
+    title: 'Réponse aux Marchés Publics BTP : Dominez avec l\'IA',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&h=600&fit=crop&q=80',
+    duration: '7h (1 journée)',
+    price: '590€ HT / jour',
+    priceIntra: '590€ HT / jour',
+    participants: 'Responsables d\'études, Chargés d\'affaires BTP, Assistants administratifs de TPE/PME du BTP',
+    level: 'Intermédiaire',
+    format: 'Intra-entreprise (présentiel)',
+    isCertifying: false,
+    isEligibleCPF: false,
+    isEligibleOPCO: true,
+    prerequisites: 'Connaissance de base des dossiers de chantier',
+    objectives: [
+      'Réduire le temps de préparation de réponse par 3 tout en augmentant la pertinence technique des offres',
+      'Décrypter un DCE et identifier les critères éliminatoires et opportunités cachées',
+      'Rédiger un mémoire technique assisté par IA en un temps record',
+      'Créer un chatbot expert DCE pour interroger les spécifications techniques instantanément',
+      'Auditer la cohérence des BPU (Bordereau des Prix Unitaires) avec l\'IA',
+      'Débugger une réponse avant dépôt pour éliminer les erreurs de conformité'
+    ],
+    program: [
+      {
+        title: 'MATINEE - Module 1 : Le cadre législatif et économique (1h)',
+        content: [
+          'Comprendre le découpage des lots et la notation des collectivités',
+          'Le "pourquoi" avant le "comment" : cadre réglementaire de la commande publique BTP',
+          'Analyse des critères de notation (valeur technique vs prix)'
+        ]
+      },
+      {
+        title: 'MATINEE - Module 2 : Décryptage du DCE (1h30)',
+        content: [
+          'Identification des critères éliminatoires et des opportunités cachées',
+          'Les documents obligatoires : Mémoire technique, DPGF, BPU',
+          'Les "pièges" techniques dans les dossiers de consultation'
+        ]
+      },
+      {
+        title: 'MATINEE - La méthodologie gagnante (45min)',
+        content: [
+          'Pourquoi les entreprises BTP perdent leurs marchés pour des erreurs de détail',
+          'Les erreurs les plus fréquentes dans les réponses',
+          'Construire une réponse structurée et percutante'
+        ]
+      },
+      {
+        title: 'MATINEE - Etude de cas (45min)',
+        content: [
+          'Analyse comparative d\'un AAPC réel (Avis d\'Appel Public à la Concurrence)',
+          'Décryptage en groupe des critères techniques vs prix',
+          'Identification des leviers de différenciation'
+        ]
+      },
+      {
+        title: 'APRES-MIDI - Module 3 : Rédaction assistée du Mémoire Technique par IA (1h)',
+        content: [
+          'Utiliser l\'IA pour structurer une réponse sur-mesure (Planning, moyens humains, sécurité)',
+          'Transformer vos retours d\'expérience passés en "prompts de référence"',
+          'Générer des mémoires techniques 5x plus vite avec l\'IA',
+          'Personnaliser et affiner les réponses générées'
+        ]
+      },
+      {
+        title: 'APRES-MIDI - Module 4 : La suite logicielle "Expert BTP" (1h30)',
+        content: [
+          'Chatbot Expert : Création d\'un assistant "Spécialiste DCE" pour interroger les specs techniques instantanément',
+          'BPU (Bordereau des Prix Unitaires) : Utilisation de l\'IA pour auditer la cohérence des prix et éviter les anomalies de calcul',
+          'Gestion des bugs : Débugger une réponse et identifier les erreurs de conformité réglementaire avant le dépôt'
+        ]
+      },
+      {
+        title: 'APRES-MIDI - Module 5 : Validation Qualiopi (30min)',
+        content: [
+          'Atelier "Crash Test" : Exercice final sur un document réel de marché public BTP',
+          'Evaluation des acquis (QCM) : Vérification de la mémorisation des réflexes de conformité et de l\'usage des outils IA',
+          'Questionnaire de satisfaction à chaud (J+0)',
+          'Présentation du questionnaire de transfert de compétences (J+30)'
+        ]
+      }
+    ],
+    strengths: [
+      'Formation 100% orientée BTP avec des cas réels de marchés publics',
+      'Approche hybride : stratégie + outils IA opérationnels immédiatement',
+      'Réduction mesurable du temps de réponse aux appels d\'offres',
+      'Création d\'outils IA réutilisables après la formation (chatbot, prompts)',
+      'Format intra-entreprise pour un accompagnement personnalisé',
+      'Conformité Qualiopi : QCM d\'évaluation + suivi à J+30'
+    ]
   }
 };
 
