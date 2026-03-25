@@ -95,7 +95,7 @@ export default function Assistance() {
                 </Link>
 
                 <a
-                  href="tel:+33123456789"
+                  href="tel:+262692246860"
                   className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all border-2 border-white/30 hover:border-white/50 flex items-center gap-2"
                 >
                   <Phone className="w-5 h-5" />
@@ -267,14 +267,14 @@ export default function Assistance() {
                 </Link>
 
                 <a
-                  href="tel:+33123456789"
+                  href="tel:+262692246860"
                   className="block w-full text-center bg-white/20 backdrop-blur-sm text-white py-4 rounded-xl font-bold text-lg hover:bg-white/30 transition-all border-2 border-white/30"
                 >
                   Appeler maintenant
                 </a>
 
                 <a
-                  href="mailto:contact@formationia.fr"
+                  href="mailto:contact@aissociate.re"
                   className="block w-full text-center bg-white/20 backdrop-blur-sm text-white py-4 rounded-xl font-bold text-lg hover:bg-white/30 transition-all border-2 border-white/30"
                 >
                   Envoyer un email
