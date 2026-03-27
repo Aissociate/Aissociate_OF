@@ -1,40 +1,99 @@
 import { useParams, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { Calendar, Clock, ArrowLeft, User } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, User, BookOpen, Loader2 } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import type { BlogArticle as BlogArticleType } from '../types/blog';
 
 export default function BlogArticle() {
-  useParams();
+  const { slug } = useParams<{ slug: string }>();
+  const [article, setArticle] = useState<BlogArticleType | null>(null);
+  const [related, setRelated] = useState<BlogArticleType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
 
-  const article = {
-    id: 1,
-    title: 'Comment l\'IA transforme la formation professionnelle',
-    category: 'Formation',
-    date: '15 Janvier 2026',
-    readTime: '5 min',
-    author: 'Marie Dubois',
-    image: 'https://images.pexels.com/photos/8438922/pexels-photo-8438922.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    content: `
-      <p>L'Intelligence Artificielle révolutionne de nombreux secteurs, et la formation professionnelle n'échappe pas à cette transformation. Les nouvelles technologies permettent de personnaliser l'apprentissage, d'améliorer l'engagement des apprenants et d'optimiser les résultats.</p>
+  useEffect(() => {
+    if (slug) loadArticle(slug);
+  }, [slug]);
 
-      <h2>Une personnalisation sans précédent</h2>
-      <p>Grâce à l'IA, chaque apprenant peut bénéficier d'un parcours de formation adapté à son niveau, son rythme et ses objectifs. Les systèmes intelligents analysent les performances en temps réel et ajustent automatiquement le contenu et la difficulté des exercices.</p>
+  async function loadArticle(articleSlug: string) {
+    setLoading(true);
+    setNotFound(false);
 
-      <h2>Des outils d'assistance intelligents</h2>
-      <p>Les chatbots et assistants virtuels permettent aux apprenants d'obtenir des réponses instantanées à leurs questions, 24h/24 et 7j/7. Cette disponibilité permanente améliore significativement l'expérience d'apprentissage et réduit les taux d'abandon.</p>
+    const { data, error } = await supabase
+      .from('blog_articles')
+      .select('*, blog_categories(*)')
+      .eq('slug', articleSlug)
+      .eq('published', true)
+      .maybeSingle();
 
-      <h2>L'analyse prédictive au service de la réussite</h2>
-      <p>Les algorithmes d'IA peuvent identifier les apprenants en difficulté avant même qu'ils ne décrochent, permettant ainsi aux formateurs d'intervenir de manière proactive. Cette approche préventive améliore considérablement les taux de réussite.</p>
+    if (error || !data) {
+      setNotFound(true);
+      setLoading(false);
+      return;
+    }
 
-      <h2>Des contenus toujours à jour</h2>
-      <p>L'IA facilite la création et la mise à jour des contenus pédagogiques. Les formateurs peuvent générer rapidement des supports de cours, des quiz et des exercices pratiques, tout en maintenant une qualité constante.</p>
+    setArticle(data);
 
-      <h2>Vers une formation hybride optimisée</h2>
-      <p>L'avenir de la formation professionnelle réside dans une approche hybride qui combine le meilleur de l'humain et de la machine. L'IA prend en charge les tâches répétitives et l'analyse de données, permettant aux formateurs de se concentrer sur l'accompagnement personnalisé et le développement des soft skills.</p>
+    supabase
+      .from('blog_articles')
+      .update({ views_count: (data.views_count || 0) + 1 })
+      .eq('id', data.id)
+      .then();
 
-      <p><strong>En conclusion</strong>, l'Intelligence Artificielle n'est pas là pour remplacer les formateurs, mais pour les assister et améliorer l'efficacité globale des parcours de formation. Les organismes qui sauront intégrer ces technologies de manière pertinente auront un avantage compétitif significatif dans les années à venir.</p>
-    `
-  };
+    const { data: relatedData } = await supabase
+      .from('blog_articles')
+      .select('*, blog_categories(*)')
+      .eq('published', true)
+      .neq('id', data.id)
+      .order('published_at', { ascending: false })
+      .limit(2);
+
+    if (relatedData) setRelated(relatedData);
+    setLoading(false);
+  }
+
+  function formatDate(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="flex justify-center items-center py-40">
+          <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (notFound || !article) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="text-center py-40 max-w-lg mx-auto px-4">
+          <BookOpen className="w-16 h-16 text-slate-300 mx-auto mb-6" />
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">Article introuvable</h1>
+          <p className="text-slate-500 mb-8">Cet article n'existe pas ou n'est plus disponible.</p>
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-amber-600 text-white px-6 py-3 rounded-xl font-bold hover:from-orange-600 hover:to-amber-700 transition-all"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Retour au blog
+          </Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -55,9 +114,11 @@ export default function BlogArticle() {
       <article className="py-12 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
-            <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
-              {article.category}
-            </span>
+            {article.blog_categories && (
+              <span className="inline-block bg-gradient-to-r from-orange-500 to-amber-600 text-white px-4 py-1 rounded-full text-sm font-semibold mb-4">
+                {article.blog_categories.name}
+              </span>
+            )}
 
             <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 mb-6 leading-tight">
               {article.title}
@@ -70,22 +131,24 @@ export default function BlogArticle() {
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="w-5 h-5" />
-                <span>{article.date}</span>
+                <span>{formatDate(article.published_at)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-5 h-5" />
-                <span>{article.readTime} de lecture</span>
+                <span>{article.read_time} min de lecture</span>
               </div>
             </div>
           </div>
 
-          <div className="mb-12">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-96 object-cover rounded-2xl shadow-lg"
-            />
-          </div>
+          {article.image_url && (
+            <div className="mb-12">
+              <img
+                src={article.image_url}
+                alt={article.title}
+                className="w-full h-96 object-cover rounded-2xl shadow-lg"
+              />
+            </div>
+          )}
 
           <div
             className="prose prose-lg max-w-none prose-headings:text-slate-900 prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-6 prose-strong:text-slate-900"
@@ -95,10 +158,10 @@ export default function BlogArticle() {
           <div className="mt-12 pt-8 border-t border-slate-200">
             <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-8 border border-orange-200">
               <h3 className="text-xl font-bold text-slate-900 mb-3">
-                Cet article vous a été utile ?
+                Cet article vous a ete utile ?
               </h3>
               <p className="text-slate-700 mb-6">
-                Découvrez nos formations pour maîtriser l'IA dans votre activité professionnelle
+                Decouvrez nos formations pour maitriser l'IA dans votre activite professionnelle
               </p>
               <Link
                 to="/formations"
@@ -111,44 +174,42 @@ export default function BlogArticle() {
         </div>
       </article>
 
-      <section className="py-12 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-8">Articles similaires</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <Link to="/blog/2" className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow group">
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/8438918/pexels-photo-8438918.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Article"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">
-                  5 outils IA indispensables pour votre entreprise
-                </h3>
-                <p className="text-sm text-slate-600">7 min de lecture</p>
-              </div>
-            </Link>
-
-            <Link to="/blog/3" className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow group">
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src="https://images.pexels.com/photos/8438977/pexels-photo-8438977.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Article"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">
-                  ChatGPT au service de votre stratégie commerciale
-                </h3>
-                <p className="text-sm text-slate-600">6 min de lecture</p>
-              </div>
-            </Link>
+      {related.length > 0 && (
+        <section className="py-12 bg-slate-50">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-bold text-slate-900 mb-8">Articles similaires</h2>
+            <div className="grid md:grid-cols-2 gap-8">
+              {related.map((rel) => (
+                <Link
+                  key={rel.id}
+                  to={`/blog/${rel.slug}`}
+                  className="bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden hover:shadow-xl transition-shadow group"
+                >
+                  <div className="relative h-48 overflow-hidden">
+                    {rel.image_url ? (
+                      <img
+                        src={rel.image_url}
+                        alt={rel.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
+                        <BookOpen className="w-10 h-10 text-white/60" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-orange-600 transition-colors">
+                      {rel.title}
+                    </h3>
+                    <p className="text-sm text-slate-600">{rel.read_time} min de lecture</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <Footer />
     </div>
