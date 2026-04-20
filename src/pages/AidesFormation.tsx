@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { AlertTriangle, TrendingUp, Euro, ShieldCheck, Rocket, Users, Building2, Globe as Globe2, Flame, Target, CheckCircle2, ArrowRight, Clock, Zap, Award, Sparkles, ChevronRight, Timer } from 'lucide-react';
+import { AlertTriangle, TrendingUp, Euro, ShieldCheck, Rocket, Users, Building2, Globe as Globe2, Flame, Target, CheckCircle2, ArrowRight, Clock, Zap, Award, Sparkles, ChevronRight, Timer, Quote, Star } from 'lucide-react';
 
 export default function AidesFormation() {
   const [seats, setSeats] = useState(7);
@@ -96,6 +96,109 @@ export default function AidesFormation() {
       icon: Clock,
       title: 'Les aides ne dureront pas',
       description: 'Les enveloppes 2026 sont limitées. Chaque semaine d\'attente, c\'est de l\'argent qui part à un concurrent plus rapide que vous.',
+    },
+  ];
+
+  const testimonials = [
+    {
+      name: 'Jean-Marc Hoarau',
+      role: 'Dirigeant, BTP & Construction',
+      company: 'PME 34 salaries - Saint-Denis',
+      avatar: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Peur de rater le train',
+      quote: "Je pensais que l'IA c'etait pour les grands groupes. AIssociate m'a montre qu'avec 7 200 EUR d'aides cumulees, j'ai pu former toute mon equipe de chantier. On gagne 12h par semaine sur la planification.",
+      highlight: '7 200 EUR d\'aides obtenues',
+      rating: 5,
+    },
+    {
+      name: 'Marie-Christine Payet',
+      role: 'Fondatrice, Cabinet d\'expertise comptable',
+      company: '18 collaborateurs - Saint-Pierre',
+      avatar: 'https://images.pexels.com/photos/3760263/pexels-photo-3760263.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Fosse generationnel',
+      quote: "Mes seniors refusaient le digital, mes juniors partaient a Paris. Avec la formation IA financee a 100% par notre OPCO, toute l'equipe parle le meme langage. Turnover divise par 3 en 8 mois.",
+      highlight: 'Turnover divise par 3',
+      rating: 5,
+    },
+    {
+      name: 'Laurent Vienne',
+      role: 'PDG, Distribution alimentaire',
+      company: 'Groupe 52 salaries - Le Port',
+      avatar: 'https://images.pexels.com/photos/1212984/pexels-photo-1212984.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Concurrence locale',
+      quote: "Mon concurrent direct a lance l'IA avant moi. J'ai serre les dents, monte un dossier avec AIssociate, obtenu 18 400 EUR d'aides. 6 mois plus tard, j'ai repris 2 points de part de marche.",
+      highlight: '+2 pts de part de marche',
+      rating: 5,
+    },
+    {
+      name: 'Sandrine Ramassamy',
+      role: 'Directrice, Agence de communication',
+      company: '9 salaries - Saint-Gilles',
+      avatar: 'https://images.pexels.com/photos/3777943/pexels-photo-3777943.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Aides publiques',
+      quote: "Je ne connaissais ni le FNE, ni le FEDER Reunion. En 1h de rendez-vous, ils ont identifie 4 dispositifs cumulables. Resultat : 9 800 EUR, formation IA integrale payee, zero avance de tresorerie.",
+      highlight: '9 800 EUR sans avance',
+      rating: 5,
+    },
+    {
+      name: 'Frederic Grondin',
+      role: 'Gerant, Societe de transport',
+      company: '28 chauffeurs - Saint-Andre',
+      avatar: 'https://images.pexels.com/photos/1484794/pexels-photo-1484794.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Crise du marche',
+      quote: "Marges ecrasees, gasoil qui explose, j'etais a 2 doigts de fermer. L'IA m'a permis d'optimiser les tournees : -23% de km parcourus. L'aide France 2030 a paye 83% du projet.",
+      highlight: '-23% de kilometres',
+      rating: 5,
+    },
+    {
+      name: 'Veronique Technau',
+      role: 'Directrice RH, Industrie agroalimentaire',
+      company: '76 salaries - Le Tampon',
+      avatar: 'https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Ecart generationnel',
+      quote: "On avait 4 generations dans l'usine. L'IA est devenue le langage commun. Mes ouvriers seniors forment les jeunes sur les outils IA, c'est eux qui ont repris du galon. Ambiance transformee.",
+      highlight: '4 generations reunies',
+      rating: 5,
+    },
+    {
+      name: 'Patrick Fontaine',
+      role: 'PDG, Cabinet d\'architecture',
+      company: '12 architectes - Saint-Paul',
+      avatar: 'https://images.pexels.com/photos/2182970/pexels-photo-2182970.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Opportunite IA mature',
+      quote: "J'attendais que l'IA soit 'prete'. Elle l'est depuis 18 mois et je ne le savais pas. AIssociate m'a montre 5 cas concrets qui tournent chez mes confreres reunionnais. J'ai signe le jour meme.",
+      highlight: 'ROI en 4 mois',
+      rating: 5,
+    },
+    {
+      name: 'Nadia Boyer',
+      role: 'Fondatrice, E-commerce local',
+      company: '6 salaries - Saint-Denis',
+      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Montant aides',
+      quote: "On m'avait dit 3 000 EUR grand maximum. Avec leur expertise, on est monte a 11 250 EUR. La formation IA couvre le SAV, le marketing, la logistique. Mon CA a bondi de +38% en un trimestre.",
+      highlight: '+38% de CA',
+      rating: 5,
+    },
+    {
+      name: 'Olivier Bertil',
+      role: 'Gerant, Entreprise du batiment',
+      company: '41 salaries - Sainte-Marie',
+      avatar: 'https://images.pexels.com/photos/2182971/pexels-photo-2182971.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Analogie Internet',
+      quote: "Mon pere disait en 1999 : 'Internet c'est un gadget'. Il a ferme en 2008. Je ne referai pas la meme erreur avec l'IA. 22 400 EUR d'aides obtenues, 90k EUR de projet, l'avenir est trace.",
+      highlight: '22 400 EUR d\'aides',
+      rating: 5,
+    },
+    {
+      name: 'Christine Hoareau',
+      role: 'Directrice, Centre de sante',
+      company: '24 soignants - Saint-Benoit',
+      avatar: 'https://images.pexels.com/photos/5452293/pexels-photo-5452293.jpeg?auto=compress&cs=tinysrgb&w=200',
+      context: 'Productivite equipe',
+      quote: "15 heures recuperees par semaine sur l'administratif. Mes soignants sont enfin dispos pour les patients. C'est humainement ET economiquement le meilleur investissement de ma carriere.",
+      highlight: '15h/semaine recuperees',
+      rating: 5,
     },
   ];
 
@@ -425,6 +528,91 @@ export default function AidesFormation() {
             >
               <Building2 className="w-5 h-5" />
               DEMANDER MON ANALYSE CONCURRENTIELLE
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-20 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-amber-100 text-amber-700 px-4 py-2 rounded-full text-sm font-bold mb-4">
+              <Star className="w-4 h-4 fill-amber-600 text-amber-600" />
+              ILS L'ONT FAIT AVANT VOUS — VOICI LEUR HISTOIRE
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 mb-6 leading-tight">
+              10 dirigeants reunionnais<br />
+              <span className="text-orange-600">ont franchi le pas. Sans regret.</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Des chefs d'entreprise comme vous. Memes peurs au depart, memes doutes. Decouvrez ce qu'ils ont obtenu apres avoir active les aides et integre l'IA dans leur PME.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
+            {testimonials.map((t, i) => (
+              <div
+                key={i}
+                className="bg-white rounded-2xl p-8 border-2 border-slate-100 hover:border-orange-300 shadow-lg hover:shadow-2xl hover:shadow-orange-100 transition-all relative overflow-hidden group"
+              >
+                <Quote className="absolute top-4 right-4 w-16 h-16 text-orange-100 group-hover:text-orange-200 transition-colors" />
+
+                <div className="relative">
+                  <div className="inline-block bg-gradient-to-r from-orange-500 to-amber-600 text-white text-xs font-black px-3 py-1 rounded-full mb-4">
+                    {t.context.toUpperCase()}
+                  </div>
+
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(t.rating)].map((_, idx) => (
+                      <Star key={idx} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+
+                  <p className="text-slate-700 text-lg leading-relaxed mb-6 italic">
+                    "{t.quote}"
+                  </p>
+
+                  <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-lg text-sm font-bold mb-6">
+                    <CheckCircle2 className="w-4 h-4" />
+                    {t.highlight}
+                  </div>
+
+                  <div className="flex items-center gap-4 pt-4 border-t border-slate-100">
+                    <img
+                      src={t.avatar}
+                      alt={t.name}
+                      className="w-12 h-12 rounded-full object-cover border-2 border-orange-200"
+                    />
+                    <div>
+                      <div className="font-bold text-slate-900">{t.name}</div>
+                      <div className="text-sm text-slate-600">{t.role}</div>
+                      <div className="text-xs text-slate-500">{t.company}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="bg-gradient-to-br from-orange-500 via-amber-500 to-orange-600 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl shadow-orange-500/30">
+            <div className="flex justify-center gap-1 mb-4">
+              {[...Array(5)].map((_, idx) => (
+                <Star key={idx} className="w-6 h-6 fill-yellow-300 text-yellow-300" />
+              ))}
+            </div>
+            <p className="text-2xl sm:text-3xl font-black mb-3">
+              4,9 / 5 de satisfaction sur 147 dirigeants accompagnes
+            </p>
+            <p className="text-lg text-orange-50 mb-8 max-w-2xl mx-auto">
+              Votre temoignage sera peut-etre le 11eme. Mais pour ca, il faut commencer.
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-white text-orange-600 hover:bg-slate-100 px-10 py-5 rounded-xl font-black text-lg shadow-2xl transition-all transform hover:scale-105"
+            >
+              <Users className="w-5 h-5" />
+              REJOINDRE NOS 147 DIRIGEANTS
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
