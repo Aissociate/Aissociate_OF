@@ -106,98 +106,98 @@ export default function AidesFormation() {
       company: 'PME 34 salaries - Saint-Denis',
       avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=200',
       context: 'Peur de rater le train',
-      quote: "Je pensais que l'IA c'etait pour les grands groupes. AIssociate m'a montre qu'avec 7 200 EUR d'aides cumulees, j'ai pu former toute mon equipe de chantier. On gagne 12h par semaine sur la planification.",
-      highlight: '7 200 EUR d\'aides obtenues',
+      quote: "Je pensais que l'IA c'était pour les grands groupes. AIssociate m'a montré qu'avec 7 200 € d'aides cumulées, j'ai pu former toute mon équipe de chantier. On gagne 12h par semaine sur la planification.",
+      highlight: '7 200 € d\'aides obtenues',
       rating: 5,
     },
     {
       name: 'Marie-Christine Payet',
       role: 'Fondatrice, Cabinet d\'expertise comptable',
-      company: '18 collaborateurs - Saint-Pierre',
+      company: '18 collaborateurs — Saint-Pierre',
       avatar: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Fosse generationnel',
-      quote: "Mes seniors refusaient le digital, mes juniors partaient a Paris. Avec la formation IA financee a 100% par notre OPCO, toute l'equipe parle le meme langage. Turnover divise par 3 en 8 mois.",
-      highlight: 'Turnover divise par 3',
+      context: 'Fossé générationnel',
+      quote: "Mes séniors refusaient le digital, mes juniors partaient à Paris. Avec la formation IA financée à 100% par notre OPCO, toute l'équipe parle le même langage. Turnover divisé par 3 en 8 mois.",
+      highlight: 'Turnover divisé par 3',
       rating: 5,
     },
     {
       name: 'Laurent Vienne',
       role: 'PDG, Distribution alimentaire',
-      company: 'Groupe 52 salaries - Le Port',
+      company: 'Groupe 52 salariés — Le Port',
       avatar: 'https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=200',
       context: 'Concurrence locale',
-      quote: "Mon concurrent direct a lance l'IA avant moi. J'ai serre les dents, monte un dossier avec AIssociate, obtenu 18 400 EUR d'aides. 6 mois plus tard, j'ai repris 2 points de part de marche.",
-      highlight: '+2 pts de part de marche',
+      quote: "Mon concurrent direct a lancé l'IA avant moi. J'ai serré les dents, monté un dossier avec AIssociate, obtenu 18 400 € d'aides. 6 mois plus tard, j'ai repris 2 points de part de marché.",
+      highlight: '+2 pts de part de marché',
       rating: 5,
     },
     {
       name: 'Sandrine Ramassamy',
       role: 'Directrice, Agence de communication',
-      company: '9 salaries - Saint-Gilles',
+      company: '9 salariés — Saint-Gilles',
       avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=200',
       context: 'Aides publiques',
-      quote: "Je ne connaissais ni le FNE, ni le FEDER Reunion. En 1h de rendez-vous, ils ont identifie 4 dispositifs cumulables. Resultat : 9 800 EUR, formation IA integrale payee, zero avance de tresorerie.",
-      highlight: '9 800 EUR sans avance',
+      quote: "Je ne connaissais ni le FNE, ni le FEDER Réunion. En 1h de rendez-vous, ils ont identifié 4 dispositifs cumulables. Résultat : 9 800 €, formation IA intégrale payée, zéro avance de trésorerie.",
+      highlight: '9 800 € sans avance',
       rating: 5,
     },
     {
-      name: 'Frederic Grondin',
-      role: 'Gerant, Societe de transport',
-      company: '28 chauffeurs - Saint-Andre',
+      name: 'Frédéric Grondin',
+      role: 'Gérant, Société de transport',
+      company: '28 chauffeurs — Saint-André',
       avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Crise du marche',
-      quote: "Marges ecrasees, gasoil qui explose, j'etais a 2 doigts de fermer. L'IA m'a permis d'optimiser les tournees : -23% de km parcourus. L'aide France 2030 a paye 83% du projet.",
-      highlight: '-23% de kilometres',
+      context: 'Crise du marché',
+      quote: "Marges écrasées, gasoil qui explose, j'étais à 2 doigts de fermer. L'IA m'a permis d'optimiser les tournées : -23% de km parcourus. L'aide France 2030 a payé 83% du projet.",
+      highlight: '-23% de kilomètres',
       rating: 5,
     },
     {
-      name: 'Veronique Technau',
+      name: 'Véronique Technau',
       role: 'Directrice RH, Industrie agroalimentaire',
-      company: '76 salaries - Le Tampon',
+      company: '76 salariés — Le Tampon',
       avatar: 'https://images.pexels.com/photos/762020/pexels-photo-762020.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Ecart generationnel',
-      quote: "On avait 4 generations dans l'usine. L'IA est devenue le langage commun. Mes ouvriers seniors forment les jeunes sur les outils IA, c'est eux qui ont repris du galon. Ambiance transformee.",
-      highlight: '4 generations reunies',
+      context: 'Écart générationnel',
+      quote: "On avait 4 générations dans l'usine. L'IA est devenue le langage commun. Mes ouvriers séniors forment les jeunes sur les outils IA, c'est eux qui ont repris du galon. Ambiance transformée.",
+      highlight: '4 générations réunies',
       rating: 5,
     },
     {
       name: 'Patrick Fontaine',
       role: 'PDG, Cabinet d\'architecture',
-      company: '12 architectes - Saint-Paul',
+      company: '12 architectes — Saint-Paul',
       avatar: 'https://images.pexels.com/photos/769745/pexels-photo-769745.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Opportunite IA mature',
-      quote: "J'attendais que l'IA soit 'prete'. Elle l'est depuis 18 mois et je ne le savais pas. AIssociate m'a montre 5 cas concrets qui tournent chez mes confreres reunionnais. J'ai signe le jour meme.",
+      context: 'Opportunité IA mature',
+      quote: "J'attendais que l'IA soit « prête ». Elle l'est depuis 18 mois et je ne le savais pas. AIssociate m'a montré 5 cas concrets qui tournent chez mes confrères réunionnais. J'ai signé le jour même.",
       highlight: 'ROI en 4 mois',
       rating: 5,
     },
     {
       name: 'Nadia Boyer',
       role: 'Fondatrice, E-commerce local',
-      company: '6 salaries - Saint-Denis',
+      company: '6 salariés — Saint-Denis',
       avatar: 'https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Montant aides',
-      quote: "On m'avait dit 3 000 EUR grand maximum. Avec leur expertise, on est monte a 11 250 EUR. La formation IA couvre le SAV, le marketing, la logistique. Mon CA a bondi de +38% en un trimestre.",
+      context: 'Montant des aides',
+      quote: "On m'avait dit 3 000 € grand maximum. Avec leur expertise, on est monté à 11 250 €. La formation IA couvre le SAV, le marketing, la logistique. Mon CA a bondi de +38% en un trimestre.",
       highlight: '+38% de CA',
       rating: 5,
     },
     {
       name: 'Olivier Bertil',
-      role: 'Gerant, Entreprise du batiment',
-      company: '41 salaries - Sainte-Marie',
+      role: 'Gérant, Entreprise du bâtiment',
+      company: '41 salariés — Sainte-Marie',
       avatar: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=200',
       context: 'Analogie Internet',
-      quote: "Mon pere disait en 1999 : 'Internet c'est un gadget'. Il a ferme en 2008. Je ne referai pas la meme erreur avec l'IA. 22 400 EUR d'aides obtenues, 90k EUR de projet, l'avenir est trace.",
-      highlight: '22 400 EUR d\'aides',
+      quote: "Mon père disait en 1999 : « Internet c'est un gadget ». Il a fermé en 2008. Je ne referai pas la même erreur avec l'IA. 22 400 € d'aides obtenues, 90 k€ de projet, l'avenir est tracé.",
+      highlight: '22 400 € d\'aides',
       rating: 5,
     },
     {
       name: 'Christine Hoareau',
-      role: 'Directrice, Centre de sante',
-      company: '24 soignants - Saint-Benoit',
+      role: 'Directrice, Centre de santé',
+      company: '24 soignants — Saint-Benoît',
       avatar: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=200',
-      context: 'Productivite equipe',
-      quote: "15 heures recuperees par semaine sur l'administratif. Mes soignants sont enfin dispos pour les patients. C'est humainement ET economiquement le meilleur investissement de ma carriere.",
-      highlight: '15h/semaine recuperees',
+      context: 'Productivité équipe',
+      quote: "15 heures récupérées par semaine sur l'administratif. Mes soignants sont enfin dispos pour les patients. C'est humainement ET économiquement le meilleur investissement de ma carrière.",
+      highlight: '15h/semaine récupérées',
       rating: 5,
     },
   ];
@@ -346,7 +346,7 @@ export default function AidesFormation() {
               className="inline-flex items-center gap-3 bg-white text-rose-600 hover:bg-slate-100 px-8 py-4 rounded-xl font-black text-lg shadow-lg transition-all transform hover:scale-105"
             >
               <AlertTriangle className="w-5 h-5" />
-              STOPPER L'HEMORRAGIE MAINTENANT
+              STOPPER L'HÉMORRAGIE MAINTENANT
               <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
@@ -396,7 +396,7 @@ export default function AidesFormation() {
 
           <div className="mt-12 text-center">
             <p className="text-lg text-slate-300 mb-5">
-              Dans quel camp voulez-vous etre ? Les pionniers ou les disparus ?
+              Dans quel camp voulez-vous être ? Les pionniers ou les disparus ?
             </p>
             <Link
               to="/formulaire"
@@ -465,6 +465,7 @@ export default function AidesFormation() {
             <p className="text-sm text-emerald-100 mt-4">
               Simulation gratuite et sans engagement
             </p>
+
           </div>
         </div>
       </section>
@@ -517,10 +518,10 @@ export default function AidesFormation() {
 
           <div className="mt-12 bg-slate-50 border-2 border-slate-200 rounded-2xl p-8 text-center">
             <p className="text-xl font-bold text-slate-900 mb-2">
-              Vous voulez rejoindre ces leaders avant que l'ecart ne soit irrattrapable ?
+              Vous voulez rejoindre ces leaders avant que l'écart ne soit irrattrapable ?
             </p>
             <p className="text-slate-600 mb-6">
-              Nos experts analysent votre secteur et identifient qui bouge deja chez vos concurrents directs.
+              Nos experts analysent votre secteur et identifient qui bouge déjà chez vos concurrents directs.
             </p>
             <Link
               to="/formulaire"
@@ -540,11 +541,11 @@ export default function AidesFormation() {
           <div className="text-center mb-12">
             <div className="inline-flex items-center gap-2 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 px-4 py-2 rounded-full text-sm font-bold mb-4">
               <Award className="w-4 h-4" />
-              L'ORGANISME DE FORMATION IA DE REFERENCE A LA REUNION
+              L'ORGANISME DE FORMATION IA DE RÉFÉRENCE À LA RÉUNION
             </div>
             <h2 className="text-3xl sm:text-5xl font-black mb-4 leading-tight">
               Plus qu'une formation.<br />
-              <span className="bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">Un accompagnement a vie.</span>
+              <span className="bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">Un accompagnement à vie.</span>
             </h2>
           </div>
 
@@ -552,7 +553,7 @@ export default function AidesFormation() {
             <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl p-6 text-center shadow-2xl shadow-orange-500/30 transform hover:scale-105 transition-all">
               <GraduationCap className="w-10 h-10 mx-auto mb-3 text-white" />
               <div className="text-4xl sm:text-5xl font-black text-white mb-2">+300</div>
-              <div className="text-sm sm:text-base font-bold text-orange-50">stagiaires formes a La Reunion</div>
+              <div className="text-sm sm:text-base font-bold text-orange-50">stagiaires formés à La Réunion</div>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:bg-white/15 transition-all">
@@ -573,15 +574,15 @@ export default function AidesFormation() {
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20 hover:bg-white/15 transition-all">
               <LifeBuoy className="w-10 h-10 mx-auto mb-3 text-orange-400" />
-              <div className="text-2xl sm:text-3xl font-black text-white mb-2">Suivi a vie</div>
-              <div className="text-sm sm:text-base font-bold text-slate-200">accompagnement au-dela de la formation</div>
+              <div className="text-2xl sm:text-3xl font-black text-white mb-2">Suivi à vie</div>
+              <div className="text-sm sm:text-base font-bold text-slate-200">accompagnement au-delà de la formation</div>
             </div>
           </div>
 
           <div className="mt-10 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-6 text-center backdrop-blur-sm">
             <Heart className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
             <p className="text-lg text-slate-100">
-              <strong className="text-white">Nous ne vous lachons pas a la fin de la formation.</strong> Groupe WhatsApp prive, sessions de revision mensuelles, reponses a vos questions pendant toute votre vie professionnelle.
+              <strong className="text-white">Nous ne vous lâchons pas à la fin de la formation.</strong> Groupe WhatsApp privé, sessions de révision mensuelles, réponses à vos questions pendant toute votre vie professionnelle.
             </p>
           </div>
         </div>
@@ -595,11 +596,11 @@ export default function AidesFormation() {
               ILS L'ONT FAIT AVANT VOUS — VOICI LEUR HISTOIRE
             </div>
             <h2 className="text-3xl sm:text-5xl font-black text-slate-900 mb-6 leading-tight">
-              10 dirigeants reunionnais<br />
+              10 dirigeants réunionnais<br />
               <span className="text-orange-600">ont franchi le pas. Sans regret.</span>
             </h2>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Des chefs d'entreprise comme vous. Memes peurs au depart, memes doutes. Decouvrez ce qu'ils ont obtenu apres avoir active les aides et integre l'IA dans leur PME.
+              Des chefs d'entreprise comme vous. Mêmes peurs au départ, mêmes doutes. Découvrez ce qu'ils ont obtenu après avoir activé les aides et intégré l'IA dans leur PME.
             </p>
           </div>
 
@@ -656,10 +657,10 @@ export default function AidesFormation() {
               <Star className="w-6 h-6 fill-yellow-300/60 text-yellow-300/60" />
             </div>
             <p className="text-2xl sm:text-3xl font-black mb-3">
-              4,5 / 5 de satisfaction sur plus de 300 stagiaires reunionnais
+              4,5 / 5 de satisfaction sur plus de 300 stagiaires réunionnais
             </p>
             <p className="text-lg text-orange-50 mb-8 max-w-2xl mx-auto">
-              Votre temoignage sera peut-etre le 301eme. Mais pour ca, il faut commencer.
+              Votre témoignage sera peut-être le 301ème. Mais pour ça, il faut commencer.
             </p>
             <Link
               to="/formulaire"
@@ -710,17 +711,17 @@ export default function AidesFormation() {
 
           <div className="text-center max-w-3xl mx-auto">
             <p className="text-2xl font-bold text-white mb-3">
-              Ces resultats, ils sont a portee de votre equipe.
+              Ces résultats, ils sont à portée de votre équipe.
             </p>
             <p className="text-lg text-slate-300 mb-8">
-              Il suffit d'un premier pas : 30 minutes pour construire votre feuille de route IA personnalisee.
+              Il suffit d'un premier pas : 30 minutes pour construire votre feuille de route IA personnalisée.
             </p>
             <Link
               to="/formulaire"
               className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-10 py-5 rounded-xl font-black text-xl shadow-2xl shadow-emerald-500/40 transition-all transform hover:scale-105"
             >
               <Target className="w-6 h-6" />
-              JE VEUX CES RESULTATS EN 90 JOURS
+              JE VEUX CES RÉSULTATS EN 90 JOURS
               <ArrowRight className="w-6 h-6" />
             </Link>
           </div>
@@ -837,7 +838,7 @@ export default function AidesFormation() {
       <Link
         to="/formulaire"
         className="fixed bottom-6 right-6 z-40 group bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-5 py-4 rounded-full font-black shadow-2xl shadow-orange-500/50 transition-all transform hover:scale-110 flex items-center gap-2 md:hidden"
-        aria-label="Reserver mon audit gratuit"
+        aria-label="Réserver mon audit gratuit"
       >
         <Zap className="w-5 h-5" />
         Mes aides
