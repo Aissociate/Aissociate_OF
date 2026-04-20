@@ -9,7 +9,7 @@ const ROUGE_MARIANNE = '#E1000F';
 export default function AidesFormation() {
   const initiatives = [
     { title: 'Plan France 2030', amount: '2,5 Mds €', description: "Investissement de l'État pour l'intelligence artificielle dans les entreprises françaises.", icon: Rocket },
-    { title: 'FEDER & Région Réunion', amount: "jusqu'à 90 000 €", description: "Financement européen pour la transformation numérique et l'adoption de l'IA par les PME ultra-marines.", icon: Globe2 },
+    { title: 'BPI France', amount: "jusqu'à 90 000 €", description: "Financement public pour la transformation numérique et l'adoption de l'IA par les PME, porté par la Banque Publique d'Investissement.", icon: Globe2 },
     { title: 'OPCO & Plan de développement des compétences', amount: "jusqu'à 100 %", description: "Prise en charge de la formation IA pour vos salariés par votre opérateur de compétences.", icon: ShieldCheck },
     { title: 'CPF de transition & FNE-Formation', amount: '3 000 € min.', description: "Dispositifs activables immédiatement pour former chaque collaborateur à l'IA.", icon: Euro },
     { title: "Crédit d'impôt formation dirigeant", amount: '+ 522 € / an', description: "Avantage fiscal cumulable pour chaque journée de formation du chef d'entreprise.", icon: Award },
