@@ -218,19 +218,35 @@ export default function AidesFormation() {
       <Header />
 
       <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-25">
           <img
-            src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Intelligence artificielle en entreprise"
+            src="https://images.pexels.com/photos/2363807/pexels-photo-2363807.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Palais de l'Élysée — République française"
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-slate-900/60 to-slate-900/90"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900/85 via-slate-900/70 to-slate-900/95"></div>
+
+        <div className="absolute top-0 left-0 right-0 flex h-1.5 z-10">
+          <div className="flex-1 bg-[#002395]"></div>
+          <div className="flex-1 bg-white"></div>
+          <div className="flex-1 bg-[#ED2939]"></div>
+        </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-          <div className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500/40 text-orange-300 px-4 py-2 rounded-full text-sm font-bold mb-8 backdrop-blur-sm">
-            <Flame className="w-4 h-4" />
-            ALERTE CHEFS D'ENTREPRISE RÉUNIONNAIS
+          <div className="flex flex-wrap items-center gap-3 mb-8">
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 px-3 py-2 rounded-full backdrop-blur-sm">
+              <span className="inline-flex h-5 w-7 overflow-hidden rounded-sm shadow-md border border-white/30" aria-label="Drapeau français">
+                <span className="flex-1 bg-[#002395]"></span>
+                <span className="flex-1 bg-white"></span>
+                <span className="flex-1 bg-[#ED2939]"></span>
+              </span>
+              <span className="text-xs font-bold text-white tracking-wide">RÉPUBLIQUE FRANÇAISE</span>
+            </div>
+            <div className="inline-flex items-center gap-2 bg-orange-500/20 border border-orange-500/40 text-orange-300 px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm">
+              <Flame className="w-4 h-4" />
+              ALERTE CHEFS D'ENTREPRISE RÉUNIONNAIS
+            </div>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black mb-8 leading-tight">
