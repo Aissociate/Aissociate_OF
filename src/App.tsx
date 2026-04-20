@@ -10,6 +10,7 @@ import Assistance from './pages/Assistance';
 import Development from './pages/Development';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
+import AidesFormation from './pages/AidesFormation';
 import Contact from './pages/Contact';
 import Formulaire from './pages/Formulaire';
 import Login from './pages/Login';
@@ -65,6 +66,8 @@ function App() {
           <Route path="/developpement" element={<Development />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/aides-formation" element={<AidesFormation />} />
+          <Route path="/Aides à la formation" element={<AidesFormation />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/formulaire" element={<Formulaire />} />
           <Route path="/login" element={<Login />} />

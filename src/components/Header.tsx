@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { GraduationCap, Menu, X, Shield, Phone, Code, BookOpen } from 'lucide-react';
+import { GraduationCap, Menu, X, Shield, Phone, Code, BookOpen, Euro } from 'lucide-react';
 import AdminLogo from './AdminLogo';
 
 export default function Header() {
@@ -79,6 +79,14 @@ export default function Header() {
             </Link>
 
             <Link
+              to="/aides-formation"
+              className="flex items-center gap-2 text-emerald-700 hover:text-emerald-800 font-semibold transition-colors"
+            >
+              <Euro className="w-4 h-4" />
+              Aides
+            </Link>
+
+            <Link
               to="/formulaire"
               className="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-6 py-2.5 rounded-lg font-semibold transition-all"
             >
@@ -130,6 +138,15 @@ export default function Header() {
             >
               <BookOpen className="w-4 h-4" />
               Blog
+            </Link>
+
+            <Link
+              to="/aides-formation"
+              className="flex items-center gap-2 px-4 py-2 text-emerald-700 hover:bg-emerald-50 rounded-lg font-semibold"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Euro className="w-4 h-4" />
+              Aides à la formation
             </Link>
 
             <Link
