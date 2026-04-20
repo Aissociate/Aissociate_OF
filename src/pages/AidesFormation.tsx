@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { TrendingUp, Euro, ShieldCheck, Rocket, Users, Building2, Globe as Globe2, Award, Star, GraduationCap, MessageCircle, LifeBuoy, ArrowRight, CheckCircle2, ChevronRight } from 'lucide-react';
+import { TrendingUp, Euro, ShieldCheck, Rocket, Users, Building2, Globe as Globe2, Award, Star, GraduationCap, MessageCircle, LifeBuoy, ArrowRight, CheckCircle2, ChevronRight, Wallet, Briefcase, UserCheck, MapPin } from 'lucide-react';
 
 const BLEU_FRANCE = '#000091';
 const ROUGE_MARIANNE = '#E1000F';
@@ -198,6 +198,75 @@ export default function AidesFormation() {
                 </article>
               );
             })}
+          </div>
+
+          <div className="mt-14">
+            <div className="max-w-3xl mb-10">
+              <div className="w-12 h-1 mb-5" style={{ backgroundColor: ROUGE_MARIANNE }}></div>
+              <p className="text-sm font-bold uppercase tracking-wider mb-3" style={{ color: ROUGE_MARIANNE }}>En complément de France 2030</p>
+              <h3 className="text-2xl sm:text-3xl font-bold text-[#161616] mb-4 leading-tight">
+                Quatre dispositifs supplémentaires cumulables selon votre statut.
+              </h3>
+              <p className="text-base text-[#3A3A3A] leading-relaxed">
+                Former votre entreprise à l'intelligence artificielle n'est pas un coût, c'est un investissement souvent pris en charge. Selon votre statut, plusieurs dispositifs peuvent financer tout ou partie de votre formation.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-px bg-[#DDDDDD] border border-[#DDDDDD]">
+              {[
+                {
+                  icon: Wallet,
+                  name: 'CPF',
+                  title: 'Compte Personnel de Formation',
+                  description: 'Mobilisez vos droits acquis pour financer votre montée en compétence sur les outils et méthodes IA.',
+                  target: 'Salariés, indépendants, demandeurs d\'emploi',
+                },
+                {
+                  icon: Briefcase,
+                  name: 'FAF',
+                  title: 'Fonds d\'assurance formation',
+                  description: 'Prise en charge dédiée aux chefs d\'entreprise et professions libérales via AGEFICE, FIF-PL ou FAFCEA.',
+                  target: 'Dirigeants, indépendants, professions libérales',
+                },
+                {
+                  icon: UserCheck,
+                  name: 'France Travail',
+                  title: 'Financement projet & transition',
+                  description: 'Financement possible dans le cadre d\'un projet de création d\'entreprise ou d\'une transition professionnelle.',
+                  target: 'Demandeurs d\'emploi, porteurs de projet',
+                },
+                {
+                  icon: MapPin,
+                  name: 'FEDER & Région',
+                  title: 'Aides régionales & européennes',
+                  description: 'Pour aller plus loin et déployer l\'IA à l\'échelle de votre activité, avec un cofinancement européen FEDER.',
+                  target: 'PME, TPE, projets structurants',
+                },
+              ].map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <article key={i} className="bg-white p-7">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center" style={{ backgroundColor: ROUGE_MARIANNE }}>
+                        <Icon className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-baseline gap-2 mb-2">
+                          <span className="text-sm font-bold" style={{ color: ROUGE_MARIANNE }}>{item.name}</span>
+                          <span className="text-xs text-[#666666]">·</span>
+                          <span className="text-sm font-semibold text-[#161616]">{item.title}</span>
+                        </div>
+                        <p className="text-sm text-[#3A3A3A] leading-relaxed mb-3">{item.description}</p>
+                        <div className="inline-flex items-center gap-1.5 text-xs text-[#666666]">
+                          <Users className="w-3.5 h-3.5" />
+                          <span>{item.target}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
           </div>
 
           <div className="mt-10 bg-white border-l-4 p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-6" style={{ borderColor: BLEU_FRANCE }}>
