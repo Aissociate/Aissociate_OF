@@ -111,7 +111,7 @@ export default function AidesFormation() {
           <div className="lg:col-span-5">
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/2363807/pexels-photo-2363807.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                src="https://images.rtl.fr/~c/770v513/rtl/www/1181076-une-vue-du-palais-de-l-elysee.jpg"
                 alt="Palais de l'Élysée — République française"
                 className="w-full h-[340px] object-cover"
               />
