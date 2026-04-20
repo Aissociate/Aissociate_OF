@@ -212,7 +212,7 @@ export default function AidesFormation() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             {fears.map((fear, i) => {
               const Icon = fear.icon;
               return (
@@ -232,6 +232,20 @@ export default function AidesFormation() {
                 </div>
               );
             })}
+          </div>
+
+          <div className="bg-gradient-to-r from-rose-600 to-orange-600 rounded-2xl p-8 text-center text-white shadow-xl">
+            <p className="text-xl sm:text-2xl font-bold mb-4">
+              Ne laissez pas vos concurrents prendre 12 mois d'avance.
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-white text-rose-600 hover:bg-slate-100 px-8 py-4 rounded-xl font-black text-lg shadow-lg transition-all transform hover:scale-105"
+            >
+              <AlertTriangle className="w-5 h-5" />
+              STOPPER L'HEMORRAGIE MAINTENANT
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -275,6 +289,20 @@ export default function AidesFormation() {
               <h3 className="text-xl font-bold mb-3">Le point de non-retour</h3>
               <p className="text-slate-300">Selon McKinsey, 70% des entreprises non-IA auront disparu ou seront en difficulté majeure. La fenêtre aura été verrouillée.</p>
             </div>
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-lg text-slate-300 mb-5">
+              Dans quel camp voulez-vous etre ? Les pionniers ou les disparus ?
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-8 py-4 rounded-xl font-black text-lg shadow-2xl shadow-orange-500/40 transition-all transform hover:scale-105"
+            >
+              <Rocket className="w-5 h-5" />
+              REJOINDRE LES PIONNIERS IA
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
@@ -320,8 +348,19 @@ export default function AidesFormation() {
             <h3 className="text-2xl sm:text-3xl font-black mb-4">
               Ces aides sont CUMULABLES entre elles.
             </h3>
-            <p className="text-xl text-emerald-50 max-w-3xl mx-auto">
+            <p className="text-xl text-emerald-50 max-w-3xl mx-auto mb-8">
               La plupart des dirigeants réunionnais n'en activent qu'une seule. Nos clients activent jusqu'à 4 dispositifs simultanément, et obtiennent en moyenne <strong className="text-yellow-300">5 693 €</strong> de financement public pour leur projet IA.
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-white text-emerald-700 hover:bg-yellow-50 px-8 py-4 rounded-xl font-black text-lg shadow-xl transition-all transform hover:scale-105"
+            >
+              <Euro className="w-5 h-5" />
+              CALCULER MES AIDES EN 2 MINUTES
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+            <p className="text-sm text-emerald-100 mt-4">
+              Simulation gratuite et sans engagement
             </p>
           </div>
         </div>
@@ -372,6 +411,23 @@ export default function AidesFormation() {
               <div className="text-slate-300">de retard cumulé en moyenne pour les entreprises qui n'ont pas encore commencé</div>
             </div>
           </div>
+
+          <div className="mt-12 bg-slate-50 border-2 border-slate-200 rounded-2xl p-8 text-center">
+            <p className="text-xl font-bold text-slate-900 mb-2">
+              Vous voulez rejoindre ces leaders avant que l'ecart ne soit irrattrapable ?
+            </p>
+            <p className="text-slate-600 mb-6">
+              Nos experts analysent votre secteur et identifient qui bouge deja chez vos concurrents directs.
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white px-8 py-4 rounded-xl font-black text-lg shadow-lg transition-all transform hover:scale-105"
+            >
+              <Building2 className="w-5 h-5" />
+              DEMANDER MON ANALYSE CONCURRENTIELLE
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -398,7 +454,7 @@ export default function AidesFormation() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-4 max-w-4xl mx-auto mb-12">
             {benefits.map((benefit, i) => (
               <div
                 key={i}
@@ -408,6 +464,23 @@ export default function AidesFormation() {
                 <span className="text-lg text-slate-100">{benefit}</span>
               </div>
             ))}
+          </div>
+
+          <div className="text-center max-w-3xl mx-auto">
+            <p className="text-2xl font-bold text-white mb-3">
+              Ces resultats, ils sont a portee de votre equipe.
+            </p>
+            <p className="text-lg text-slate-300 mb-8">
+              Il suffit d'un premier pas : 30 minutes pour construire votre feuille de route IA personnalisee.
+            </p>
+            <Link
+              to="/formulaire"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white px-10 py-5 rounded-xl font-black text-xl shadow-2xl shadow-emerald-500/40 transition-all transform hover:scale-105"
+            >
+              <Target className="w-6 h-6" />
+              JE VEUX CES RESULTATS EN 90 JOURS
+              <ArrowRight className="w-6 h-6" />
+            </Link>
           </div>
         </div>
       </section>
@@ -518,6 +591,15 @@ export default function AidesFormation() {
       </section>
 
       <Footer />
+
+      <Link
+        to="/formulaire"
+        className="fixed bottom-6 right-6 z-40 group bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-5 py-4 rounded-full font-black shadow-2xl shadow-orange-500/50 transition-all transform hover:scale-110 flex items-center gap-2 md:hidden"
+        aria-label="Reserver mon audit gratuit"
+      >
+        <Zap className="w-5 h-5" />
+        Mes aides
+      </Link>
     </div>
   );
 }
